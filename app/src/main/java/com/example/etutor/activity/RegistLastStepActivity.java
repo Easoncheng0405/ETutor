@@ -3,6 +3,8 @@ package com.example.etutor.activity;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -15,6 +17,7 @@ import android.widget.LinearLayout;
 import com.example.etutor.R;
 import com.example.etutor.gson.UserInfo;
 import com.example.etutor.util.Server;
+import com.example.etutor.util.ToastUtil;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -23,7 +26,8 @@ import java.util.Locale;
 
 public class RegistLastStepActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private int screenHeight = 0;//屏幕高度
+    private Handler handler;
+
     private int keyHeight = 0; //软件盘弹起后所占高度
     private EditText name, password, confirm;
     private LinearLayout mContent;
@@ -36,6 +40,8 @@ public class RegistLastStepActivity extends AppCompatActivity implements View.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_regist_last_step);
 
+        handler = new Handler();
+
         context = this;
         mContent = findViewById(R.id.content);
         stu = findViewById(R.id.stu);
@@ -43,7 +49,7 @@ public class RegistLastStepActivity extends AppCompatActivity implements View.On
         name = findViewById(R.id.name);
         password = findViewById(R.id.password);
         confirm = findViewById(R.id.confirm);
-        screenHeight = this.getResources().getDisplayMetrics().heightPixels;
+        int screenHeight = this.getResources().getDisplayMetrics().heightPixels;
         keyHeight = screenHeight / 3;
 
         findViewById(R.id.scrollView).addOnLayoutChangeListener(new ViewGroup.OnLayoutChangeListener() {
@@ -94,16 +100,58 @@ public class RegistLastStepActivity extends AppCompatActivity implements View.On
                 stu.setImageResource(R.drawable.student_gray);
                 break;
             case R.id.finish:
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        String phone=getIntent().getStringExtra("phone");
-                        Date date = new Date();
-                        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
-                        String time = format.format(date);
-                        UserInfo userInfo= Server.register(phone,name.getText().toString().trim(),password.getText().toString(),type,time);
-                    }
-                }).start();
+                if (checkInput())
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            String phone = getIntent().getStringExtra("phone");
+                            Date date = new Date();
+                            DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+                            String time = format.format(date);
+                            UserInfo userInfo = new UserInfo(name.getText().toString().trim(), phone, password.getText().toString(), time, type);
+                            if (Server.checkInfoExist(handler, userInfo.getName()) && Server.register(handler, userInfo)) {
+                                userInfo = Server.login(handler, userInfo.getPhone(), userInfo.getPwd());
+                                if (userInfo != null) {
+                                    SharedPreferences preferences = getSharedPreferences("UserInfo", MODE_PRIVATE);
+                                    SharedPreferences.Editor editor = preferences.edit();
+                                    editor.putString("name", userInfo.getName());
+                                    editor.putString("phone", userInfo.getPhone());
+                                    editor.putString("pwd", userInfo.getPwd());
+                                    editor.putInt("type", userInfo.getType());
+                                    editor.putString("time", userInfo.getTime());
+                                    editor.apply();
+                                    startActivity(new Intent(context, MainActivity.class));
+                                    finish();
+                                }
+                            }
+                        }
+                    }).start();
         }
+    }
+
+    private boolean checkInput() {
+        if(!name.getText().toString().trim().matches("^[\\u4e00-\\u9fa5a-zA-Z][\\u4e00-\\u9fa5a-zA-Z]+$")){
+            ToastUtil.showMessage(context, "用户名由中英字符开头且只能包含中英字符与数字");
+            return false;
+        }
+        String pwd = password.getText().toString();
+        String confirmPwd = confirm.getText().toString();
+        if (!pwd.equals(confirmPwd)) {
+            ToastUtil.showMessage(context, "您输入的密码不一致！");
+            return false;
+        }
+
+        if (!pwd.matches("[A-Za-z0-9]+")) {
+            ToastUtil.showMessage(context, "密码只能又数字或字母组成！");
+            return false;
+        }
+
+        if (pwd.length() < 6 || pwd.length() > 18) {
+            ToastUtil.showMessage(context, "密码长度6-18位！");
+            return false;
+        }
+
+        return true;
+
     }
 }

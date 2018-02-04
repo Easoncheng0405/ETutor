@@ -37,7 +37,7 @@ import java.util.List;
 
 public class LoginActivity extends Activity implements View.OnClickListener {
 
-    public static Handler handler;
+    private Handler handler;
 
     private EditText passWord, info;                //登陆信息与密码框
     private Context context;                        //上下文
@@ -179,7 +179,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        UserInfo userInfo = Server.login(info.getText().toString(), passWord.getText().toString());
+                        UserInfo userInfo = Server.login(handler, info.getText().toString(), passWord.getText().toString());
                         if (userInfo != null) {
                             editor = preferences.edit();
                             editor.putString("name", userInfo.getName());
@@ -195,7 +195,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                 }).start();
                 break;
             case R.id.regist:
-                startActivity(new Intent(activity,RegistFirstStepActivity.class));
+                startActivity(new Intent(activity, RegistFirstStepActivity.class));
                 break;
             case R.id.iv_show_pwd:
                 if (passWord.getInputType() != InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD) {

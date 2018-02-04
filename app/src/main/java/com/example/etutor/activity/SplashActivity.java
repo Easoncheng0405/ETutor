@@ -23,7 +23,7 @@ import com.example.etutor.util.Server;
 
 public class SplashActivity extends Activity {
 
-    public static Handler handler;
+    private  Handler handler;
 
     private Activity activity;
 
@@ -45,7 +45,7 @@ public class SplashActivity extends Activity {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    UserInfo userInfo = Server.login(phone, pwd);
+                    UserInfo userInfo = Server.login(handler,phone, pwd);
                     if (userInfo != null)
                         startActivity(new Intent(activity,MainActivity.class));
                     else

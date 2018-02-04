@@ -3,10 +3,9 @@ package com.example.etutor.util;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Handler;
 
 import com.example.etutor.InitApplication;
-import com.example.etutor.activity.RegistFirstStepActivity;
-import com.example.etutor.activity.SplashActivity;
 import com.example.etutor.gson.BaseResult;
 import com.example.etutor.gson.LoginResult;
 import com.example.etutor.gson.UserInfo;
@@ -14,6 +13,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
+import com.hyphenate.exceptions.HyphenateException;
 
 import java.io.IOException;
 import java.net.ConnectException;
@@ -41,12 +41,14 @@ public class Server {
     }
 
     /**
-     * @param info 用户名（可以为电话号码或者昵称）
-     * @param pwd  密码
+     * @param handler handler
+     * @param info    用户名
+     * @param pwd     密码
+     * @return userInfo
      */
-    public static UserInfo login(String info, String pwd) {
+    public static UserInfo login(final Handler handler, String info, String pwd) {
         if (!isNetworkAvailable()) {
-            SplashActivity.handler.post(new UpdateUITools("网络无连接，检查您的网络设置！"));
+            handler.post(new UpdateUITools("网络无连接，检查您的网络设置！"));
             return null;
         }
         UserInfo userInfo = null;
@@ -62,7 +64,7 @@ public class Server {
                 EMClient.getInstance().login(userInfo.getPhone(), userInfo.getPwd(), new EMCallBack() {//回调
                     @Override
                     public void onSuccess() {
-                        SplashActivity.handler.post(new UpdateUITools("登陆环信聊天服务器成功！"));
+                        handler.post(new UpdateUITools("登陆环信聊天服务器成功！"));
                     }
 
                     @Override
@@ -72,36 +74,56 @@ public class Server {
 
                     @Override
                     public void onError(int code, String message) {
-                        SplashActivity.handler.post(new UpdateUITools("登陆环信聊天服务器失败，将会尝试重新连接"));
+                        handler.post(new UpdateUITools("登陆环信聊天服务器失败，将会尝试重新连接"));
                     }
                 });
             } else {
-                SplashActivity.handler.post(new UpdateUITools("用户名或密码错误"));
+                handler.post(new UpdateUITools("用户名或密码错误"));
             }
         } catch (IOException e) {
             if (e instanceof SocketTimeoutException)
-                SplashActivity.handler.post(new UpdateUITools("连接服务器超时"));
+                handler.post(new UpdateUITools("连接服务器超时"));
             else if (e instanceof ConnectException)
-                SplashActivity.handler.post(new UpdateUITools("无法连接到服务器"));
+                handler.post(new UpdateUITools("无法连接到服务器"));
 
         } catch (JsonSyntaxException e) {
-            SplashActivity.handler.post(new UpdateUITools("服务器发生错误，请联系客服"));
+            handler.post(new UpdateUITools("服务器发生错误，请联系客服"));
         }
         return userInfo;
     }
 
-    public static UserInfo register(String phone, String name, String password, int type, String time) {
-        return null;
-    }
+    public static boolean register(final Handler handler,UserInfo info) {
 
-    public static boolean checkPhoneNumAlreadyExist(String info){
-        if(!isPhoneNum(info)){
-            RegistFirstStepActivity.handler.post(new UpdateUITools("请输入正确的电话号码！"));
-            return false;
+        try {
+            EMClient.getInstance().createAccount(info.getPhone(), info.getPwd());
+            OkHttpClient client = new OkHttpClient.Builder().connectTimeout(3, TimeUnit.SECONDS).build();
+            RequestBody body = new FormBody.Builder().add("info.name", info.getName()).add("info.phone",info.getPhone())
+                    .add("info.pwd",info.getPwd()).add("info.time",info.getTime()).add("info.type",String.valueOf(info.getType())).build();
+            Request request = new Request.Builder().url("http://192.168.0.2:8080/Server/register").post(body).build();
+            Response response = client.newCall(request).execute();
+            BaseResult baseResult=new Gson().fromJson(response.body().string(),BaseResult.class);
+            if(baseResult.getCode()==0)
+                return true;
+        } catch (HyphenateException e) {
+            handler.post(new UpdateUITools("注册环信账号失败！"));
+            e.printStackTrace();
+        } catch (IOException e) {
+            if (e instanceof SocketTimeoutException)
+                handler.post(new UpdateUITools("连接服务器超时"));
+            else if (e instanceof ConnectException)
+                handler.post(new UpdateUITools("无法连接到服务器"));
+        }catch (JsonSyntaxException e){
+            e.printStackTrace();
+            handler.post(new UpdateUITools("服务器发生错误，请联系客服"));
         }
 
+        return false;
+    }
+
+    public static boolean checkInfoExist(final Handler handler, String info) {
+
         if (!isNetworkAvailable()) {
-            RegistFirstStepActivity.handler.post(new UpdateUITools("网络无连接，检查您的网络设置！"));
+            handler.post(new UpdateUITools("网络无连接，检查您的网络设置！"));
             return false;
         }
         OkHttpClient client = new OkHttpClient.Builder().connectTimeout(3, TimeUnit.SECONDS).build();
@@ -109,19 +131,25 @@ public class Server {
         Request request = new Request.Builder().url("http://192.168.0.2:8080/Server/check").post(body).build();
         try {
             Response response = client.newCall(request).execute();
-            BaseResult baseResult=new Gson().fromJson(response.body().string(),BaseResult.class);
-            if(baseResult.getCode()==0)
+            BaseResult baseResult = new Gson().fromJson(response.body().string(), BaseResult.class);
+
+            if (baseResult.getCode() == 0)
                 return true;
-            else
-                RegistFirstStepActivity.handler.post(new UpdateUITools("电话号码已注册！"));
+            else {
+                if (isPhoneNum(info))
+                    handler.post(new UpdateUITools("电话号码已注册！"));
+                else
+                    handler.post(new UpdateUITools("此昵称已被使用！"));
+
+            }
         } catch (IOException e) {
             if (e instanceof SocketTimeoutException)
-                RegistFirstStepActivity.handler.post(new UpdateUITools("连接服务器超时"));
+                handler.post(new UpdateUITools("连接服务器超时"));
             else if (e instanceof ConnectException)
-                RegistFirstStepActivity.handler.post(new UpdateUITools("无法连接到服务器"));
+                handler.post(new UpdateUITools("无法连接到服务器"));
 
         } catch (JsonSyntaxException e) {
-            RegistFirstStepActivity.handler.post(new UpdateUITools("服务器发生错误，请联系客服"));
+            handler.post(new UpdateUITools("服务器发生错误，请联系客服"));
         }
         return false;
     }
@@ -141,7 +169,7 @@ public class Server {
         return false;
     }
 
-    private static boolean isPhoneNum(String phone){
+    private static boolean isPhoneNum(String phone) {
         Pattern p = Pattern.compile("^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$");
         Matcher m = p.matcher(phone);
         return m.matches();

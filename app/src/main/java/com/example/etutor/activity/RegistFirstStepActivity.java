@@ -19,7 +19,7 @@ import com.example.etutor.util.UpdateUITools;
 
 public class RegistFirstStepActivity extends AppCompatActivity implements View.OnClickListener {
 
-    public static Handler handler;
+    private  Handler handler;
 
     private int keyHeight = 0; //软件盘弹起后所占高度
     private LinearLayout mContent;
@@ -81,8 +81,11 @@ public class RegistFirstStepActivity extends AppCompatActivity implements View.O
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        if(Server.checkPhoneNumAlreadyExist(phone.getText().toString().trim()))
-                            startActivity(new Intent(RegistFirstStepActivity.this,RegistLastStepActivity.class));
+                        if(Server.checkInfoExist(handler,phone.getText().toString().trim())) {
+                            Intent intent=new Intent(RegistFirstStepActivity.this, RegistLastStepActivity.class);
+                            intent.putExtra("phone",phone.getText().toString().trim());
+                            startActivity(intent);
+                        }
                     }
                 }).start();
                 break;

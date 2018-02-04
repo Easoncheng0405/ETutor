@@ -14,7 +14,7 @@ import com.hyphenate.util.NetUtils;
 
 public class MainActivity extends AppCompatActivity {
     private Activity activity;
-    public static Handler handler;
+    private Handler handler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

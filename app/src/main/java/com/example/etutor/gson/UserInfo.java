@@ -32,6 +32,18 @@ public class UserInfo {
      */
     private int type;
 
+    public UserInfo(){
+
+    }
+
+    public UserInfo(String name, String phone, String pwd, String time, int type) {
+        this.name = name;
+        this.phone = phone;
+        this.pwd = pwd;
+        this.time = time;
+        this.type = type;
+    }
+
     public String getName() {
         return name;
     }
