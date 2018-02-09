@@ -51,7 +51,7 @@ public class InitApplication extends Application {
         options.setAutoLogin(false);
         EMClient.getInstance().init(this, options);
         //在做打包混淆时，关闭debug模式，避免消耗不必要的资源
-        EMClient.getInstance().setDebugMode(true);
+        EMClient.getInstance().setDebugMode(false);
     }
 
     private String getAppName(int pID) {

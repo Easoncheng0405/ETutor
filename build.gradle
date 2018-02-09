@@ -18,6 +18,7 @@ buildscript {
 allprojects {
     repositories {
         maven { url "https://raw.githubusercontent.com/HyphenateInc/Hyphenate-SDK-Android/master/repository" }
+        maven { url "https://jitpack.io" }
         google()
         jcenter()
     }

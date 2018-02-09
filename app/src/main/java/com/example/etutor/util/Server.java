@@ -36,6 +36,12 @@ import okhttp3.Response;
 
 public class Server {
 
+    private static String IPV4 = "192.168.0.4";
+
+    private static String HOST = "8080";
+
+    private static String URL = "http://" + IPV4 + ":" + HOST + "/Server/";
+
     private Server() {
 
     }
@@ -54,7 +60,7 @@ public class Server {
         UserInfo userInfo = null;
         OkHttpClient client = new OkHttpClient.Builder().connectTimeout(3, TimeUnit.SECONDS).build();
         RequestBody body = new FormBody.Builder().add("info", info).add("pwd", pwd).build();
-        Request request = new Request.Builder().url("http://192.168.0.2:8080/Server/login").post(body).build();
+        Request request = new Request.Builder().url(URL+"login").post(body).build();
         try {
             Response response = client.newCall(request).execute();
             //response.body().string()只能调用一次，二次调用会产生异常
@@ -92,17 +98,17 @@ public class Server {
         return userInfo;
     }
 
-    public static boolean register(final Handler handler,UserInfo info) {
+    public static boolean register(final Handler handler, UserInfo info) {
 
         try {
             EMClient.getInstance().createAccount(info.getPhone(), info.getPwd());
             OkHttpClient client = new OkHttpClient.Builder().connectTimeout(3, TimeUnit.SECONDS).build();
-            RequestBody body = new FormBody.Builder().add("info.name", info.getName()).add("info.phone",info.getPhone())
-                    .add("info.pwd",info.getPwd()).add("info.time",info.getTime()).add("info.type",String.valueOf(info.getType())).build();
-            Request request = new Request.Builder().url("http://192.168.0.2:8080/Server/register").post(body).build();
+            RequestBody body = new FormBody.Builder().add("info.name", info.getName()).add("info.phone", info.getPhone())
+                    .add("info.pwd", info.getPwd()).add("info.time", info.getTime()).add("info.type", String.valueOf(info.getType())).build();
+            Request request = new Request.Builder().url(URL+"register").post(body).build();
             Response response = client.newCall(request).execute();
-            BaseResult baseResult=new Gson().fromJson(response.body().string(),BaseResult.class);
-            if(baseResult.getCode()==0)
+            BaseResult baseResult = new Gson().fromJson(response.body().string(), BaseResult.class);
+            if (baseResult.getCode() == 0)
                 return true;
         } catch (HyphenateException e) {
             handler.post(new UpdateUITools("注册环信账号失败！"));
@@ -112,7 +118,7 @@ public class Server {
                 handler.post(new UpdateUITools("连接服务器超时"));
             else if (e instanceof ConnectException)
                 handler.post(new UpdateUITools("无法连接到服务器"));
-        }catch (JsonSyntaxException e){
+        } catch (JsonSyntaxException e) {
             e.printStackTrace();
             handler.post(new UpdateUITools("服务器发生错误，请联系客服"));
         }
@@ -128,7 +134,7 @@ public class Server {
         }
         OkHttpClient client = new OkHttpClient.Builder().connectTimeout(3, TimeUnit.SECONDS).build();
         RequestBody body = new FormBody.Builder().add("info", info).build();
-        Request request = new Request.Builder().url("http://192.168.0.2:8080/Server/check").post(body).build();
+        Request request = new Request.Builder().url("http://192.168.0.3:8080/Server/check").post(body).build();
         try {
             Response response = client.newCall(request).execute();
             BaseResult baseResult = new Gson().fromJson(response.body().string(), BaseResult.class);
@@ -173,5 +179,13 @@ public class Server {
         Pattern p = Pattern.compile("^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$");
         Matcher m = p.matcher(phone);
         return m.matches();
+    }
+
+    public static void setURL(String IPV4,String HOST){
+        URL="http://" + IPV4 + ":" + HOST + "/Server";
+    }
+
+    public static String getURL(){
+        return URL;
     }
 }
