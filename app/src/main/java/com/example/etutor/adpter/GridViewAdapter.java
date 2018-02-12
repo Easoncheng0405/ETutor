@@ -1,5 +1,6 @@
 package com.example.etutor.adpter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,27 +53,28 @@ public class GridViewAdapter extends BaseAdapter {
         return position + curIndex * pageSize;
     }
 
+    @SuppressLint("InflateParams")
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder vh;
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.item_gridview, null);
             vh = new ViewHolder();
-            vh.iv = (ImageView) convertView.findViewById(R.id.imageView);
-            vh.tv = (TextView) convertView.findViewById(R.id.textView);
+            vh.iv = convertView.findViewById(R.id.imageView);
+            vh.tv = convertView.findViewById(R.id.textView);
             convertView.setTag(vh);
         } else {
             vh = (ViewHolder) convertView.getTag();
         }
         //计算一下位置
-        int pos = position + curIndex*pageSize;
+        int pos = position + curIndex * pageSize;
         vh.iv.setImageResource(mDatas.get(pos).getIconRes());
         vh.tv.setText(mDatas.get(pos).getName());
         return convertView;
     }
 
     class ViewHolder {
-        public TextView tv;
-        public ImageView iv;
+        TextView tv;
+        ImageView iv;
     }
 }

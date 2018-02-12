@@ -1,5 +1,6 @@
 package com.example.etutor.adpter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -37,7 +38,7 @@ public class TeaInfoAdapter extends ArrayAdapter {
      * @param list      每一个对象的数组
      */
     public TeaInfoAdapter(@NonNull Context context, int resource, List<TeacherInfo> list) {
-        super(context, resource);
+        super(context, resource,list);
         resId=resource;
     }
 
@@ -52,11 +53,11 @@ public class TeaInfoAdapter extends ArrayAdapter {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         TeacherInfo info=(TeacherInfo)getItem(position);
-        View view = LayoutInflater.from(getContext()).inflate(resId, null);
-        TextView college=(TextView)view.findViewById(R.id.college);
-        TextView major=(TextView)view.findViewById(R.id.major);
-        TextView tag=(TextView)view.findViewById(R.id.tag);
-        ImageView imageView=(ImageView)view.findViewById(R.id.header);
+        @SuppressLint("ViewHolder") View view = LayoutInflater.from(getContext()).inflate(resId, null);
+        TextView college=view.findViewById(R.id.college);
+        TextView major=view.findViewById(R.id.major);
+        TextView tag=view.findViewById(R.id.tag);
+        ImageView imageView=view.findViewById(R.id.header);
         Glide.with(getContext()).load(Server.getURL()+"image/"+info.getHeader()).into(imageView);
         college.setText(info.getCollege());
         major.setText(info.getMajor());

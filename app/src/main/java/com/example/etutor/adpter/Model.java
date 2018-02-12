@@ -8,7 +8,7 @@ package com.example.etutor.adpter;
 
 public class Model {
     public String name;
-    public int iconRes;
+    private int iconRes;
 
     public Model(String name, int iconRes) {
         this.name = name;
@@ -23,12 +23,8 @@ public class Model {
         this.name = name;
     }
 
-    public int getIconRes() {
+    int getIconRes() {
         return iconRes;
-    }
-
-    public void setIconRes(int iconRes) {
-        this.iconRes = iconRes;
     }
 
     @Override

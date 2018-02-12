@@ -21,7 +21,6 @@ public class InputDialog extends BaseDialog {
     //对话框的部分控件
     private TextView mTvSure;
     private TextView mTvCancel;
-    private TextView mTvContent;
     private EditText editText;
     private TextView mTvTitle;
     private TextView time;
@@ -32,21 +31,14 @@ public class InputDialog extends BaseDialog {
         mTvTitle.setText(title);
     }
 
-    public TextView getTvTitle() {
-        return mTvTitle;
-    }
+
 
     public EditText getEditText() {
         return editText;
     }
 
-    public TextView getTvContent() {
-        return mTvContent;
-    }
 
-    public void setContent(String content) {
-        this.mTvContent.setText(content);
-    }
+
 
     public TextView getTvSure() {
         return mTvSure;
@@ -75,11 +67,11 @@ public class InputDialog extends BaseDialog {
     //初始化控件
     private void initView() {
         View dialog_view = LayoutInflater.from(getContext()).inflate(R.layout.dialog_edittext_sure_false, null);
-        mTvTitle = (TextView) dialog_view.findViewById(R.id.dialog_title);
-        mTvSure = (TextView) dialog_view.findViewById(R.id.tv_sure);
-        mTvCancel = (TextView) dialog_view.findViewById(R.id.tv_cancel);
-        editText = (EditText) dialog_view.findViewById(R.id.editText);
-        time = (TextView) dialog_view.findViewById(R.id.time);
+        mTvTitle =  dialog_view.findViewById(R.id.dialog_title);
+        mTvSure =  dialog_view.findViewById(R.id.tv_sure);
+        mTvCancel =  dialog_view.findViewById(R.id.tv_cancel);
+        editText =  dialog_view.findViewById(R.id.editText);
+        time =  dialog_view.findViewById(R.id.time);
         time.setVisibility(TextView.INVISIBLE);
         time.setOnClickListener(new View.OnClickListener() {
             @Override

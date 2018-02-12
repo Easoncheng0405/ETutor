@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:stv="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.etutor.activity.PersonalInfoActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/white"
+        android:paddingTop="20dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/finish"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="完成"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:gravity="center_vertical"
+                android:text="个人资料"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+
+        </RelativeLayout>
+    </android.support.v7.widget.Toolbar>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:paddingTop="20dp"
+                android:text="基本资料"
+                android:textSize="16sp" />
+
+            <com.allen.library.SuperTextView
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                app:sLeftTextString="昵称" />
+
+            <com.allen.library.SuperTextView
+                android:id="@+id/phone"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                app:sLeftTextString="手机号码" />
+
+            <com.allen.library.SuperTextView
+                android:id="@+id/type"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                app:sLeftTextString="用户类型" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:paddingTop="20dp"
+                android:text="选填资料"
+                android:textSize="16sp" />
+
+            <com.allen.library.SuperTextView
+                android:id="@+id/sex"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                app:sLeftTextString="性别"
+                stv:sRightIconRes="@drawable/arrow_right_red" />
+
+            <com.allen.library.SuperTextView
+                android:id="@+id/birthday"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                app:sLeftTextString="生日"
+                stv:sRightIconRes="@drawable/arrow_right_red" />
+
+            <com.allen.library.SuperTextView
+                android:id="@+id/trueName"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                app:sLeftTextString="真实姓名"
+                stv:sRightIconRes="@drawable/arrow_right_red" />
+
+            <com.allen.library.SuperTextView
+                android:id="@+id/qq"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                app:sLeftTextString="QQ"
+                stv:sRightIconRes="@drawable/arrow_right_red" />
+
+            <com.allen.library.SuperTextView
+                android:id="@+id/email"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                app:sLeftTextString="邮箱地址"
+                stv:sRightIconRes="@drawable/arrow_right_red" />
+
+            <com.allen.library.SuperTextView
+
+                android:id="@+id/teacher"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                app:sLeftTextString="编辑教师资料"
+                stv:sRightIconRes="@drawable/arrow_right_red" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

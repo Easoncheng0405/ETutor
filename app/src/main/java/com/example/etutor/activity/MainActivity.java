@@ -1,8 +1,11 @@
 package com.example.etutor.activity;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
@@ -11,9 +14,10 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
+import com.example.etutor.InitApplication;
 import com.example.etutor.R;
 import com.example.etutor.adpter.GridViewAdapter;
 import com.example.etutor.adpter.Model;
@@ -26,6 +30,7 @@ import com.example.etutor.adpter.TeaInfoAdapter;
 import com.example.etutor.util.GlideImageLoader;
 import com.example.etutor.util.ToastUtil;
 import com.example.etutor.util.UpdateUITools;
+import com.hyphenate.EMCallBack;
 import com.hyphenate.EMConnectionListener;
 import com.hyphenate.EMError;
 import com.hyphenate.chat.EMClient;
@@ -55,8 +60,6 @@ public class MainActivity extends Activity implements OnBannerListener, View.OnC
     private String[] titles = {"语文", "数学", "英语", "物理", "化学", "生物",
             "政治", "历史", "地理", "其他"};
     private List<Model> mDatas;
-    private LayoutInflater inflater;
-    private int pageCount;//总页数
     private int pageSize = 5;//每一页的个数
     private int curIndex = 0;//当前显示的事第几页
 
@@ -67,12 +70,11 @@ public class MainActivity extends Activity implements OnBannerListener, View.OnC
         activity = this;
         handler = new Handler();
         fragmentManager = getFragmentManager();
-
         initViews();
 
         EMClient.getInstance().addConnectionListener(new MyConnectionListener());
 
-        setTabSelection(0);
+
     }
 
     private void initViews() {
@@ -86,6 +88,10 @@ public class MainActivity extends Activity implements OnBannerListener, View.OnC
         findViewById(R.id.home).setOnClickListener(this);
         findViewById(R.id.community).setOnClickListener(this);
         findViewById(R.id.personal).setOnClickListener(this);
+
+        setTabSelection(2);
+        setTabSelection(1);
+        setTabSelection(0);
     }
 
     @Override
@@ -107,11 +113,10 @@ public class MainActivity extends Activity implements OnBannerListener, View.OnC
         TeacherInfo info3 = new TeacherInfo("吉林大学珠海学院", "计算机科学与技术", 3, "经验丰富", "fluidicon", "3");
         ArrayList<TeacherInfo> data = new ArrayList<>();
         TeaInfoAdapter adapter = new TeaInfoAdapter(MainActivity.this, R.layout.teainfo, data);
+        data.add(info1);
+        data.add(info2);
         listView.setAdapter(adapter);
-        adapter.add(info1);
-        adapter.add(info2);
-        adapter.add(info3);
-        //toolbar = (Toolbar) homeFragment.getView().findViewById(R.id.activity_main_toolbar);
+        data.add(info3);
         List<Integer> list = new ArrayList<>();
         list.add(R.mipmap.b1);
         list.add(R.mipmap.b2);
@@ -131,15 +136,14 @@ public class MainActivity extends Activity implements OnBannerListener, View.OnC
 
         initDatas();
 
-        inflater = LayoutInflater.from(this);
+        LayoutInflater inflater = LayoutInflater.from(this);
         //总页数=总数/每页的个数，取整
-        pageCount = 0;
-        pageCount = (int) Math.ceil(mDatas.size() * 1.0 / pageSize);
+        int pageCount = (int) Math.ceil(mDatas.size() * 1.0 / pageSize);
 
         List<View> mPagerList = new ArrayList<>();
         for (int i = 0; i < pageCount; i++) {
             //每个页面都是inflate出的一个新实例
-            GridView gridView = (GridView) inflater.inflate(R.layout.gridview, null);
+            @SuppressLint("InflateParams") GridView gridView = (GridView) inflater.inflate(R.layout.gridview, null);
             gridView.setAdapter(new GridViewAdapter(this, mDatas, i, pageSize));
             mPagerList.add(gridView);
             gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -163,7 +167,11 @@ public class MainActivity extends Activity implements OnBannerListener, View.OnC
     }
 
     private void initPersonal() {
-
+        View view=personalFragment.getView();
+        view.findViewById(R.id.logout).setOnClickListener(this);
+        view.findViewById(R.id.personal_info).setOnClickListener(this);
+        ((TextView)view.findViewById(R.id.userName)).setText(InitApplication.getUserInfo().getName());
+        ((TextView)view.findViewById(R.id.userPhone)).setText(InitApplication.getUserInfo().getPhone());
 
     }
 
@@ -171,7 +179,7 @@ public class MainActivity extends Activity implements OnBannerListener, View.OnC
      * 初始化数据源
      */
     private void initDatas() {
-        mDatas = new ArrayList<Model>();
+        mDatas = new ArrayList<>();
         for (int i = 0; i < titles.length; i++) {
             //动态获取资源ID，第一个参数是资源名，第二个参数是资源类型例如drawable，string等，第三个参数包名
             int imageId = getResources().getIdentifier("ic_category_" + i, "mipmap", getPackageName());
@@ -245,6 +253,38 @@ public class MainActivity extends Activity implements OnBannerListener, View.OnC
                 break;
             case R.id.personal:
                 setTabSelection(2);
+                break;
+            case R.id.logout:
+                SharedPreferences preferences = getSharedPreferences("UserInfo", MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.clear();
+                editor.apply();
+                EMClient.getInstance().logout(true, new EMCallBack() {
+                    @Override
+                    public void onSuccess() {
+                        startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                        finish();
+                    }
+
+                    @Override
+                    public void onError(int i, String s) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                ToastUtil.showMessage(MainActivity.this, "无法连接到服务器，请重新登陆！");
+                                startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                                finish();
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onProgress(int i, String s) {
+
+                    }
+                });
+            case R.id.personal_info:
+                startActivity(new Intent(activity,PersonalInfoActivity.class));
                 break;
             default:
                 break;

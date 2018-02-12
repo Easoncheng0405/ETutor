@@ -5,6 +5,7 @@ import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
 
+import com.example.etutor.gson.UserInfo;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMOptions;
 
@@ -24,12 +25,13 @@ public class InitApplication extends Application {
     @SuppressLint("StaticFieldLeak")
     private static Context context;
 
-
+    private static UserInfo userInfo;
 
     @Override
     public void onCreate() {
         super.onCreate();
         context = this;
+        userInfo=null;
         InitEMChat();
     }
 
@@ -72,7 +74,13 @@ public class InitApplication extends Application {
         return null;
     }
 
+    public static UserInfo getUserInfo() {
+        return userInfo;
+    }
 
+    public static void setUserInfo(UserInfo userInfo) {
+        InitApplication.userInfo = userInfo;
+    }
 
     public static Context getContext() {
         return context;

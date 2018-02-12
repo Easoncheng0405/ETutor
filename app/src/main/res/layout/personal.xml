@@ -58,14 +58,13 @@
                     android:layout_height="50dp" />
                 <TextView
                     android:id="@+id/userName"
-                    android:text="用户名"
                     android:layout_marginLeft="15dp"
                     android:layout_marginTop="15dp"
                     android:layout_toRightOf="@id/head"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <TextView
-                    android:text="158****2084"
+                    android:id="@+id/userPhone"
                     android:layout_marginTop="5dp"
                     android:layout_marginLeft="15dp"
                     android:layout_toRightOf="@id/head"
@@ -137,9 +136,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="10dp"/>
             <com.allen.library.SuperTextView
+                android:id="@+id/personal_info"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                stv:sLeftTextString="通知设置"
+                stv:sLeftTextString="个人资料"
                 stv:sRightIconRes="@drawable/arrow_right_red" />
 
             <com.allen.library.SuperTextView

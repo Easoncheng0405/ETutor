@@ -4,6 +4,7 @@ import android.Manifest;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -44,7 +45,6 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     private int keyHeight = 0;                      //软件盘弹起后所占高度
     private LinearLayout mContent, mService;
     private ImageView mLogo, showPassWord;          //logo和显示密码按钮
-    //private MProgressDialog mProgressDialog;
     private String[] needPermissions = {           //需要的权限
             Manifest.permission.ACCESS_COARSE_LOCATION,
             Manifest.permission.ACCESS_FINE_LOCATION,
@@ -176,10 +176,15 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_login:
+                final ProgressDialog progressDialog = new ProgressDialog(activity);
+                progressDialog.setCancelable(false);
+                progressDialog.setMessage("登陆中，请稍后！");
+                progressDialog.show();
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
                         UserInfo userInfo = Server.login(handler, info.getText().toString(), passWord.getText().toString());
+                        handler.post(new UpdateUITools(progressDialog));
                         if (userInfo != null) {
                             editor = preferences.edit();
                             editor.putString("name", userInfo.getName());
@@ -191,6 +196,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                             startActivity(new Intent(context, MainActivity.class));
                             finish();
                         }
+
                     }
                 }).start();
                 break;

@@ -1,6 +1,7 @@
 package com.example.etutor.util;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.view.View;
 
 import com.example.etutor.InitApplication;
@@ -20,6 +21,8 @@ public class UpdateUITools implements Runnable {
 
     private static final int ToastMessage = 1;
 
+    private static final int LoadingMessage = 2;
+
     public static final int ForceClose = 0;
 
     public static final int DoNothing = 1;
@@ -28,6 +31,7 @@ public class UpdateUITools implements Runnable {
      */
     private int option;
     private SureDialog sureDialog;
+    private ProgressDialog progressDialog;
     private String title, message;
     private Activity activity;
     private int action;
@@ -38,6 +42,11 @@ public class UpdateUITools implements Runnable {
         this.message = message;
         this.action = action;
         this.option = DialogMessage;
+    }
+
+    public UpdateUITools(ProgressDialog progressDialog) {
+        this.progressDialog = progressDialog;
+        this.option=LoadingMessage;
     }
 
     public UpdateUITools(String message) {
@@ -53,6 +62,9 @@ public class UpdateUITools implements Runnable {
                 break;
             case ToastMessage:
                 ToastUtil.showMessage(InitApplication.getContext(), message);
+                break;
+            case LoadingMessage:
+                progressDialog.dismiss();
                 break;
             default:
                 break;
@@ -83,6 +95,5 @@ public class UpdateUITools implements Runnable {
         });
         sureDialog.show();
     }
-
 
 }

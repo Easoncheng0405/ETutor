@@ -95,6 +95,7 @@ public class Server {
         } catch (JsonSyntaxException e) {
             handler.post(new UpdateUITools("服务器发生错误，请联系客服"));
         }
+        InitApplication.setUserInfo(userInfo);
         return userInfo;
     }
 
@@ -108,8 +109,10 @@ public class Server {
             Request request = new Request.Builder().url(URL+"register").post(body).build();
             Response response = client.newCall(request).execute();
             BaseResult baseResult = new Gson().fromJson(response.body().string(), BaseResult.class);
-            if (baseResult.getCode() == 0)
+            if (baseResult.getCode() == 0) {
+                InitApplication.setUserInfo(info);
                 return true;
+            }
         } catch (HyphenateException e) {
             handler.post(new UpdateUITools("注册环信账号失败！"));
             e.printStackTrace();
@@ -134,7 +137,7 @@ public class Server {
         }
         OkHttpClient client = new OkHttpClient.Builder().connectTimeout(3, TimeUnit.SECONDS).build();
         RequestBody body = new FormBody.Builder().add("info", info).build();
-        Request request = new Request.Builder().url("http://192.168.0.3:8080/Server/check").post(body).build();
+        Request request = new Request.Builder().url(URL+"check").post(body).build();
         try {
             Response response = client.newCall(request).execute();
             BaseResult baseResult = new Gson().fromJson(response.body().string(), BaseResult.class);
@@ -180,6 +183,13 @@ public class Server {
         Matcher m = p.matcher(phone);
         return m.matches();
     }
+
+    public static boolean isEmail(String email){
+        Pattern p=Pattern.compile("^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$");
+        Matcher m=p.matcher(email);
+        return  m.matches();
+    }
+
 
     public static void setURL(String IPV4,String HOST){
         URL="http://" + IPV4 + ":" + HOST + "/Server";
