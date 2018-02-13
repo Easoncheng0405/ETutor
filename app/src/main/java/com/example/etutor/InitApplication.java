@@ -8,6 +8,7 @@ import android.content.Context;
 import com.example.etutor.gson.UserInfo;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMOptions;
+import com.vondear.rxtools.RxTool;
 
 import java.util.List;
 
@@ -30,6 +31,7 @@ public class InitApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        RxTool.init(this);
         context = this;
         userInfo=null;
         InitEMChat();

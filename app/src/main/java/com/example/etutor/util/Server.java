@@ -1,10 +1,16 @@
 package com.example.etutor.util;
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.Handler;
 
+import android.os.Handler;
+import android.widget.ImageView;
+
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.etutor.InitApplication;
 import com.example.etutor.gson.BaseResult;
 import com.example.etutor.gson.LoginResult;
@@ -15,9 +21,12 @@ import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.exceptions.HyphenateException;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.ConnectException;
+import java.net.HttpURLConnection;
 import java.net.SocketTimeoutException;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -27,6 +36,13 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+
+import java.io.DataOutputStream;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 /**
  * Created by 医我一生 on 2018/1/31.
@@ -42,8 +58,8 @@ public class Server {
 
     private static String URL = "http://" + IPV4 + ":" + HOST + "/Server/";
 
-    private Server() {
-
+    public Server() {
+        throw new RuntimeException("util class can not be instance!");
     }
 
     /**
@@ -60,7 +76,7 @@ public class Server {
         UserInfo userInfo = null;
         OkHttpClient client = new OkHttpClient.Builder().connectTimeout(3, TimeUnit.SECONDS).build();
         RequestBody body = new FormBody.Builder().add("info", info).add("pwd", pwd).build();
-        Request request = new Request.Builder().url(URL+"login").post(body).build();
+        Request request = new Request.Builder().url(URL + "login").post(body).build();
         try {
             Response response = client.newCall(request).execute();
             //response.body().string()只能调用一次，二次调用会产生异常
@@ -106,7 +122,7 @@ public class Server {
             OkHttpClient client = new OkHttpClient.Builder().connectTimeout(3, TimeUnit.SECONDS).build();
             RequestBody body = new FormBody.Builder().add("info.name", info.getName()).add("info.phone", info.getPhone())
                     .add("info.pwd", info.getPwd()).add("info.time", info.getTime()).add("info.type", String.valueOf(info.getType())).build();
-            Request request = new Request.Builder().url(URL+"register").post(body).build();
+            Request request = new Request.Builder().url(URL + "register").post(body).build();
             Response response = client.newCall(request).execute();
             BaseResult baseResult = new Gson().fromJson(response.body().string(), BaseResult.class);
             if (baseResult.getCode() == 0) {
@@ -137,7 +153,7 @@ public class Server {
         }
         OkHttpClient client = new OkHttpClient.Builder().connectTimeout(3, TimeUnit.SECONDS).build();
         RequestBody body = new FormBody.Builder().add("info", info).build();
-        Request request = new Request.Builder().url(URL+"check").post(body).build();
+        Request request = new Request.Builder().url(URL + "check").post(body).build();
         try {
             Response response = client.newCall(request).execute();
             BaseResult baseResult = new Gson().fromJson(response.body().string(), BaseResult.class);
@@ -163,6 +179,83 @@ public class Server {
         return false;
     }
 
+    public static void uploadFile(final Handler handler, final String path, final Activity activity, final ImageView imageView) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String BOUNDARY = UUID.randomUUID().toString(); //边界标识 随机生成
+                String PREFIX = "--", LINE_END = "\r\n";
+                String CONTENT_TYPE = "multipart/form-data"; //内容类型
+                File file = new File(path);
+                try {
+                    HttpURLConnection conn = (HttpURLConnection) new URL(URL + "upLoadFile?filename=" + file.getName()).openConnection();
+                    conn.setReadTimeout(3000);
+                    conn.setConnectTimeout(3000);
+                    conn.setDoInput(true); //允许输入流
+                    conn.setDoOutput(true); //允许输出流
+                    conn.setUseCaches(false); //不允许使用缓存
+                    conn.setRequestMethod("POST"); //请求方式
+                    conn.setRequestProperty("Charset", "utf-8");
+                    //设置编码
+                    conn.setRequestProperty("connection", "keep-alive");
+                    conn.setRequestProperty("Content-Type", CONTENT_TYPE + ";boundary=" + BOUNDARY);
+                    if (file != null) {
+                /* 当文件不为空，把文件包装并且上传 */
+                        OutputStream outputSteam = conn.getOutputStream();
+                        DataOutputStream dos = new DataOutputStream(outputSteam);
+                        String sb = PREFIX +
+                                BOUNDARY +
+                                LINE_END +
+                                "Content-Disposition: form-data; name=\"img\"; filename=\"" + file.getName() + "\"" + LINE_END +
+                                "Content-Type: application/octet-stream; charset=" + "utf-8" + LINE_END +
+                                LINE_END;
+                /*
+                 * 这里重点注意：
+                 * name里面的值为服务器端需要key 只有这个key 才可以得到对应的文件
+                 * filename是文件的名字，包含后缀名的 比如:abc.png
+                 */
+                        dos.write(sb.getBytes());
+                        InputStream is = new FileInputStream(file);
+                        byte[] bytes = new byte[1024];
+                        int len;
+                        while ((len = is.read(bytes)) != -1) {
+                            dos.write(bytes, 0, len);
+                        }
+                        is.close();
+                        dos.write(LINE_END.getBytes());
+                        byte[] end_data = (PREFIX + BOUNDARY + PREFIX + LINE_END).getBytes();
+                        dos.write(end_data);
+                        dos.flush();
+                /*
+                 * 获取响应码 200=成功
+                 * 当响应成功，获取响应的流
+                 */
+                        int res = conn.getResponseCode();
+                        if (res != 200)
+                            handler.post(new UpdateUITools("上传头像到服务器失败，要不再试一次？"));
+                        else
+                            activity.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Glide.with(activity).load(Server.getURL() + "image/" + InitApplication.getUserInfo()
+                                            .getPhone()).skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.NONE).into(imageView);
+                                }
+                            });
+
+                    }
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                    handler.post(new UpdateUITools("上传头像到服务器失败，要不再试一次？"));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    handler.post(new UpdateUITools("上传头像到服务器失败，要不再试一次？"));
+                }
+            }
+        }).start();
+
+
+    }
+
     private static boolean isNetworkAvailable() {
         ConnectivityManager cm = (ConnectivityManager) InitApplication.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         if (cm != null) {
@@ -184,18 +277,18 @@ public class Server {
         return m.matches();
     }
 
-    public static boolean isEmail(String email){
-        Pattern p=Pattern.compile("^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$");
-        Matcher m=p.matcher(email);
-        return  m.matches();
+    public static boolean isEmail(String email) {
+        Pattern p = Pattern.compile("^([a-z0-9A-Z]+[-|.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$");
+        Matcher m = p.matcher(email);
+        return m.matches();
     }
 
 
-    public static void setURL(String IPV4,String HOST){
-        URL="http://" + IPV4 + ":" + HOST + "/Server";
+    public static void setURL(String IPV4, String HOST) {
+        URL = "http://" + IPV4 + ":" + HOST + "/Server";
     }
 
-    public static String getURL(){
+    public static String getURL() {
         return URL;
     }
 }

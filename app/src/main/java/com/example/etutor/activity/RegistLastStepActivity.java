@@ -142,7 +142,7 @@ public class RegistLastStepActivity extends AppCompatActivity implements View.On
         }
 
         if (!pwd.matches("[A-Za-z0-9]+")) {
-            ToastUtil.showMessage(context, "密码只能又数字或字母组成！");
+            ToastUtil.showMessage(context, "密码只能由数字或字母组成！");
             return false;
         }
 

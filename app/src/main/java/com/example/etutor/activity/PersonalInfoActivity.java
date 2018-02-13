@@ -1,7 +1,7 @@
 package com.example.etutor.activity;
 
-import android.app.Activity;
-import android.content.DialogInterface;
+
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
@@ -82,6 +82,7 @@ public class PersonalInfoActivity extends AppCompatActivity implements View.OnCl
                 dialog.show();
                 break;
             case R.id.teacher:
+                startActivity(new Intent(this,EditTeaInfoActivity.class));
                 break;
             case R.id.tv_sure:
                 setMessage();

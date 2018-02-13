@@ -6,7 +6,9 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Handler;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -17,6 +19,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.etutor.InitApplication;
 import com.example.etutor.R;
 import com.example.etutor.adpter.GridViewAdapter;
@@ -28,6 +32,7 @@ import com.example.etutor.fragment.PersonalFragment;
 import com.example.etutor.gson.TeacherInfo;
 import com.example.etutor.adpter.TeaInfoAdapter;
 import com.example.etutor.util.GlideImageLoader;
+import com.example.etutor.util.Server;
 import com.example.etutor.util.ToastUtil;
 import com.example.etutor.util.UpdateUITools;
 import com.hyphenate.EMCallBack;
@@ -35,13 +40,19 @@ import com.hyphenate.EMConnectionListener;
 import com.hyphenate.EMError;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.util.NetUtils;
+import com.vondear.rxtools.RxPhotoTool;
+import com.vondear.rxtools.view.dialog.RxDialogChooseImage;
+import com.yalantis.ucrop.UCrop;
+import com.yalantis.ucrop.UCropActivity;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.listener.OnBannerListener;
 import com.youth.banner.transformer.AccordionTransformer;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+
 import java.util.List;
 
 import me.relex.circleindicator.CircleIndicator;
@@ -56,12 +67,16 @@ public class MainActivity extends Activity implements OnBannerListener, View.OnC
     private PersonalFragment personalFragment;
     private ImageView imageViewHome, imageViewCommunity, imageViewPersonal;
 
+    private ImageView header;
     ViewPager mPager;
     private String[] titles = {"语文", "数学", "英语", "物理", "化学", "生物",
             "政治", "历史", "地理", "其他"};
+
+
     private List<Model> mDatas;
     private int pageSize = 5;//每一页的个数
     private int curIndex = 0;//当前显示的事第几页
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,9 +86,7 @@ public class MainActivity extends Activity implements OnBannerListener, View.OnC
         handler = new Handler();
         fragmentManager = getFragmentManager();
         initViews();
-
         EMClient.getInstance().addConnectionListener(new MyConnectionListener());
-
 
     }
 
@@ -154,7 +167,7 @@ public class MainActivity extends Activity implements OnBannerListener, View.OnC
                 }
             });
         }
-        //设置viewpageAdapter
+        //设置viewPageAdapter
         mPager.setAdapter(new ViewPagerAdapter(mPagerList));
         CircleIndicator indicator = homeFragment.getView().findViewById(R.id.indicator);
         indicator.setViewPager(mPager);
@@ -167,11 +180,17 @@ public class MainActivity extends Activity implements OnBannerListener, View.OnC
     }
 
     private void initPersonal() {
-        View view=personalFragment.getView();
+        View view = personalFragment.getView();
         view.findViewById(R.id.logout).setOnClickListener(this);
         view.findViewById(R.id.personal_info).setOnClickListener(this);
-        ((TextView)view.findViewById(R.id.userName)).setText(InitApplication.getUserInfo().getName());
-        ((TextView)view.findViewById(R.id.userPhone)).setText(InitApplication.getUserInfo().getPhone());
+        view.findViewById(R.id.head).setOnClickListener(this);
+
+        header = view.findViewById(R.id.head);
+
+        Glide.with(activity).load(getSharedPreferences("UserInfo", MODE_PRIVATE).getString("path"
+                ,"")).skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.NONE).into(header);
+        ((TextView) view.findViewById(R.id.userName)).setText(InitApplication.getUserInfo().getName());
+        ((TextView) view.findViewById(R.id.userPhone)).setText(InitApplication.getUserInfo().getPhone());
 
     }
 
@@ -284,7 +303,10 @@ public class MainActivity extends Activity implements OnBannerListener, View.OnC
                     }
                 });
             case R.id.personal_info:
-                startActivity(new Intent(activity,PersonalInfoActivity.class));
+                startActivity(new Intent(activity, PersonalInfoActivity.class));
+                break;
+            case R.id.head:
+                new RxDialogChooseImage(activity).show();
                 break;
             default:
                 break;
@@ -324,4 +346,81 @@ public class MainActivity extends Activity implements OnBannerListener, View.OnC
             }
         }
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case RxPhotoTool.GET_IMAGE_FROM_PHONE://选择相册之后的处理
+                if (resultCode == RESULT_OK) {
+                    initUCrop(data.getData());
+                }
+
+                break;
+            case RxPhotoTool.GET_IMAGE_BY_CAMERA://选择照相机之后的处理
+                if (resultCode == RESULT_OK) {
+                    initUCrop(RxPhotoTool.imageUriFromCamera);
+                }
+
+                break;
+            case UCrop.REQUEST_CROP:
+                if (resultCode == RESULT_OK) {
+                    Uri resultUri = UCrop.getOutput(data);
+                    if (resultUri != null) {
+                        Server.uploadFile(handler, RxPhotoTool.getImageAbsolutePath(activity, resultUri), activity, header);
+                        SharedPreferences preferences = getSharedPreferences("UserInfo", MODE_PRIVATE);
+                        SharedPreferences.Editor editor = preferences.edit();
+                        editor.putString("path",RxPhotoTool.getImageAbsolutePath(activity, resultUri));
+                        editor.apply();
+                    }
+                    else
+                        ToastUtil.showMessage(activity, "裁剪失败了！要不再试一次？");
+
+                }
+                break;
+            case UCrop.RESULT_ERROR:
+                ToastUtil.showMessage(activity, "裁剪失败了！要不再试一次？");
+            default:
+                break;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void initUCrop(Uri uri) {
+        Uri destinationUri = Uri.fromFile(new File(getCacheDir(), InitApplication.getUserInfo().getPhone()));
+
+        UCrop.Options options = new UCrop.Options();
+        //设置裁剪图片可操作的手势
+        options.setAllowedGestures(UCropActivity.SCALE, UCropActivity.ROTATE, UCropActivity.ALL);
+        //设置隐藏底部容器，默认显示
+        //options.setHideBottomControls(true);
+        //设置toolbar颜色
+        options.setToolbarColor(ActivityCompat.getColor(this, R.color.colorPrimary));
+        //设置状态栏颜色
+        options.setStatusBarColor(ActivityCompat.getColor(this, R.color.colorPrimaryDark));
+
+        //开始设置
+        //设置最大缩放比例
+        options.setMaxScaleMultiplier(5);
+        //设置图片在切换比例时的动画
+        options.setImageToCropBoundsAnimDuration(666);
+        //设置裁剪窗口是否为椭圆
+        //options.setOvalDimmedLayer(true);
+        //设置是否展示矩形裁剪框
+        // options.setShowCropFrame(false);
+        //设置裁剪框横竖线的宽度
+        //options.setCropGridStrokeWidth(20);
+        //设置裁剪框横竖线的颜色
+        //options.setCropGridColor(Color.GREEN);
+        //设置竖线的数量
+        //options.setCropGridColumnCount(2);
+        //设置横线的数量
+        //options.setCropGridRowCount(1);
+
+        UCrop.of(uri, destinationUri)
+                .withAspectRatio(1, 1)
+                .withMaxResultSize(1000, 1000)
+                .withOptions(options)
+                .start(this);
+    }
+
 }

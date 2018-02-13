@@ -16,6 +16,10 @@ public class ToastUtil {
     private static Toast toast;
 
 
+    public ToastUtil(){
+        throw new RuntimeException("util class can not be instance!");
+    }
+
     /**
      *
      * @param context 用于显示时的上下文

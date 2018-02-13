@@ -27,6 +27,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
+import com.bumptech.glide.Glide;
+import com.example.etutor.InitApplication;
 import com.example.etutor.R;
 import com.example.etutor.gson.UserInfo;
 import com.example.etutor.util.Server;
@@ -50,7 +52,8 @@ public class LoginActivity extends Activity implements View.OnClickListener {
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.READ_PHONE_STATE
+            Manifest.permission.READ_PHONE_STATE,
+            Manifest.permission.CAMERA
     };
     private SharedPreferences preferences;
     private SharedPreferences.Editor editor;
@@ -65,6 +68,9 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         preferences = getSharedPreferences("UserInfo", MODE_PRIVATE);
         init();
         activity = this;
+        if (InitApplication.getUserInfo() != null)
+            Glide.with(activity).load(Server.getURL() + "image/" + InitApplication.getUserInfo()
+                    .getPhone()).into((ImageView) findViewById(R.id.logo));
         context = this;
         handler = new Handler();
         requestPermissions();
@@ -72,6 +78,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
 
     private void init() {
+
         passWord = findViewById(R.id.et_password);
         info = findViewById(R.id.et_mobile);
         ScrollView mScrollView = findViewById(R.id.scrollView);
