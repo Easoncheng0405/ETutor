@@ -12,6 +12,8 @@ import android.view.WindowManager;
 import com.example.etutor.R;
 import com.example.etutor.gson.UserInfo;
 import com.example.etutor.util.Server;
+import com.example.etutor.util.UpdateUITools;
+import com.vondear.rxtools.view.dialog.RxDialogLoading;
 
 
 /**
@@ -41,18 +43,24 @@ public class SplashActivity extends Activity {
         if (phone.equals("") || pwd.equals("")) {
             startActivity(new Intent(activity,LoginActivity.class));
             finish();
-        } else
+        } else {
+            final RxDialogLoading rxDialogLoading = new RxDialogLoading(activity);
+            rxDialogLoading.setCancelable(false);
+            rxDialogLoading.setLoadingText("登陆中，请稍后！");
+            rxDialogLoading.show();
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    UserInfo userInfo = Server.login(handler,phone, pwd);
+                    UserInfo userInfo = Server.login(handler, phone, pwd);
+                    handler.post(new UpdateUITools(rxDialogLoading));
                     if (userInfo != null)
-                        startActivity(new Intent(activity,MainActivity.class));
+                        startActivity(new Intent(activity, MainActivity.class));
                     else
-                        startActivity(new Intent(activity,LoginActivity.class));
+                        startActivity(new Intent(activity, LoginActivity.class));
                     finish();
                 }
             }).start();
+        }
     }
 
 }

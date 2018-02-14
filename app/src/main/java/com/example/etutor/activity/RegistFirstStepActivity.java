@@ -61,7 +61,7 @@ public class RegistFirstStepActivity extends AppCompatActivity implements View.O
             }
         });
 
-        findViewById(R.id.cancel).setOnClickListener(this);
+        findViewById(R.id.login_cancel).setOnClickListener(this);
 
         findViewById(R.id.registButton).setOnClickListener(this);
 
@@ -74,7 +74,7 @@ public class RegistFirstStepActivity extends AppCompatActivity implements View.O
     public void onClick(View v) {
         UpdateUITools tools;
         switch (v.getId()) {
-            case R.id.cancel:
+            case R.id.login_cancel:
                 finish();
                 break;
             case R.id.registButton:

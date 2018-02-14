@@ -5,7 +5,8 @@ import android.app.ProgressDialog;
 import android.view.View;
 
 import com.example.etutor.InitApplication;
-import com.example.etutor.dialog.SureDialog;
+import com.vondear.rxtools.view.dialog.RxDialogLoading;
+import com.vondear.rxtools.view.dialog.RxDialogSure;
 
 
 /**
@@ -30,11 +31,11 @@ public class UpdateUITools implements Runnable {
      *
      */
     private int option;
-    private SureDialog sureDialog;
-    private ProgressDialog progressDialog;
+    private RxDialogSure sureDialog;
     private String title, message;
     private Activity activity;
     private int action;
+    private RxDialogLoading rxDialogLoading;
 
     public UpdateUITools(Activity activity, String title, String message, int action) {
         this.activity = activity;
@@ -44,8 +45,8 @@ public class UpdateUITools implements Runnable {
         this.option = DialogMessage;
     }
 
-    public UpdateUITools(ProgressDialog progressDialog) {
-        this.progressDialog = progressDialog;
+    public UpdateUITools(RxDialogLoading rxDialogLoading) {
+        this.rxDialogLoading = rxDialogLoading;
         this.option=LoadingMessage;
     }
 
@@ -64,7 +65,7 @@ public class UpdateUITools implements Runnable {
                 ToastUtil.showMessage(InitApplication.getContext(), message);
                 break;
             case LoadingMessage:
-                progressDialog.dismiss();
+                rxDialogLoading.dismiss();
                 break;
             default:
                 break;
@@ -72,17 +73,17 @@ public class UpdateUITools implements Runnable {
     }
 
     public void initSureDialog() {
-        sureDialog = new SureDialog(activity);
+        sureDialog = new RxDialogSure(activity);
         sureDialog.setCancelable(false);
-        sureDialog.getTvContent().setText(message);
-        sureDialog.getTvContent().setGravity(android.view.Gravity.CENTER);
-        sureDialog.getTvTitle().setText(title);
-        sureDialog.getTvSure().setOnClickListener(new View.OnClickListener() {
+        sureDialog.getContentView().setText(message);
+        sureDialog.getContentView().setGravity(android.view.Gravity.CENTER);
+        sureDialog.setTitle(title);
+        sureDialog.getSureView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 switch (action) {
                     case ForceClose:
-                        activity.finish();
+                        System.exit(0);
                         break;
                     case DoNothing:
                         sureDialog.dismiss();

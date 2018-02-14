@@ -15,7 +15,7 @@ public class TeacherInfo {
     /**
      * 女
      */
-    public static final int FEMALE=0;
+    public static final int FEMALE=-1;
 
     /**
      * 电话号码
@@ -44,7 +44,7 @@ public class TeacherInfo {
     /**
      * 预期薪水
      */
-    private int salary;
+    private String salary;
 
     /**
      * 真实姓名
@@ -82,7 +82,7 @@ public class TeacherInfo {
         this.tag=tag;
     }
 
-    public TeacherInfo(String phone,String trueName,int sex,String college,String major,String time,int salary,String introduction){
+    public TeacherInfo(String phone,String trueName,int sex,String college,String major,String time,String salary,String introduction){
         this.phone=phone;
         this.trueName=trueName;
         this.sex=sex;
@@ -134,11 +134,11 @@ public class TeacherInfo {
         this.tag = tag;
     }
 
-    public int getSalary() {
+    public String getSalary() {
         return salary;
     }
 
-    public void setSalary(int salary) {
+    public void setSalary(String salary) {
         this.salary = salary;
     }
 

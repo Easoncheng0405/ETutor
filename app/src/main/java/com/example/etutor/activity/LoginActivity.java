@@ -33,6 +33,7 @@ import com.example.etutor.R;
 import com.example.etutor.gson.UserInfo;
 import com.example.etutor.util.Server;
 import com.example.etutor.util.UpdateUITools;
+import com.vondear.rxtools.view.dialog.RxDialogLoading;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -183,15 +184,15 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_login:
-                final ProgressDialog progressDialog = new ProgressDialog(activity);
-                progressDialog.setCancelable(false);
-                progressDialog.setMessage("登陆中，请稍后！");
-                progressDialog.show();
+                final RxDialogLoading rxDialogLoading = new RxDialogLoading(activity);
+                rxDialogLoading.setCancelable(false);
+                rxDialogLoading.setLoadingText("登陆中，请稍后！");
+                rxDialogLoading.show();
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
                         UserInfo userInfo = Server.login(handler, info.getText().toString(), passWord.getText().toString());
-                        handler.post(new UpdateUITools(progressDialog));
+                        handler.post(new UpdateUITools(rxDialogLoading));
                         if (userInfo != null) {
                             editor = preferences.edit();
                             editor.putString("name", userInfo.getName());

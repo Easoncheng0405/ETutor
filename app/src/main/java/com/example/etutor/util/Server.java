@@ -20,6 +20,7 @@ import com.google.gson.JsonSyntaxException;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.exceptions.HyphenateException;
+import com.vondear.rxtools.view.dialog.RxDialogLoading;
 
 import java.io.File;
 import java.io.IOException;
@@ -51,6 +52,7 @@ import java.net.URL;
  */
 
 public class Server {
+
 
     private static String IPV4 = "192.168.0.4";
 

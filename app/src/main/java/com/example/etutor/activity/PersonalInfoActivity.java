@@ -2,7 +2,7 @@ package com.example.etutor.activity;
 
 
 import android.app.Activity;
-import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -11,12 +11,13 @@ import android.widget.TextView;
 import com.allen.library.SuperTextView;
 import com.example.etutor.InitApplication;
 import com.example.etutor.R;
-import com.example.etutor.dialog.ConfirmDialog;
-import com.example.etutor.dialog.InputDialog;
 import com.example.etutor.gson.TeacherInfo;
 import com.example.etutor.gson.UserInfo;
 import com.example.etutor.util.Server;
 import com.example.etutor.util.ToastUtil;
+import com.vondear.rxtools.view.dialog.RxDialogEditSureCancel;
+import com.vondear.rxtools.view.dialog.RxDialogSureCancel;
+import com.vondear.rxtools.view.dialog.RxDialogWheelYearMonthDay;
 
 
 public class PersonalInfoActivity extends Activity implements View.OnClickListener {
@@ -29,7 +30,16 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
 
     private int temp;
 
-    private InputDialog dialog;
+    private RxDialogEditSureCancel dialog;
+
+    private RxDialogWheelYearMonthDay mRxDialogWheelYearMonthDay;
+
+    private SuperTextView trueName;
+    private SuperTextView sex;
+    private SuperTextView college;
+    private SuperTextView major;
+    private SuperTextView time;
+    private SuperTextView salary;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,9 +49,10 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
 
         flag = false;
 
-        dialog = new InputDialog(this);
-        dialog.getTvSure().setOnClickListener(this);
-        dialog.getTvCancel().setOnClickListener(this);
+        dialog = new RxDialogEditSureCancel(this);
+        dialog.getSureView().setOnClickListener(this);
+        dialog.getCancelView().setOnClickListener(this);
+        dialog.getTitleView().setTextSize(18);
         dialog.setCancelable(false);
         info = (UserInfo) getIntent().getSerializableExtra("info");
 
@@ -73,12 +84,27 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
     private void initTeaViews() {
         findViewById(R.id.teaInfo).setVisibility(View.VISIBLE);
 
-        SuperTextView trueName = findViewById(R.id.trueName);
-        SuperTextView sex = findViewById(R.id.sex);
-        SuperTextView college = findViewById(R.id.college);
-        SuperTextView major = findViewById(R.id.major);
-        SuperTextView time = findViewById(R.id.time);
-        SuperTextView salary = findViewById(R.id.salary);
+        trueName = findViewById(R.id.trueName);
+        sex = findViewById(R.id.sex);
+        college = findViewById(R.id.college);
+        major = findViewById(R.id.major);
+        time = findViewById(R.id.time);
+        salary = findViewById(R.id.salary);
+
+        if (teacherInfo != null) {
+            trueName.setRightString(teacherInfo.getTrueName());
+            if (teacherInfo.getSex() == 1)
+                sex.setRightString("男");
+            else if (teacherInfo.getSex() == 0)
+                sex.setRightString("未选择");
+            else
+                sex.setRightString("女");
+            college.setRightString(teacherInfo.getCollege());
+            major.setRightString(teacherInfo.getMajor());
+            time.setRightString(teacherInfo.getTime());
+            salary.setRightString(teacherInfo.getSalary());
+
+        }
 
         if (info.getPhone().equals(InitApplication.getUserInfo().getPhone())) {
             trueName.setOnClickListener(this);
@@ -93,8 +119,10 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
             time.setRightIcon(R.drawable.arrow_right_red);
             salary.setOnClickListener(this);
             salary.setRightIcon(R.drawable.arrow_right_red);
+            findViewById(R.id.button).setVisibility(View.INVISIBLE);
+        } else
+            findViewById(R.id.button).setOnClickListener(this);
 
-        }
 
     }
 
@@ -108,44 +136,136 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
                 dialog.show();
                 break;
             case R.id.tag:
-                flag = true;
                 temp = R.id.tag;
                 dialog.setTitle("输入标签(最多5个字符)");
                 dialog.show();
                 break;
-            case R.id.tv_sure:
+            case R.id.trueName:
+                temp = R.id.trueName;
+                dialog.setTitle("输入姓名(最多5个字符)");
+                dialog.show();
+                break;
+            case R.id.sex:
+                final RxDialogSureCancel rxDialogSureCancel = new RxDialogSureCancel(this);
+                rxDialogSureCancel.getSureView().setTextColor(Color.BLACK);
+                rxDialogSureCancel.getCancelView().setTextColor(Color.BLACK);
+                rxDialogSureCancel.getSureView().setText("男");
+                rxDialogSureCancel.getCancelView().setText("女");
+                rxDialogSureCancel.setTitle("请选择");
+                rxDialogSureCancel.setContent("选择您的性别");
+                rxDialogSureCancel.getSureView().setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (teacherInfo != null)
+                            teacherInfo.setSex(1);
+                        sex.setRightString("男");
+                        rxDialogSureCancel.dismiss();
+                    }
+                });
+                rxDialogSureCancel.getCancelView().setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (teacherInfo != null)
+                            teacherInfo.setSex(-1);
+                        sex.setRightString("女");
+                        rxDialogSureCancel.dismiss();
+                    }
+                });
+                rxDialogSureCancel.show();
+                break;
+            case R.id.college:
+                temp = R.id.college;
+                dialog.setTitle("大学名称(10个字符以内)");
+                dialog.show();
+                break;
+            case R.id.major:
+                temp = R.id.major;
+                dialog.setTitle("专业名称(15个字符以内)");
+                dialog.show();
+                break;
+            case R.id.time:
+                if (mRxDialogWheelYearMonthDay == null) {
+                    initWheelYearMonthDayDialog();
+                }
+                mRxDialogWheelYearMonthDay.show();
+                break;
+            case R.id.salary:
+                temp = R.id.salary;
+                dialog.setTitle("输入预期薪水(10个以内)");
+                dialog.getEditText().setHint("面谈,50每小时等");
+                dialog.show();
+                break;
+            case R.id.tv_sure:    //0x7f0f014d 输入对话框的确认ID
                 setMessage();
                 break;
-            case R.id.tv_cancel:
+            case 0x7f0f014f:   //输入对话框的取消按钮ID
                 dialog.getEditText().setText("");
                 dialog.dismiss();
-                break;
             default:
                 break;
         }
     }
 
     private void setMessage() {
+        String message = dialog.getEditText().getText().toString();
         switch (temp) {
             case R.id.email:
-                String email = dialog.getEditText().getText().toString();
-                if (Server.isEmail(email)) {
-                    info.setEmail(email);
-                    ((TextView) findViewById(R.id.tv_address)).setText(email);
-                    dialog.getEditText().setText("");
+                if (Server.isEmail(message)) {
+                    info.setEmail(message);
+                    ((TextView) findViewById(R.id.tv_address)).setText(message);
                     dialog.dismiss();
+                    dialog.getEditText().setText("");
                 } else
                     ToastUtil.showMessage(this, "您输入了错误的邮箱地址！");
                 break;
             case R.id.tag:
-                String tag = dialog.getEditText().getText().toString();
-                if (tag.length() <= 5) {
-                    info.setTag(tag);
-                    ((TextView) findViewById(R.id.tv_lables)).setText(tag);
-                    dialog.getEditText().setText("");
+                if (message.length() <= 5) {
+                    info.setTag(message);
+                    ((TextView) findViewById(R.id.tv_lables)).setText(message);
                     dialog.dismiss();
+                    dialog.getEditText().setText("");
                 } else
                     ToastUtil.showMessage(this, " 标签最多五个字！");
+                break;
+            case R.id.trueName:
+                if (message.length() <= 5) {
+                    if (teacherInfo != null)
+                        teacherInfo.setTrueName(message);
+                    trueName.setRightString(message);
+                    dialog.dismiss();
+                    dialog.getEditText().setText("");
+                } else
+                    ToastUtil.showMessage(this, " 姓名最多5个字符！");
+                break;
+            case R.id.college:
+                if (message.length() <= 10) {
+                    if (teacherInfo != null)
+                        teacherInfo.setCollege(message);
+                    college.setRightString(message);
+                    dialog.dismiss();
+                    dialog.getEditText().setText("");
+                } else
+                    ToastUtil.showMessage(this, " 最多输入10个字符！");
+                break;
+            case R.id.major:
+                if (message.length() <= 15) {
+                    if (teacherInfo != null)
+                        teacherInfo.setMajor(message);
+                    major.setRightString(message);
+                    dialog.dismiss();
+                    dialog.getEditText().setText("");
+                } else
+                    ToastUtil.showMessage(this, " 最多输入15个字符！");
+                break;
+            case R.id.salary:
+                if (message.length() <= 10) {
+                    if (teacherInfo != null)
+                        teacherInfo.setSalary(message);
+                    salary.setRightString(message);
+                    dialog.dismiss();
+                    dialog.getEditText().setText("");
+                } else
+                    ToastUtil.showMessage(this, " 最多输入10个字符！");
                 break;
             default:
                 break;
@@ -155,25 +275,62 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
     @Override
     public void onBackPressed() {
         if (flag) {
-            ToastUtil.showMessage(this,"调用了");
-            ConfirmDialog confirmDialog = new ConfirmDialog(this);
+            ToastUtil.showMessage(this, "调用了");
+            final RxDialogSureCancel confirmDialog = new RxDialogSureCancel(this);
             confirmDialog.setCancelable(false);
             confirmDialog.setTitle("提示");
-            confirmDialog.setMText("您已做出了修改，是否立即保存？");
-            confirmDialog.getTvSure().setOnClickListener(new View.OnClickListener() {
+            confirmDialog.getTitleView().setTextSize(20);
+            confirmDialog.getContentView().setTextSize(16);
+            confirmDialog.setContent("您已做出了修改，是否立即保存？");
+            confirmDialog.getSureView().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    confirmDialog.dismiss();
                     finish();
                 }
             });
-            confirmDialog.getTvCancel().setOnClickListener(new View.OnClickListener() {
+            confirmDialog.getCancelView().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    confirmDialog.dismiss();
                     finish();
                 }
             });
             confirmDialog.show();
         }
 
+    }
+
+    private void initWheelYearMonthDayDialog() {
+        mRxDialogWheelYearMonthDay = new RxDialogWheelYearMonthDay(this, 1994, 2018);
+        mRxDialogWheelYearMonthDay.getSureView().setOnClickListener(
+                new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View arg0) {
+                        String date;
+                        if (mRxDialogWheelYearMonthDay.getCheckBoxDay().isChecked()) {
+                            date = mRxDialogWheelYearMonthDay.getSelectorYear() + "年"
+                                    + mRxDialogWheelYearMonthDay.getSelectorMonth() + "月"
+                                    + mRxDialogWheelYearMonthDay.getSelectorDay() + "日";
+
+                        } else {
+                            date = mRxDialogWheelYearMonthDay.getSelectorYear() + "年"
+                                    + mRxDialogWheelYearMonthDay.getSelectorMonth() + "月";
+                        }
+                        time.setRightString(date);
+                        if (teacherInfo != null)
+                            teacherInfo.setTime(date);
+                        mRxDialogWheelYearMonthDay.cancel();
+                    }
+                });
+        mRxDialogWheelYearMonthDay.getCancleView().setOnClickListener(
+                new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View arg0) {
+                        mRxDialogWheelYearMonthDay.cancel();
+                    }
+                });
     }
 }

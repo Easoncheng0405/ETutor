@@ -24,7 +24,7 @@
                 android:layout_height="80dp">
 
                 <TextView
-                    android:id="@+id/cancel"
+                    android:id="@+id/login_cancel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="30dp"
