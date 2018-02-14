@@ -121,9 +121,9 @@ public class MainActivity extends Activity implements OnBannerListener, View.OnC
         listView.setOnItemClickListener(this);
         if (listView.getHeaderViewsCount() < 1)
             listView.addHeaderView(headerView);
-        TeacherInfo info1 = new TeacherInfo("吉林大学珠海学院", "计算机科学与技术", 5, "经验丰富", "fluidicon", "1");
-        TeacherInfo info2 = new TeacherInfo("吉林大学珠海学院", "计算机科学与技术", 4, "经验丰富", "fluidicon", "2");
-        TeacherInfo info3 = new TeacherInfo("吉林大学珠海学院", "计算机科学与技术", 3, "经验丰富", "fluidicon", "3");
+        TeacherInfo info1 = new TeacherInfo("15754310557", "吉林大学珠海学院", "计算机科学与技术", 5, "经验丰富");
+        TeacherInfo info2 = new TeacherInfo("15754310557", "吉林大学珠海学院", "计算机科学与技术", 3, "经验丰富");
+        TeacherInfo info3 = new TeacherInfo("15754310557", "吉林大学珠海学院", "计算机科学与技术", 1, "经验丰富");
         ArrayList<TeacherInfo> data = new ArrayList<>();
         TeaInfoAdapter adapter = new TeaInfoAdapter(MainActivity.this, R.layout.teainfo, data);
         data.add(info1);
@@ -303,7 +303,9 @@ public class MainActivity extends Activity implements OnBannerListener, View.OnC
                     }
                 });
             case R.id.personal_info:
-                startActivity(new Intent(activity, PersonalInfoActivity.class));
+                Intent intent=new Intent(activity, PersonalInfoActivity.class);
+                intent.putExtra("info",InitApplication.getUserInfo());
+                startActivity(intent);
                 break;
             case R.id.head:
                 new RxDialogChooseImage(activity).show();

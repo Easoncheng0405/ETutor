@@ -1,131 +1,320 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:stv="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.example.etutor.activity.PersonalInfoActivity">
+    android:background="#F0F0F0"
+    tools:context=".activity.PersonalInfoActivity">
 
-    <android.support.v7.widget.Toolbar
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="@color/white"
-        android:paddingTop="20dp">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.vondear.rxtools.view.RxTitle
+            android:id="@+id/rx_title"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:background="@color/blue"
+            app:title="个人资料"
+            app:titleColor="@color/white"
+            app:titleSize="20sp" >
+
+        </com.vondear.rxtools.view.RxTitle>
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary">
 
             <TextView
-                android:id="@+id/finish"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="完成"
-                android:textColor="@color/black"
-                android:textSize="20sp" />
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:layout_alignBottom="@+id/ll_anchor_left"
+                android:background="@color/white" />
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/ll_anchor_left"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:gravity="center_vertical"
-                android:text="个人资料"
-                android:textColor="@color/black"
-                android:textSize="20sp" />
+                android:orientation="vertical"
+                android:paddingTop="10dp">
 
+                <ImageView
+                    android:id="@+id/header"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:background="@drawable/shape_circle_blue"
+                    android:padding="3dp"
+                    android:src="@mipmap/fluidicon" />
+            </LinearLayout>
 
         </RelativeLayout>
-    </android.support.v7.widget.Toolbar>
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="40dp"
+            android:background="@color/white"
+            android:gravity="center"
             android:orientation="vertical">
 
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/lace_blue"
+                    android:gravity="center"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="40dp"
+                    android:paddingRight="40dp"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="20dp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@color/white"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="10dp"
-                android:paddingTop="20dp"
-                android:text="基本资料"
-                android:textSize="16sp" />
+                android:layout_marginLeft="20dp"
+                android:layout_weight="1"
+                android:text="电话号码"
+                android:textColor="@color/brown1" />
 
-            <com.allen.library.SuperTextView
-                android:id="@+id/name"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                app:sLeftTextString="昵称" />
-
-            <com.allen.library.SuperTextView
+            <TextView
                 android:id="@+id/phone"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                app:sLeftTextString="手机号码" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="20dp"
+                android:textColor="@color/brown1" />
 
-            <com.allen.library.SuperTextView
-                android:id="@+id/type"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                app:sLeftTextString="用户类型" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@color/white"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="10dp"
-                android:paddingTop="20dp"
-                android:text="选填资料"
-                android:textSize="16sp" />
+                android:layout_marginLeft="20dp"
+                android:layout_weight="1"
+                android:text="用户类型"
+                android:textColor="@color/brown1" />
 
+            <TextView
+                android:id="@+id/type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="20dp"
+                android:textColor="@color/brown1" />
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/email"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@color/white"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="1"
+                android:text="邮箱"
+                android:textColor="@color/brown1" />
+
+            <TextView
+                android:id="@+id/tv_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="20dp"
+                android:text="someone@example.com"
+                android:textColor="@color/brown1" />
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/tag"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@color/white"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="1"
+                android:text="标签"
+                android:textColor="@color/brown1" />
+
+            <TextView
+                android:id="@+id/tv_lables"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="20dp"
+                android:text="暂无"
+                android:textColor="@color/brown1" />
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_marginTop="2dp"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:padding="5dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="个性签名"
+                android:textColor="@color/brown1" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="10dp"
+                android:ems="10"
+                android:paddingLeft="30dp"
+                android:text="这里什么也没有"
+                android:textColor="#939393" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/teaInfo"
+            android:visibility="invisible"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:text="教师资料"
+                android:textColor="#939393" />
+
+            <com.allen.library.SuperTextView
+                android:id="@+id/trueName"
+                android:layout_marginTop="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                app:sLeftTextString="真实姓名"/>
             <com.allen.library.SuperTextView
                 android:id="@+id/sex"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                app:sLeftTextString="性别"
-                stv:sRightIconRes="@drawable/arrow_right_red" />
-
+                app:sLeftTextString="性        别"/>
             <com.allen.library.SuperTextView
-                android:id="@+id/birthday"
+                android:id="@+id/college"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                app:sLeftTextString="生日"
-                stv:sRightIconRes="@drawable/arrow_right_red" />
-
+                app:sLeftTextString="就读学校" />
             <com.allen.library.SuperTextView
-                android:id="@+id/trueName"
+                android:id="@+id/major"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                app:sLeftTextString="真实姓名"
-                stv:sRightIconRes="@drawable/arrow_right_red" />
-
+                app:sLeftTextString="就读专业"/>
             <com.allen.library.SuperTextView
-                android:id="@+id/qq"
+                android:id="@+id/time"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                app:sLeftTextString="QQ"
-                stv:sRightIconRes="@drawable/arrow_right_red" />
-
+                app:sLeftTextString="入学时间"/>
             <com.allen.library.SuperTextView
-                android:id="@+id/email"
+                android:id="@+id/salary"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                app:sLeftTextString="邮箱地址"
-                stv:sRightIconRes="@drawable/arrow_right_red" />
-
-            <com.allen.library.SuperTextView
-
-                android:id="@+id/teacher"
+                app:sLeftTextString="预期薪水"/>
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                app:sLeftTextString="编辑教师资料"
-                stv:sRightIconRes="@drawable/arrow_right_red" />
+                android:layout_height="80dp"
+                android:layout_marginTop="2dp"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:padding="5dp">
+
+                <TextView
+                    android:id="@+id/introduction"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:text="自我介绍"
+                    android:textColor="@color/brown1" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="10dp"
+                    android:ems="10"
+                    android:paddingLeft="30dp"
+                    android:textColor="#939393" />
+            </LinearLayout>
+            <Button
+                android:id="@+id/button"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="21dp"
+                android:background="@drawable/bg_btn_login_selected"
+                android:text="联系他"
+                android:textColor="#FFFFFFFF"
+                android:textSize="18dp"/>
         </LinearLayout>
-    </ScrollView>
 
-</LinearLayout>
+    </LinearLayout>
+</ScrollView>

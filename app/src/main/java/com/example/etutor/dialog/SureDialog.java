@@ -53,10 +53,6 @@ public class SureDialog extends BaseDialog {
         setContentView(dialog_view);
     }
 
-
-
-
-
     public SureDialog(Activity context) {
         super(context);
         initView();

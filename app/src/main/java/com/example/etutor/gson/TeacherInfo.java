@@ -8,6 +8,21 @@ package com.example.etutor.gson;
 
 public class TeacherInfo {
     /**
+     * 男
+     */
+    public static final int MALE=1;
+
+    /**
+     * 女
+     */
+    public static final int FEMALE=0;
+
+    /**
+     * 电话号码
+     */
+    private String phone;
+
+    /**
      * 所在大学
      */
     private String college;
@@ -26,46 +41,136 @@ public class TeacherInfo {
      * 个人标签
      */
     private String tag;
+    /**
+     * 预期薪水
+     */
+    private int salary;
 
     /**
-     * 头像地址
+     * 真实姓名
      */
-    private String header;
-    /**
-     * 教师标识
-     */
-    private String id;
+    private String trueName;
 
-    public TeacherInfo(String college, String major, int score, String tag,String header,String id) {
-        this.college = college;
-        this.major = major;
-        this.score = score;
-        this.tag = tag;
-        this.header=header;
-        this.id=id;
+    /**
+     * 入学时间
+     */
+    private String time;
+
+    /**
+     * 性别
+     */
+    private int sex;
+
+    /**
+     * 个人简介
+     */
+    private String introduction;
+
+    /**
+     *  用于构造ListView
+     * @param phone
+     * @param college
+     * @param major
+     * @param score
+     * @param tag
+     */
+    public TeacherInfo(String phone,String college,String major,int score,String tag){
+        this.phone=phone;
+        this.college=college;
+        this.major=major;
+        this.score=score;
+        this.tag=tag;
+    }
+
+    public TeacherInfo(String phone,String trueName,int sex,String college,String major,String time,int salary,String introduction){
+        this.phone=phone;
+        this.trueName=trueName;
+        this.sex=sex;
+        this.college=college;
+        this.major=major;
+        this.time=time;
+        this.salary=salary;
+        this.introduction=introduction;
+    }
+
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public String getCollege() {
-        return this.college;
+        return college;
+    }
+
+    public void setCollege(String college) {
+        this.college = college;
     }
 
     public String getMajor() {
-        return this.major;
+        return major;
+    }
+
+    public void setMajor(String major) {
+        this.major = major;
     }
 
     public int getScore() {
-        return this.score;
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 
     public String getTag() {
-        return this.tag;
+        return tag;
     }
 
-    public String getHeader(){
-        return this.header;
+    public void setTag(String tag) {
+        this.tag = tag;
     }
 
-    public String getId(){
-        return this.id;
+    public int getSalary() {
+        return salary;
+    }
+
+    public void setSalary(int salary) {
+        this.salary = salary;
+    }
+
+    public String getTrueName() {
+        return trueName;
+    }
+
+    public void setTrueName(String trueName) {
+        this.trueName = trueName;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public int getSex() {
+        return sex;
+    }
+
+    public void setSex(int sex) {
+        this.sex = sex;
+    }
+
+    public String getIntroduction() {
+        return introduction;
+    }
+
+    public void setIntroduction(String introduction) {
+        this.introduction = introduction;
     }
 }

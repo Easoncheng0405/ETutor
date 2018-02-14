@@ -24,7 +24,6 @@ public class InputDialog extends BaseDialog {
     private EditText editText;
     private TextView mTvTitle;
     private TextView time;
-    private Activity activityContext;
 
     //常用set get方法
     public void setTitle(String title) {
@@ -71,65 +70,18 @@ public class InputDialog extends BaseDialog {
         mTvSure =  dialog_view.findViewById(R.id.tv_sure);
         mTvCancel =  dialog_view.findViewById(R.id.tv_cancel);
         editText =  dialog_view.findViewById(R.id.editText);
-        time =  dialog_view.findViewById(R.id.time);
-        time.setVisibility(TextView.INVISIBLE);
-        time.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                start();
-            }
-        });
+
         setContentView(dialog_view);
     }
 
-    public TextView getTileTextView() {
-        return this.mTvTitle;
-    }
 
 
     public InputDialog(Context context) {
         super(context);
         initView();
-        this.activityContext = (Activity) context;
     }
 
-    /**
-     * 验证码倒计时
-     */
-    private void start() {
-        mTvTitle.setText("输入验证码");
-        mTvTitle.setTextSize(18);
-        editText.setHint("");
-        editText.setInputType(InputType.TYPE_CLASS_NUMBER);
-        time.setVisibility(TextView.VISIBLE);
-        time.setEnabled(false);
-        time.setTextColor(Color.rgb(165, 165, 165));
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                for (int i = 60; i >= 0; i--) {
-                    try {
-                        Thread.sleep(1000);
-                        final int t = i;
-                        activityContext.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                String text=t+"s";
-                                time.setText(text);
-                                if (t == 0) {
-                                    time.setEnabled(true);
-                                    time.setText("重新发送 ");
-                                    time.setTextColor(Color.argb(255, 255, 105, 180));
-                                }
-                            }
-                        });
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }).start();
-    }
+
 
 }
 

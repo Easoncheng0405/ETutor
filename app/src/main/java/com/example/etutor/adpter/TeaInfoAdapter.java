@@ -58,7 +58,7 @@ public class TeaInfoAdapter extends ArrayAdapter {
         TextView major=view.findViewById(R.id.major);
         TextView tag=view.findViewById(R.id.tag);
         ImageView imageView=view.findViewById(R.id.header);
-        Glide.with(getContext()).load(Server.getURL()+"image/"+info.getHeader()).into(imageView);
+        Glide.with(getContext()).load(Server.getURL()+"image/"+info.getPhone()).into(imageView);
         college.setText(info.getCollege());
         major.setText(info.getMajor());
         tag.setText(info.getTag());
