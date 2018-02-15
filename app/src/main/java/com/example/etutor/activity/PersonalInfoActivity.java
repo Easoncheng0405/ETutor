@@ -63,12 +63,9 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
         dialog.setCancelable(false);
         info = (UserInfo) getIntent().getSerializableExtra("info");
         teacherInfo = (TeacherInfo) getIntent().getSerializableExtra("teaInfo");
-        if (info != null) {
-            initViews();
-            if (info.getType() == 0)
-                initTeaViews();
-        } else
-            finish();
+        initViews();
+        if (info.getType() == 0)
+            initTeaViews();
 
     }
 
@@ -139,6 +136,8 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
     public void onClick(View v) {
         flag = true;
         switch (v.getId()) {
+            case R.id.header:
+                break;
             case R.id.email:
                 temp = R.id.email;
                 dialog.setTitle("输入邮箱地址");
@@ -232,7 +231,8 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
             case R.id.tag:
                 if (message.length() <= 5) {
                     info.setTag(message);
-                    teacherInfo.setTag(message);
+                    if (info.getType() == 0)
+                        teacherInfo.setTag(message);
                     ((TextView) findViewById(R.id.tv_lables)).setText(message);
                     dialog.dismiss();
                     dialog.getEditText().setText("");
@@ -305,7 +305,8 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
                         @Override
                         public void run() {
                             Server.updateUserInfo(handler, info);
-                            Server.updateTeaInfo(handler, teacherInfo);
+                            if (info.getType() == 0)
+                                Server.updateTeaInfo(handler, teacherInfo);
                             handler.post(new UpdateUITools(dialogLoading));
                             reInitMessage();
                             finish();
@@ -360,17 +361,17 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
                 });
     }
 
-    private void reInitMessage(){
+    private void reInitMessage() {
         InitApplication.getUserInfo().setEmail(info.getEmail());
         InitApplication.getUserInfo().setTag(info.getTag());
-
-        InitApplication.getTeacherInfo().setTrueName(teacherInfo.getTrueName());
-        InitApplication.getTeacherInfo().setSex(teacherInfo.getSex());
-        InitApplication.getTeacherInfo().setCollege(teacherInfo.getCollege());
-        InitApplication.getTeacherInfo().setMajor(teacherInfo.getMajor());
-        InitApplication.getTeacherInfo().setTime(teacherInfo.getTime());
-        InitApplication.getTeacherInfo().setSalary(teacherInfo.getSalary());
-        InitApplication.getTeacherInfo().setIntroduction(teacherInfo.getIntroduction());
-
+        if (info.getType() == 0) {
+            InitApplication.getTeacherInfo().setTrueName(teacherInfo.getTrueName());
+            InitApplication.getTeacherInfo().setSex(teacherInfo.getSex());
+            InitApplication.getTeacherInfo().setCollege(teacherInfo.getCollege());
+            InitApplication.getTeacherInfo().setMajor(teacherInfo.getMajor());
+            InitApplication.getTeacherInfo().setTime(teacherInfo.getTime());
+            InitApplication.getTeacherInfo().setSalary(teacherInfo.getSalary());
+            InitApplication.getTeacherInfo().setIntroduction(teacherInfo.getIntroduction());
+        }
     }
 }
