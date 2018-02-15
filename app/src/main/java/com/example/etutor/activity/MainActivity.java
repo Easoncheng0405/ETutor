@@ -305,6 +305,7 @@ public class MainActivity extends Activity implements OnBannerListener, View.OnC
             case R.id.personal_info:
                 Intent intent=new Intent(activity, PersonalInfoActivity.class);
                 intent.putExtra("info",InitApplication.getUserInfo());
+                intent.putExtra("teaInfo",InitApplication.getTeacherInfo());
                 startActivity(intent);
                 break;
             case R.id.head:

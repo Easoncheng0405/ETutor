@@ -18,6 +18,8 @@ import com.example.etutor.R;
 import com.example.etutor.gson.UserInfo;
 import com.example.etutor.util.Server;
 import com.example.etutor.util.ToastUtil;
+import com.example.etutor.util.UpdateUITools;
+import com.vondear.rxtools.view.dialog.RxDialogLoading;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -100,7 +102,11 @@ public class RegistLastStepActivity extends AppCompatActivity implements View.On
                 stu.setImageResource(R.drawable.student_gray);
                 break;
             case R.id.finish:
-                if (checkInput())
+                if (checkInput()) {
+                    final RxDialogLoading dialogLoading = new RxDialogLoading(context);
+                    dialogLoading.setLoadingText("加载中，请稍后");
+                    dialogLoading.setCancelable(false);
+                    dialogLoading.show();
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
@@ -120,17 +126,19 @@ public class RegistLastStepActivity extends AppCompatActivity implements View.On
                                     editor.putInt("type", userInfo.getType());
                                     editor.putString("time", userInfo.getTime());
                                     editor.apply();
+                                    handler.post(new UpdateUITools(dialogLoading));
                                     startActivity(new Intent(context, MainActivity.class));
                                     finish();
                                 }
                             }
                         }
                     }).start();
+                }
         }
     }
 
     private boolean checkInput() {
-        if(!name.getText().toString().trim().matches("^[\\u4e00-\\u9fa5a-zA-Z][\\u4e00-\\u9fa5a-zA-Z]+$")){
+        if (!name.getText().toString().trim().matches("^[\\u4e00-\\u9fa5a-zA-Z][\\u4e00-\\u9fa5a-zA-Z]+$")) {
             ToastUtil.showMessage(context, "用户名由中英字符开头且只能包含中英字符与数字");
             return false;
         }

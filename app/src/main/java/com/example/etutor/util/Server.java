@@ -14,6 +14,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.etutor.InitApplication;
 import com.example.etutor.gson.BaseResult;
 import com.example.etutor.gson.LoginResult;
+import com.example.etutor.gson.TeacherInfo;
 import com.example.etutor.gson.UserInfo;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -76,6 +77,7 @@ public class Server {
             return null;
         }
         UserInfo userInfo = null;
+        TeacherInfo teacherInfo = null;
         OkHttpClient client = new OkHttpClient.Builder().connectTimeout(3, TimeUnit.SECONDS).build();
         RequestBody body = new FormBody.Builder().add("info", info).add("pwd", pwd).build();
         Request request = new Request.Builder().url(URL + "login").post(body).build();
@@ -85,6 +87,7 @@ public class Server {
             LoginResult result = new Gson().fromJson(response.body().string(), LoginResult.class);
             if (result.getCode() == 0) {
                 userInfo = result.getUserInfo();
+                teacherInfo = result.getTeaInfo();
                 EMClient.getInstance().login(userInfo.getPhone(), userInfo.getPwd(), new EMCallBack() {//回调
                     @Override
                     public void onSuccess() {
@@ -113,7 +116,10 @@ public class Server {
         } catch (JsonSyntaxException e) {
             handler.post(new UpdateUITools("服务器发生错误，请联系客服"));
         }
+        if (teacherInfo == null)
+            System.out.println("获取教师信息失败！");
         InitApplication.setUserInfo(userInfo);
+        InitApplication.setTeacherInfo(teacherInfo);
         return userInfo;
     }
 
@@ -257,6 +263,75 @@ public class Server {
 
 
     }
+
+    public static void updateUserInfo(final Handler handler, UserInfo info) {
+        if (!isNetworkAvailable()) {
+            handler.post(new UpdateUITools("网络无连接，检查您的网络设置！"));
+            return;
+        }
+        OkHttpClient client = new OkHttpClient.Builder().connectTimeout(3, TimeUnit.SECONDS).build();
+        RequestBody body = new FormBody.Builder()
+                .add("info.name", info.getName())
+                .add("info.phone", info.getPhone())
+                .add("info.type", "" + info.getType())
+                .add("info.pwd", info.getPwd())
+                .add("info.time", info.getTime())
+                .add("info.email", info.getEmail())
+                .add("info.tag", info.getTag()).build();
+        Request request = new Request.Builder().url(URL + "updateUserInfo").post(body).build();
+        try {
+            Response response = client.newCall(request).execute();
+            BaseResult baseResult = new Gson().fromJson(response.body().string(), BaseResult.class);
+            if (baseResult.getCode() != 0)
+                handler.post(new UpdateUITools("保存资料失败，请稍后再试"));
+
+        } catch (IOException e) {
+            if (e instanceof SocketTimeoutException)
+                handler.post(new UpdateUITools("连接服务器超时"));
+            else if (e instanceof ConnectException)
+                handler.post(new UpdateUITools("无法连接到服务器"));
+
+        } catch (JsonSyntaxException e) {
+            handler.post(new UpdateUITools("服务器发生错误，请联系客服"));
+        }
+    }
+
+    public static void updateTeaInfo(final Handler handler, TeacherInfo info) {
+        System.out.println(info.getTime());
+        if (!isNetworkAvailable()) {
+            handler.post(new UpdateUITools("网络无连接，检查您的网络设置！"));
+            return;
+        }
+        OkHttpClient client = new OkHttpClient.Builder().connectTimeout(3, TimeUnit.SECONDS).build();
+        RequestBody body = new FormBody.Builder()
+                .add("info.phone", info.getPhone())
+                .add("info.college", info.getCollege())
+                .add("info.major", info.getMajor())
+                .add("info.score", "" + info.getScore())
+                .add("info.tag", info.getTag())
+                .add("info.salary", info.getSalary())
+                .add("info.trueName", info.getTrueName())
+                .add("info.time", info.getTime())
+                .add("info.sex", "" + info.getSex())
+                .add("info.introduction", info.getIntroduction()).build();
+        Request request = new Request.Builder().url(URL + "updateTeaInfo").post(body).build();
+        try {
+            Response response = client.newCall(request).execute();
+            BaseResult baseResult = new Gson().fromJson(response.body().string(), BaseResult.class);
+            if (baseResult.getCode() != 0)
+                handler.post(new UpdateUITools("保存资料失败，请稍后再试"));
+
+        } catch (IOException e) {
+            if (e instanceof SocketTimeoutException)
+                handler.post(new UpdateUITools("连接服务器超时"));
+            else if (e instanceof ConnectException)
+                handler.post(new UpdateUITools("无法连接到服务器"));
+
+        } catch (JsonSyntaxException e) {
+            handler.post(new UpdateUITools("服务器发生错误，请联系客服"));
+        }
+    }
+
 
     private static boolean isNetworkAvailable() {
         ConnectivityManager cm = (ConnectivityManager) InitApplication.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);

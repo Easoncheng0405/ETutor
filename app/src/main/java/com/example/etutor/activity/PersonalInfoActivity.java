@@ -4,6 +4,7 @@ package com.example.etutor.activity;
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
@@ -15,7 +16,9 @@ import com.example.etutor.gson.TeacherInfo;
 import com.example.etutor.gson.UserInfo;
 import com.example.etutor.util.Server;
 import com.example.etutor.util.ToastUtil;
+import com.example.etutor.util.UpdateUITools;
 import com.vondear.rxtools.view.dialog.RxDialogEditSureCancel;
+import com.vondear.rxtools.view.dialog.RxDialogLoading;
 import com.vondear.rxtools.view.dialog.RxDialogSureCancel;
 import com.vondear.rxtools.view.dialog.RxDialogWheelYearMonthDay;
 
@@ -41,11 +44,15 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
     private SuperTextView time;
     private SuperTextView salary;
 
+    private Handler handler;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_personal_info);
+
+        handler = new Handler();
 
         flag = false;
 
@@ -55,7 +62,7 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
         dialog.getTitleView().setTextSize(18);
         dialog.setCancelable(false);
         info = (UserInfo) getIntent().getSerializableExtra("info");
-
+        teacherInfo = (TeacherInfo) getIntent().getSerializableExtra("teaInfo");
         if (info != null) {
             initViews();
             if (info.getType() == 0)
@@ -68,6 +75,8 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
     private void initViews() {
         ((TextView) findViewById(R.id.name)).setText(info.getName());
         ((TextView) findViewById(R.id.phone)).setText(info.getPhone());
+        ((TextView) findViewById(R.id.tv_address)).setText(info.getEmail());
+        ((TextView) findViewById(R.id.tv_lables)).setText(info.getTag());
         if (info.getType() == 0)
             ((TextView) findViewById(R.id.type)).setText("教师");
         else
@@ -90,7 +99,7 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
         major = findViewById(R.id.major);
         time = findViewById(R.id.time);
         salary = findViewById(R.id.salary);
-
+        ((TextView) findViewById(R.id.introduction)).setText(teacherInfo.getIntroduction());
         if (teacherInfo != null) {
             trueName.setRightString(teacherInfo.getTrueName());
             if (teacherInfo.getSex() == 1)
@@ -156,8 +165,7 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
                 rxDialogSureCancel.getSureView().setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (teacherInfo != null)
-                            teacherInfo.setSex(1);
+                        teacherInfo.setSex(1);
                         sex.setRightString("男");
                         rxDialogSureCancel.dismiss();
                     }
@@ -165,8 +173,7 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
                 rxDialogSureCancel.getCancelView().setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (teacherInfo != null)
-                            teacherInfo.setSex(-1);
+                        teacherInfo.setSex(-1);
                         sex.setRightString("女");
                         rxDialogSureCancel.dismiss();
                     }
@@ -211,16 +218,21 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
         switch (temp) {
             case R.id.email:
                 if (Server.isEmail(message)) {
-                    info.setEmail(message);
-                    ((TextView) findViewById(R.id.tv_address)).setText(message);
-                    dialog.dismiss();
-                    dialog.getEditText().setText("");
+                    if (message.length() <= 20) {
+                        info.setEmail(message);
+                        ((TextView) findViewById(R.id.tv_address)).setText(message);
+                        dialog.dismiss();
+                        dialog.getEditText().setText("");
+                    } else
+                        ToastUtil.showMessage(this, "最多输入20个字符！");
+
                 } else
                     ToastUtil.showMessage(this, "您输入了错误的邮箱地址！");
                 break;
             case R.id.tag:
                 if (message.length() <= 5) {
                     info.setTag(message);
+                    teacherInfo.setTag(message);
                     ((TextView) findViewById(R.id.tv_lables)).setText(message);
                     dialog.dismiss();
                     dialog.getEditText().setText("");
@@ -275,7 +287,9 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
     @Override
     public void onBackPressed() {
         if (flag) {
-            ToastUtil.showMessage(this, "调用了");
+            final RxDialogLoading dialogLoading = new RxDialogLoading(this);
+            dialogLoading.setLoadingText("上传资料中...");
+            dialogLoading.setCancelable(false);
             final RxDialogSureCancel confirmDialog = new RxDialogSureCancel(this);
             confirmDialog.setCancelable(false);
             confirmDialog.setTitle("提示");
@@ -285,8 +299,19 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
             confirmDialog.getSureView().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    dialogLoading.show();
                     confirmDialog.dismiss();
-                    finish();
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Server.updateUserInfo(handler, info);
+                            Server.updateTeaInfo(handler, teacherInfo);
+                            handler.post(new UpdateUITools(dialogLoading));
+                            reInitMessage();
+                            finish();
+                        }
+                    }).start();
+
                 }
             });
             confirmDialog.getCancelView().setOnClickListener(new View.OnClickListener() {
@@ -297,7 +322,8 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
                 }
             });
             confirmDialog.show();
-        }
+        } else
+            finish();
 
     }
 
@@ -332,5 +358,19 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
                         mRxDialogWheelYearMonthDay.cancel();
                     }
                 });
+    }
+
+    private void reInitMessage(){
+        InitApplication.getUserInfo().setEmail(info.getEmail());
+        InitApplication.getUserInfo().setTag(info.getTag());
+
+        InitApplication.getTeacherInfo().setTrueName(teacherInfo.getTrueName());
+        InitApplication.getTeacherInfo().setSex(teacherInfo.getSex());
+        InitApplication.getTeacherInfo().setCollege(teacherInfo.getCollege());
+        InitApplication.getTeacherInfo().setMajor(teacherInfo.getMajor());
+        InitApplication.getTeacherInfo().setTime(teacherInfo.getTime());
+        InitApplication.getTeacherInfo().setSalary(teacherInfo.getSalary());
+        InitApplication.getTeacherInfo().setIntroduction(teacherInfo.getIntroduction());
+
     }
 }

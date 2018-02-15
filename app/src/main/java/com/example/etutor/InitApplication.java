@@ -5,6 +5,7 @@ import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
 
+import com.example.etutor.gson.TeacherInfo;
 import com.example.etutor.gson.UserInfo;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMOptions;
@@ -27,6 +28,8 @@ public class InitApplication extends Application {
     private static Context context;
 
     private static UserInfo userInfo;
+
+    private static TeacherInfo teacherInfo;
 
     @Override
     public void onCreate() {
@@ -82,6 +85,14 @@ public class InitApplication extends Application {
 
     public static void setUserInfo(UserInfo userInfo) {
         InitApplication.userInfo = userInfo;
+    }
+
+    public static TeacherInfo getTeacherInfo() {
+        return teacherInfo;
+    }
+
+    public static void setTeacherInfo(TeacherInfo teacherInfo) {
+        InitApplication.teacherInfo = teacherInfo;
     }
 
     public static Context getContext() {

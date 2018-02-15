@@ -1,6 +1,7 @@
 package com.example.etutor.activity;
 
 import android.animation.ObjectAnimator;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +17,7 @@ import android.widget.ScrollView;
 import com.example.etutor.R;
 import com.example.etutor.util.Server;
 import com.example.etutor.util.UpdateUITools;
+import com.vondear.rxtools.view.dialog.RxDialogLoading;
 
 public class RegistFirstStepActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -26,11 +28,12 @@ public class RegistFirstStepActivity extends AppCompatActivity implements View.O
     private RelativeLayout service;
     private EditText phone;
 
+    private Activity activity;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_regist_first_step);
-
+        activity=this;
         ScrollView scrollView = findViewById(R.id.scrollView);
         service = findViewById(R.id.service);
         phone = findViewById(R.id.phone);
@@ -78,12 +81,18 @@ public class RegistFirstStepActivity extends AppCompatActivity implements View.O
                 finish();
                 break;
             case R.id.registButton:
+                final RxDialogLoading dialogLoading=new RxDialogLoading(activity);
+                dialogLoading.setLoadingText("加载中，请稍后");
+                dialogLoading.setCancelable(false);
+                dialogLoading.show();
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
+
                         if(Server.checkInfoExist(handler,phone.getText().toString().trim())) {
                             Intent intent=new Intent(RegistFirstStepActivity.this, RegistLastStepActivity.class);
                             intent.putExtra("phone",phone.getText().toString().trim());
+                            handler.post(new UpdateUITools(dialogLoading));
                             startActivity(intent);
                         }
                     }

@@ -1,12 +1,14 @@
 package com.example.etutor.gson;
 
+import java.io.Serializable;
+
 /**
  * Created by 程杰 on 2018/2/8.
  * Email  597021782@qq.com
  * Github https://github.com/Easoncheng0405
  */
 
-public class TeacherInfo {
+public class TeacherInfo implements Serializable{
     /**
      * 男
      */
@@ -66,6 +68,10 @@ public class TeacherInfo {
      */
     private String introduction;
 
+    public TeacherInfo(){
+
+    }
+
     /**
      *  用于构造ListView
      * @param phone
@@ -74,6 +80,7 @@ public class TeacherInfo {
      * @param score
      * @param tag
      */
+
     public TeacherInfo(String phone,String college,String major,int score,String tag){
         this.phone=phone;
         this.college=college;

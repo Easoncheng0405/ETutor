@@ -285,7 +285,6 @@
                 android:padding="5dp">
 
                 <TextView
-                    android:id="@+id/introduction"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
@@ -293,6 +292,7 @@
                     android:textColor="@color/brown1" />
 
                 <TextView
+                    android:id="@+id/introduction"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"

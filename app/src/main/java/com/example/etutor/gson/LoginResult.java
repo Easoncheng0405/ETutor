@@ -12,6 +12,8 @@ public class LoginResult extends BaseResult{
      */
     private UserInfo userInfo;
 
+    private TeacherInfo teaInfo;
+
     public UserInfo getUserInfo() {
         return userInfo;
     }
@@ -20,4 +22,11 @@ public class LoginResult extends BaseResult{
         this.userInfo = userInfo;
     }
 
+    public TeacherInfo getTeaInfo() {
+        return teaInfo;
+    }
+
+    public void setTeaInfo(TeacherInfo teaInfo) {
+        this.teaInfo = teaInfo;
+    }
 }
