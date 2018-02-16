@@ -2,14 +2,21 @@ package com.example.etutor.activity;
 
 
 import android.app.Activity;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.ActivityCompat;
 import android.view.View;
 import android.view.Window;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.allen.library.SuperTextView;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.etutor.InitApplication;
 import com.example.etutor.R;
 import com.example.etutor.gson.TeacherInfo;
@@ -17,10 +24,16 @@ import com.example.etutor.gson.UserInfo;
 import com.example.etutor.util.Server;
 import com.example.etutor.util.ToastUtil;
 import com.example.etutor.util.UpdateUITools;
+import com.vondear.rxtools.RxPhotoTool;
+import com.vondear.rxtools.view.dialog.RxDialogChooseImage;
 import com.vondear.rxtools.view.dialog.RxDialogEditSureCancel;
 import com.vondear.rxtools.view.dialog.RxDialogLoading;
 import com.vondear.rxtools.view.dialog.RxDialogSureCancel;
 import com.vondear.rxtools.view.dialog.RxDialogWheelYearMonthDay;
+import com.yalantis.ucrop.UCrop;
+import com.yalantis.ucrop.UCropActivity;
+
+import java.io.File;
 
 
 public class PersonalInfoActivity extends Activity implements View.OnClickListener {
@@ -43,6 +56,8 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
     private SuperTextView major;
     private SuperTextView time;
     private SuperTextView salary;
+
+    private ImageView imageView;
 
     private Handler handler;
 
@@ -74,6 +89,12 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
         ((TextView) findViewById(R.id.phone)).setText(info.getPhone());
         ((TextView) findViewById(R.id.tv_address)).setText(info.getEmail());
         ((TextView) findViewById(R.id.tv_lables)).setText(info.getTag());
+
+        imageView=findViewById(R.id.header);
+
+        Glide.with(this).load(Server.getURL()+"image/"+info.getPhone())
+                .skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.NONE).into(imageView);
+
         if (info.getType() == 0)
             ((TextView) findViewById(R.id.type)).setText("教师");
         else
@@ -84,6 +105,8 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
         findViewById(R.id.email).setOnClickListener(this);
 
         findViewById(R.id.tag).setOnClickListener(this);
+
+
 
     }
 
@@ -137,6 +160,7 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
         flag = true;
         switch (v.getId()) {
             case R.id.header:
+                new RxDialogChooseImage(this).show();
                 break;
             case R.id.email:
                 temp = R.id.email;
@@ -373,5 +397,81 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
             InitApplication.getTeacherInfo().setSalary(teacherInfo.getSalary());
             InitApplication.getTeacherInfo().setIntroduction(teacherInfo.getIntroduction());
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case RxPhotoTool.GET_IMAGE_FROM_PHONE://选择相册之后的处理
+                if (resultCode == RESULT_OK) {
+                    initUCrop(data.getData());
+                }
+
+                break;
+            case RxPhotoTool.GET_IMAGE_BY_CAMERA://选择照相机之后的处理
+                if (resultCode == RESULT_OK) {
+                    initUCrop(RxPhotoTool.imageUriFromCamera);
+                }
+
+                break;
+            case UCrop.REQUEST_CROP:
+                if (resultCode == RESULT_OK) {
+                    Uri resultUri = UCrop.getOutput(data);
+                    if (resultUri != null) {
+                        Server.uploadFile(handler, RxPhotoTool.getImageAbsolutePath(this, resultUri), this, imageView);
+                        SharedPreferences preferences = getSharedPreferences("UserInfo", MODE_PRIVATE);
+                        SharedPreferences.Editor editor = preferences.edit();
+                        editor.putString("path",RxPhotoTool.getImageAbsolutePath(this, resultUri));
+                        editor.apply();
+                    }
+                    else
+                        ToastUtil.showMessage(this, "裁剪失败了！要不再试一次？");
+
+                }
+                break;
+            case UCrop.RESULT_ERROR:
+                ToastUtil.showMessage(this, "裁剪失败了！要不再试一次？");
+            default:
+                break;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void initUCrop(Uri uri) {
+        Uri destinationUri = Uri.fromFile(new File(getCacheDir(), InitApplication.getUserInfo().getPhone()));
+
+        UCrop.Options options = new UCrop.Options();
+        //设置裁剪图片可操作的手势
+        options.setAllowedGestures(UCropActivity.SCALE, UCropActivity.ROTATE, UCropActivity.ALL);
+        //设置隐藏底部容器，默认显示
+        //options.setHideBottomControls(true);
+        //设置toolbar颜色
+        options.setToolbarColor(ActivityCompat.getColor(this, R.color.colorPrimary));
+        //设置状态栏颜色
+        options.setStatusBarColor(ActivityCompat.getColor(this, R.color.colorPrimaryDark));
+
+        //开始设置
+        //设置最大缩放比例
+        options.setMaxScaleMultiplier(5);
+        //设置图片在切换比例时的动画
+        options.setImageToCropBoundsAnimDuration(666);
+        //设置裁剪窗口是否为椭圆
+        //options.setOvalDimmedLayer(true);
+        //设置是否展示矩形裁剪框
+        // options.setShowCropFrame(false);
+        //设置裁剪框横竖线的宽度
+        //options.setCropGridStrokeWidth(20);
+        //设置裁剪框横竖线的颜色
+        //options.setCropGridColor(Color.GREEN);
+        //设置竖线的数量
+        //options.setCropGridColumnCount(2);
+        //设置横线的数量
+        //options.setCropGridRowCount(1);
+
+        UCrop.of(uri, destinationUri)
+                .withAspectRatio(1, 1)
+                .withMaxResultSize(1000, 1000)
+                .withOptions(options)
+                .start(this);
     }
 }

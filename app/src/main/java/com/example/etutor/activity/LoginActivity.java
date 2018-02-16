@@ -69,9 +69,6 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         preferences = getSharedPreferences("UserInfo", MODE_PRIVATE);
         init();
         activity = this;
-        if (InitApplication.getUserInfo() != null)
-            Glide.with(activity).load(Server.getURL() + "image/" + InitApplication.getUserInfo()
-                    .getPhone()).into((ImageView) findViewById(R.id.logo));
         context = this;
         handler = new Handler();
         requestPermissions();
