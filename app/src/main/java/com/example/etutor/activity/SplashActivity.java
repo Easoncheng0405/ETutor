@@ -9,11 +9,15 @@ import android.support.annotation.Nullable;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.example.etutor.InitApplication;
 import com.example.etutor.R;
+import com.example.etutor.gson.TeacherInfo;
 import com.example.etutor.gson.UserInfo;
 import com.example.etutor.util.Server;
 import com.example.etutor.util.UpdateUITools;
 import com.vondear.rxtools.view.dialog.RxDialogLoading;
+
+import java.util.ArrayList;
 
 
 /**
@@ -25,7 +29,7 @@ import com.vondear.rxtools.view.dialog.RxDialogLoading;
 
 public class SplashActivity extends Activity {
 
-    private  Handler handler;
+    private Handler handler;
 
     private Activity activity;
 
@@ -41,7 +45,7 @@ public class SplashActivity extends Activity {
         final String phone = preferences.getString("phone", "");
         final String pwd = preferences.getString("pwd", "");
         if (phone.equals("") || pwd.equals("")) {
-            startActivity(new Intent(activity,LoginActivity.class));
+            startActivity(new Intent(activity, LoginActivity.class));
             finish();
         } else {
             final RxDialogLoading rxDialogLoading = new RxDialogLoading(activity);
@@ -52,11 +56,13 @@ public class SplashActivity extends Activity {
                 @Override
                 public void run() {
                     UserInfo userInfo = Server.login(handler, phone, pwd);
+                    ArrayList<TeacherInfo> list = Server.getTeaInfoList(handler);
                     handler.post(new UpdateUITools(rxDialogLoading));
-                    if (userInfo != null)
+                    if (userInfo != null && list != null)
                         startActivity(new Intent(activity, MainActivity.class));
                     else
                         startActivity(new Intent(activity, LoginActivity.class));
+                    InitApplication.setTeaInfoList(list);
                     finish();
                 }
             }).start();

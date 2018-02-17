@@ -11,6 +11,7 @@ import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMOptions;
 import com.vondear.rxtools.RxTool;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -30,6 +31,8 @@ public class InitApplication extends Application {
     private static UserInfo userInfo;
 
     private static TeacherInfo teacherInfo;
+
+    private static ArrayList<TeacherInfo> teaInfoList;
 
     @Override
     public void onCreate() {
@@ -93,6 +96,14 @@ public class InitApplication extends Application {
 
     public static void setTeacherInfo(TeacherInfo teacherInfo) {
         InitApplication.teacherInfo = teacherInfo;
+    }
+
+    public static ArrayList<TeacherInfo> getTeaInfoList() {
+        return teaInfoList;
+    }
+
+    public static void setTeaInfoList(ArrayList<TeacherInfo> teaInfoList) {
+        InitApplication.teaInfoList = teaInfoList;
     }
 
     public static Context getContext() {

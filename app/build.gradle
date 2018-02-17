@@ -37,6 +37,7 @@ dependencies {
     compile 'com.github.vondear:RxTools:v1.7.6.4'
     compile 'com.github.yalantis:ucrop:2.2.1-native'
     compile 'de.hdodenhof:circleimageview:2.2.0'
+    compile 'com.zt.maven.widget:refreshview:1.0.2'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'

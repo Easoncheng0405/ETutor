@@ -113,15 +113,9 @@ public class MainActivity extends Activity implements OnBannerListener, View.OnC
         listView.setOnItemClickListener(this);
         if (listView.getHeaderViewsCount() < 1)
             listView.addHeaderView(headerView);
-        TeacherInfo info1 = new TeacherInfo("15754310557", "吉林大学珠海学院", "计算机科学与技术", 5, "经验丰富");
-        TeacherInfo info2 = new TeacherInfo("15754310557", "吉林大学珠海学院", "计算机科学与技术", 3, "经验丰富");
-        TeacherInfo info3 = new TeacherInfo("15754310557", "吉林大学珠海学院", "计算机科学与技术", 1, "经验丰富");
-        ArrayList<TeacherInfo> data = new ArrayList<>();
+        ArrayList<TeacherInfo> data = InitApplication.getTeaInfoList();
         TeaInfoAdapter adapter = new TeaInfoAdapter(MainActivity.this, R.layout.teainfo, data);
-        data.add(info1);
-        data.add(info2);
         listView.setAdapter(adapter);
-        data.add(info3);
         List<Integer> list = new ArrayList<>();
         list.add(R.mipmap.b1);
         list.add(R.mipmap.b2);

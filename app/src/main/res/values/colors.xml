@@ -6,5 +6,5 @@
     <color name="black">#000000</color>
     <color name="white">#FFF</color>
     <color name="toolbar">#23b8cf</color>
-
+    <color name="gray">#c2b8b8</color>
 </resources>

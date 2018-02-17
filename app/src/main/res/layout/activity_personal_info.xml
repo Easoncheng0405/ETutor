@@ -25,21 +25,16 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorPrimary">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="25dp"
-                android:layout_alignBottom="@+id/ll_anchor_left"
-                android:background="@color/white" />
+            android:layout_height="140dp"
+            android:background="@mipmap/wall">
 
             <LinearLayout
+
                 android:id="@+id/ll_anchor_left"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingTop="10dp">
+                android:paddingTop="20dp">
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/header"
@@ -154,12 +149,13 @@
 
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_weight="1"
                 android:text="邮箱"
-                android:textColor="@color/brown1" />
+                android:textColor="@color/brown1"
+                android:layout_marginStart="20dp" />
 
             <TextView
                 android:id="@+id/tv_address"

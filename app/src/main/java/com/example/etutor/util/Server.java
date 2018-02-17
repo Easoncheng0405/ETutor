@@ -14,6 +14,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.etutor.InitApplication;
 import com.example.etutor.gson.BaseResult;
 import com.example.etutor.gson.LoginResult;
+import com.example.etutor.gson.TeaInfoListResult;
 import com.example.etutor.gson.TeacherInfo;
 import com.example.etutor.gson.UserInfo;
 import com.google.gson.Gson;
@@ -28,6 +29,7 @@ import java.io.IOException;
 import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.SocketTimeoutException;
+import java.util.ArrayList;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
@@ -297,7 +299,6 @@ public class Server {
     }
 
     public static void updateTeaInfo(final Handler handler, TeacherInfo info) {
-        System.out.println(info.getTime());
         if (!isNetworkAvailable()) {
             handler.post(new UpdateUITools("网络无连接，检查您的网络设置！"));
             return;
@@ -332,6 +333,32 @@ public class Server {
         }
     }
 
+
+    public static ArrayList<TeacherInfo> getTeaInfoList(Handler handler) {
+        if (!isNetworkAvailable()) {
+            handler.post(new UpdateUITools("网络无连接，检查您的网络设置！"));
+            return null;
+        }
+        OkHttpClient client = new OkHttpClient.Builder().connectTimeout(3, TimeUnit.SECONDS).build();
+        RequestBody body = new FormBody.Builder().build();
+        Request request = new Request.Builder().url(URL + "getTeaInfoList").post(body).build();
+        try {
+            Response response = client.newCall(request).execute();
+            String html=response.body().string();
+            TeaInfoListResult result = new Gson().fromJson(html, TeaInfoListResult.class);
+            System.out.println(html);
+            return result.getResult();
+
+        } catch (IOException e) {
+            if (e instanceof SocketTimeoutException)
+                handler.post(new UpdateUITools("连接服务器超时"));
+            else if (e instanceof ConnectException)
+                handler.post(new UpdateUITools("无法连接到服务器"));
+        } catch (JsonSyntaxException e) {
+            handler.post(new UpdateUITools("服务器发生错误，请联系客服"));
+        }
+        return null;
+    }
 
     private static boolean isNetworkAvailable() {
         ConnectivityManager cm = (ConnectivityManager) InitApplication.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
