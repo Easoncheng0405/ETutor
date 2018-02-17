@@ -62,7 +62,6 @@ public class SplashActivity extends Activity {
                         startActivity(new Intent(activity, MainActivity.class));
                     else
                         startActivity(new Intent(activity, LoginActivity.class));
-                    InitApplication.setTeaInfoList(list);
                     finish();
                 }
             }).start();

@@ -40,6 +40,7 @@ public class InitApplication extends Application {
         RxTool.init(this);
         context = this;
         userInfo=null;
+        teaInfoList=new ArrayList<>();
         InitEMChat();
     }
 
@@ -59,7 +60,7 @@ public class InitApplication extends Application {
         EMOptions options = new EMOptions();
         options.setAcceptInvitationAlways(false);
         options.setAutoLogin(false);
-        EMClient.getInstance().init(this, options);
+        EMClient.getInstance().init(InitApplication.this, options);
         //在做打包混淆时，关闭debug模式，避免消耗不必要的资源
         EMClient.getInstance().setDebugMode(false);
     }
@@ -102,8 +103,9 @@ public class InitApplication extends Application {
         return teaInfoList;
     }
 
-    public static void setTeaInfoList(ArrayList<TeacherInfo> teaInfoList) {
-        InitApplication.teaInfoList = teaInfoList;
+    public static void setTeaInfoList(ArrayList<TeacherInfo> list) {
+        teaInfoList.clear();
+        teaInfoList.addAll(list);
     }
 
     public static Context getContext() {

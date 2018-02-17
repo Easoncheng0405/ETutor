@@ -18,7 +18,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.signature.StringSignature;
 import com.example.etutor.InitApplication;
 import com.example.etutor.R;
 import com.example.etutor.adpter.GridViewAdapter;
@@ -37,7 +37,10 @@ import com.hyphenate.EMCallBack;
 import com.hyphenate.EMConnectionListener;
 import com.hyphenate.EMError;
 import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMMessage;
+import com.hyphenate.easeui.EaseConstant;
 import com.hyphenate.util.NetUtils;
+import com.yalantis.phoenix.PullToRefreshView;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.listener.OnBannerListener;
@@ -58,8 +61,7 @@ public class MainActivity extends Activity implements OnBannerListener, View.OnC
     private HomeFragment homeFragment;
     private PersonalFragment personalFragment;
     private ImageView imageViewHome, imageViewCommunity, imageViewPersonal;
-
-    private ImageView header;
+    private ArrayList<TeacherInfo> data;
     ViewPager mPager;
     private String[] titles = {"语文", "数学", "英语", "物理", "化学", "生物",
             "政治", "历史", "地理", "其他"};
@@ -113,9 +115,11 @@ public class MainActivity extends Activity implements OnBannerListener, View.OnC
         listView.setOnItemClickListener(this);
         if (listView.getHeaderViewsCount() < 1)
             listView.addHeaderView(headerView);
-        ArrayList<TeacherInfo> data = InitApplication.getTeaInfoList();
+        data =new ArrayList<>();
+        data.addAll(InitApplication.getTeaInfoList());
         TeaInfoAdapter adapter = new TeaInfoAdapter(MainActivity.this, R.layout.teainfo, data);
         listView.setAdapter(adapter);
+        listView.setOnItemClickListener(this);
         List<Integer> list = new ArrayList<>();
         list.add(R.mipmap.b1);
         list.add(R.mipmap.b2);
@@ -157,8 +161,30 @@ public class MainActivity extends Activity implements OnBannerListener, View.OnC
         mPager.setAdapter(new ViewPagerAdapter(mPagerList));
         CircleIndicator indicator = homeFragment.getView().findViewById(R.id.indicator);
         indicator.setViewPager(mPager);
+
+        final PullToRefreshView pullToRefreshView = findViewById(R.id.refresh);
+        pullToRefreshView.setOnRefreshListener(new PullToRefreshView.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshTeaInfo(pullToRefreshView);
+            }
+        });
     }
 
+    private void refreshTeaInfo(final PullToRefreshView pullToRefreshView){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                ArrayList<TeacherInfo> res = Server.getTeaInfoList(handler);
+                if (res != null) {
+                    data.clear();
+                    data.addAll(res);
+                }else
+                    handler.post(new UpdateUITools(" 加载失败，要不再试一次？"));
+                handler.post(new UpdateUITools(pullToRefreshView));
+            }
+        }).start();
+    }
 
     private void initCommunity() {
 
@@ -171,10 +197,10 @@ public class MainActivity extends Activity implements OnBannerListener, View.OnC
         view.findViewById(R.id.personal_info).setOnClickListener(this);
         view.findViewById(R.id.head).setOnClickListener(this);
 
-        header = view.findViewById(R.id.head);
+        ImageView header = view.findViewById(R.id.head);
 
-        Glide.with(activity).load(Server.getURL()+"image/"+InitApplication.getUserInfo().getPhone())
-                .skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.NONE).into(header);
+        Glide.with(activity).load(Server.getURL() + "image/" + InitApplication.getUserInfo().getPhone())
+                .signature(new StringSignature(String.valueOf(System.currentTimeMillis()))) .into(header);
         ((TextView) view.findViewById(R.id.userName)).setText(InitApplication.getUserInfo().getName());
         ((TextView) view.findViewById(R.id.userPhone)).setText(InitApplication.getUserInfo().getPhone());
 
@@ -289,15 +315,15 @@ public class MainActivity extends Activity implements OnBannerListener, View.OnC
                     }
                 });
             case R.id.personal_info:
-                Intent intent=new Intent(activity, PersonalInfoActivity.class);
-                intent.putExtra("info",InitApplication.getUserInfo());
-                intent.putExtra("teaInfo",InitApplication.getTeacherInfo());
+                Intent intent = new Intent(activity, PersonalInfoActivity.class);
+                intent.putExtra("info", InitApplication.getUserInfo());
+                intent.putExtra("teaInfo", InitApplication.getTeacherInfo());
                 startActivity(intent);
                 break;
             case R.id.head:
-                Intent intent2=new Intent(activity, PersonalInfoActivity.class);
-                intent2.putExtra("info",InitApplication.getUserInfo());
-                intent2.putExtra("teaInfo",InitApplication.getTeacherInfo());
+                Intent intent2 = new Intent(activity, PersonalInfoActivity.class);
+                intent2.putExtra("info", InitApplication.getUserInfo());
+                intent2.putExtra("teaInfo", InitApplication.getTeacherInfo());
                 startActivity(intent2);
                 break;
             default:
@@ -307,7 +333,15 @@ public class MainActivity extends Activity implements OnBannerListener, View.OnC
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+        TeacherInfo info=(TeacherInfo)parent.getAdapter().getItem(position);
+        if(info.getPhone().equals(InitApplication.getUserInfo().getPhone())){
+            ToastUtil.showMessage(activity,"不能和自己聊天哦...");
+            return;
+        }
+        Intent intent=new Intent(activity,ChatActivity.class);
+        intent.putExtra(EaseConstant.EXTRA_USER_ID,info.getPhone());
+        intent.putExtra(EaseConstant.EXTRA_CHAT_TYPE, EMMessage.ChatType.Chat);
+        startActivity(intent);
     }
 
     @Override

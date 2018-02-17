@@ -25,6 +25,7 @@ import com.example.etutor.util.Server;
 import com.example.etutor.util.ToastUtil;
 import com.example.etutor.util.UpdateUITools;
 import com.vondear.rxtools.RxPhotoTool;
+import com.vondear.rxtools.view.RxTitle;
 import com.vondear.rxtools.view.dialog.RxDialogChooseImage;
 import com.vondear.rxtools.view.dialog.RxDialogEditSureCancel;
 import com.vondear.rxtools.view.dialog.RxDialogLoading;
@@ -70,7 +71,8 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
         handler = new Handler();
 
         flag = false;
-
+        RxTitle title = findViewById(R.id.rx_title);
+        title.getIvLeft().setOnClickListener(this);
         dialog = new RxDialogEditSureCancel(this);
         dialog.getSureView().setOnClickListener(this);
         dialog.getCancelView().setOnClickListener(this);
@@ -90,9 +92,9 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
         ((TextView) findViewById(R.id.tv_address)).setText(info.getEmail());
         ((TextView) findViewById(R.id.tv_lables)).setText(info.getTag());
 
-        imageView=findViewById(R.id.header);
+        imageView = findViewById(R.id.header);
 
-        Glide.with(this).load(Server.getURL()+"image/"+info.getPhone())
+        Glide.with(this).load(Server.getURL() + "image/" + info.getPhone())
                 .skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.NONE).into(imageView);
 
         if (info.getType() == 0)
@@ -105,7 +107,6 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
         findViewById(R.id.email).setOnClickListener(this);
 
         findViewById(R.id.tag).setOnClickListener(this);
-
 
 
     }
@@ -157,7 +158,8 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
-        flag = true;
+        if (v.getId() != R.id.header && v.getId() != R.id.iv_left)
+            flag = true;
         switch (v.getId()) {
             case R.id.header:
                 new RxDialogChooseImage(this).show();
@@ -231,6 +233,9 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
             case 0x7f0f014f:   //输入对话框的取消按钮ID
                 dialog.getEditText().setText("");
                 dialog.dismiss();
+            case R.id.iv_left:
+                onBackPressed();
+                break;
             default:
                 break;
         }
@@ -421,10 +426,9 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
                         Server.uploadFile(handler, RxPhotoTool.getImageAbsolutePath(this, resultUri), this, imageView);
                         SharedPreferences preferences = getSharedPreferences("UserInfo", MODE_PRIVATE);
                         SharedPreferences.Editor editor = preferences.edit();
-                        editor.putString("path",RxPhotoTool.getImageAbsolutePath(this, resultUri));
+                        editor.putString("path", RxPhotoTool.getImageAbsolutePath(this, resultUri));
                         editor.apply();
-                    }
-                    else
+                    } else
                         ToastUtil.showMessage(this, "裁剪失败了！要不再试一次？");
 
                 }

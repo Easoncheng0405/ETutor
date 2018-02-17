@@ -7,6 +7,7 @@ import android.view.View;
 import com.example.etutor.InitApplication;
 import com.vondear.rxtools.view.dialog.RxDialogLoading;
 import com.vondear.rxtools.view.dialog.RxDialogSure;
+import com.yalantis.phoenix.PullToRefreshView;
 
 
 /**
@@ -24,6 +25,8 @@ public class UpdateUITools implements Runnable {
 
     private static final int LoadingMessage = 2;
 
+    private static final int PullToRefresh=3;
+
     public static final int ForceClose = 0;
 
     public static final int DoNothing = 1;
@@ -36,7 +39,7 @@ public class UpdateUITools implements Runnable {
     private Activity activity;
     private int action;
     private RxDialogLoading rxDialogLoading;
-
+    private PullToRefreshView pullToRefreshView;
     public UpdateUITools(Activity activity, String title, String message, int action) {
         this.activity = activity;
         this.title = title;
@@ -55,6 +58,11 @@ public class UpdateUITools implements Runnable {
         this.option = ToastMessage;
     }
 
+    public UpdateUITools(PullToRefreshView pullToRefreshView){
+        this.pullToRefreshView=pullToRefreshView;
+        this.option=PullToRefresh;
+    }
+
     @Override
     public void run() {
         switch (option) {
@@ -66,6 +74,9 @@ public class UpdateUITools implements Runnable {
                 break;
             case LoadingMessage:
                 rxDialogLoading.dismiss();
+                break;
+            case PullToRefresh:
+                pullToRefreshView.setRefreshing(false);
                 break;
             default:
                 break;

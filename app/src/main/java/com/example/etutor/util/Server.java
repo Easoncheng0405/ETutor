@@ -85,11 +85,11 @@ public class Server {
         Request request = new Request.Builder().url(URL + "login").post(body).build();
         try {
             Response response = client.newCall(request).execute();
-            //response.body().string()只能调用一次，二次调用会产生异常
             LoginResult result = new Gson().fromJson(response.body().string(), LoginResult.class);
             if (result.getCode() == 0) {
                 userInfo = result.getUserInfo();
                 teacherInfo = result.getTeaInfo();
+                InitApplication.setTeaInfoList(getTeaInfoList(handler));
                 EMClient.getInstance().login(userInfo.getPhone(), userInfo.getPwd(), new EMCallBack() {//回调
                     @Override
                     public void onSuccess() {
@@ -103,7 +103,7 @@ public class Server {
 
                     @Override
                     public void onError(int code, String message) {
-                        handler.post(new UpdateUITools("登陆环信聊天服务器失败，将会尝试重新连接"));
+                        handler.post(new UpdateUITools("登陆环信聊天服务器失败，稍后将会尝试重新连接"));
                     }
                 });
             } else {
@@ -344,9 +344,7 @@ public class Server {
         Request request = new Request.Builder().url(URL + "getTeaInfoList").post(body).build();
         try {
             Response response = client.newCall(request).execute();
-            String html=response.body().string();
-            TeaInfoListResult result = new Gson().fromJson(html, TeaInfoListResult.class);
-            System.out.println(html);
+            TeaInfoListResult result = new Gson().fromJson(response.body().string(), TeaInfoListResult.class);
             return result.getResult();
 
         } catch (IOException e) {
