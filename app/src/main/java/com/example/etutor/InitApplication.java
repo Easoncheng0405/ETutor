@@ -9,6 +9,7 @@ import com.example.etutor.gson.TeacherInfo;
 import com.example.etutor.gson.UserInfo;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMOptions;
+import com.hyphenate.easeui.EaseUI;
 import com.vondear.rxtools.RxTool;
 
 import java.util.ArrayList;
@@ -61,6 +62,7 @@ public class InitApplication extends Application {
         options.setAcceptInvitationAlways(false);
         options.setAutoLogin(false);
         EMClient.getInstance().init(InitApplication.this, options);
+        EaseUI.getInstance().init(this, options);
         //在做打包混淆时，关闭debug模式，避免消耗不必要的资源
         EMClient.getInstance().setDebugMode(false);
     }

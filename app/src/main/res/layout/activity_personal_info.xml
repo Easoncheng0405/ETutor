@@ -19,7 +19,7 @@
             android:background="@color/blue"
             app:title="个人资料"
             app:titleColor="@color/white"
-            app:titleSize="20sp" >
+            app:titleSize="20sp">
 
         </com.vondear.rxtools.view.RxTitle>
 
@@ -43,9 +43,8 @@
                     android:layout_gravity="center"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
-                    android:background="@drawable/shape_circle_blue"
-                    android:padding="3dp"
-                    android:src="@mipmap/fluidicon" />
+                    android:background="@mipmap/fluidicon"
+                    android:padding="3dp" />
             </LinearLayout>
 
         </RelativeLayout>
@@ -152,10 +151,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
                 android:layout_weight="1"
                 android:text="邮箱"
-                android:textColor="@color/brown1"
-                android:layout_marginStart="20dp" />
+                android:textColor="@color/brown1" />
 
             <TextView
                 android:id="@+id/tv_address"
@@ -228,10 +227,10 @@
 
         <LinearLayout
             android:id="@+id/teaInfo"
-            android:visibility="invisible"
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="invisible">
 
             <TextView
                 android:layout_width="match_parent"
@@ -243,35 +242,41 @@
 
             <com.allen.library.SuperTextView
                 android:id="@+id/trueName"
-                android:layout_marginTop="15dp"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                app:sLeftTextString="真实姓名"/>
+                android:layout_marginTop="15dp"
+                app:sLeftTextString="真实姓名" />
+
             <com.allen.library.SuperTextView
                 android:id="@+id/sex"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                app:sLeftTextString="性        别"/>
+                app:sLeftTextString="性        别" />
+
             <com.allen.library.SuperTextView
                 android:id="@+id/college"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 app:sLeftTextString="就读学校" />
+
             <com.allen.library.SuperTextView
                 android:id="@+id/major"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                app:sLeftTextString="就读专业"/>
+                app:sLeftTextString="就读专业" />
+
             <com.allen.library.SuperTextView
                 android:id="@+id/time"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                app:sLeftTextString="入学时间"/>
+                app:sLeftTextString="入学时间" />
+
             <com.allen.library.SuperTextView
                 android:id="@+id/salary"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                app:sLeftTextString="预期薪水"/>
+                app:sLeftTextString="预期薪水" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
@@ -298,18 +303,19 @@
                     android:paddingLeft="30dp"
                     android:textColor="#939393" />
             </LinearLayout>
+
             <Button
                 android:id="@+id/button"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
+                android:layout_marginBottom="10dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
-                android:layout_marginBottom="10dp"
                 android:layout_marginTop="21dp"
                 android:background="@drawable/bg_btn_login_selected"
                 android:text="联系他"
                 android:textColor="#FFFFFFFF"
-                android:textSize="18dp"/>
+                android:textSize="18dp" />
         </LinearLayout>
 
     </LinearLayout>

@@ -126,10 +126,10 @@ public class RegistLastStepActivity extends AppCompatActivity implements View.On
                                     editor.putInt("type", userInfo.getType());
                                     editor.putString("time", userInfo.getTime());
                                     editor.apply();
-                                    handler.post(new UpdateUITools(dialogLoading));
                                     startActivity(new Intent(context, MainActivity.class));
                                     finish();
                                 }
+                                handler.post(new UpdateUITools(dialogLoading));
                             }
                         }
                     }).start();

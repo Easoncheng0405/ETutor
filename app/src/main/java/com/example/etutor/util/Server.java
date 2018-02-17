@@ -85,7 +85,9 @@ public class Server {
         Request request = new Request.Builder().url(URL + "login").post(body).build();
         try {
             Response response = client.newCall(request).execute();
-            LoginResult result = new Gson().fromJson(response.body().string(), LoginResult.class);
+            String str=response.body().string();
+            System.out.println(str);
+            LoginResult result = new Gson().fromJson(str, LoginResult.class);
             if (result.getCode() == 0) {
                 userInfo = result.getUserInfo();
                 teacherInfo = result.getTeaInfo();
@@ -314,7 +316,8 @@ public class Server {
                 .add("info.trueName", info.getTrueName())
                 .add("info.time", info.getTime())
                 .add("info.sex", "" + info.getSex())
-                .add("info.introduction", info.getIntroduction()).build();
+                .add("info.introduction", info.getIntroduction())
+                .add("info.name",info.getName()).build();
         Request request = new Request.Builder().url(URL + "updateTeaInfo").post(body).build();
         try {
             Response response = client.newCall(request).execute();

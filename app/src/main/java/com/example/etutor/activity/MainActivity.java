@@ -163,6 +163,7 @@ public class MainActivity extends Activity implements OnBannerListener, View.OnC
         indicator.setViewPager(mPager);
 
         final PullToRefreshView pullToRefreshView = findViewById(R.id.refresh);
+        refreshTeaInfo(pullToRefreshView);
         pullToRefreshView.setOnRefreshListener(new PullToRefreshView.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -315,20 +316,21 @@ public class MainActivity extends Activity implements OnBannerListener, View.OnC
                     }
                 });
             case R.id.personal_info:
-                Intent intent = new Intent(activity, PersonalInfoActivity.class);
-                intent.putExtra("info", InitApplication.getUserInfo());
-                intent.putExtra("teaInfo", InitApplication.getTeacherInfo());
-                startActivity(intent);
+                startPersonalInfoAty();
                 break;
             case R.id.head:
-                Intent intent2 = new Intent(activity, PersonalInfoActivity.class);
-                intent2.putExtra("info", InitApplication.getUserInfo());
-                intent2.putExtra("teaInfo", InitApplication.getTeacherInfo());
-                startActivity(intent2);
+                startPersonalInfoAty();
                 break;
             default:
                 break;
         }
+    }
+
+    private void startPersonalInfoAty(){
+        Intent intent = new Intent(activity, PersonalInfoActivity.class);
+        intent.putExtra("info", InitApplication.getUserInfo());
+        intent.putExtra("teaInfo", InitApplication.getTeacherInfo());
+        startActivity(intent);
     }
 
     @Override

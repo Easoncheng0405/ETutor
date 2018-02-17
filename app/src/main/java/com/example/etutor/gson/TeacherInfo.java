@@ -23,7 +23,11 @@ public class TeacherInfo implements Serializable{
      * 电话号码
      */
     private String phone;
+    /**
+     * 昵称
+     */
 
+    private String name;
     /**
      * 所在大学
      */
@@ -72,34 +76,13 @@ public class TeacherInfo implements Serializable{
 
     }
 
-    /**
-     *  用于构造ListView
-     * @param phone
-     * @param college
-     * @param major
-     * @param score
-     * @param tag
-     */
-
-    public TeacherInfo(String phone,String college,String major,int score,String tag){
-        this.phone=phone;
-        this.college=college;
-        this.major=major;
-        this.score=score;
-        this.tag=tag;
+    public String getName() {
+        return name;
     }
 
-    public TeacherInfo(String phone,String trueName,int sex,String college,String major,String time,String salary,String introduction){
-        this.phone=phone;
-        this.trueName=trueName;
-        this.sex=sex;
-        this.college=college;
-        this.major=major;
-        this.time=time;
-        this.salary=salary;
-        this.introduction=introduction;
+    public void setName(String name) {
+        this.name = name;
     }
-
 
     public String getPhone() {
         return phone;
