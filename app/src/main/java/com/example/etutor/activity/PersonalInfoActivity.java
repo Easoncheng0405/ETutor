@@ -230,7 +230,7 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
             case R.id.tv_sure:    //0x7f0f014d 输入对话框的确认ID
                 setMessage();
                 break;
-            case 0x7f0f0159:      //输入对话框的取消按钮ID
+            case 0x7f0901fc:      //输入对话框的取消按钮ID
                 dialog.getEditText().setText("");
                 dialog.getEditText().setHint("");
                 dialog.dismiss();
