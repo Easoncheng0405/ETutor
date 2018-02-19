@@ -6,19 +6,22 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.hyphenate.easeui.R;
+import com.bumptech.glide.signature.StringSignature;
 import com.hyphenate.easeui.EaseUI;
 import com.hyphenate.easeui.EaseUI.EaseUserProfileProvider;
+import com.hyphenate.easeui.R;
 import com.hyphenate.easeui.domain.EaseUser;
 
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
+
 public class EaseUserUtils {
-    
+
     static EaseUserProfileProvider userProvider;
-    
+
     static {
         userProvider = EaseUI.getInstance().getUserProfileProvider();
     }
-    
+
     /**
      * get EaseUser according username
      * @param username
@@ -27,10 +30,10 @@ public class EaseUserUtils {
     public static EaseUser getUserInfo(String username){
         if(userProvider != null)
             return userProvider.getUser(username);
-        
+
         return null;
     }
-    
+
     /**
      * set user avatar
      * @param username
@@ -39,17 +42,18 @@ public class EaseUserUtils {
     	EaseUser user = getUserInfo(username);
         if(user != null && user.getAvatar() != null){
             try {
-                int avatarResId = Integer.parseInt(user.getAvatar());
-                Glide.with(context).load(avatarResId).into(imageView);
+                Glide.with(context).load(user.getAvatar()).diskCacheStrategy(DiskCacheStrategy.RESULT)
+                        .signature(new StringSignature(String.valueOf(System.currentTimeMillis())))
+                        .bitmapTransform(new CropCircleTransformation(context)).into(imageView);
             } catch (Exception e) {
                 //use default avatar
-                Glide.with(context).load(user.getAvatar()).diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(R.drawable.ease_default_avatar).into(imageView);
+                Glide.with(context).load(user.getAvatar()).diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(R.drawable.fluidicon).into(imageView);
             }
         }else{
-            Glide.with(context).load(R.drawable.ease_default_avatar).into(imageView);
+            Glide.with(context).load(R.drawable.fluidicon).into(imageView);
         }
     }
-    
+
     /**
      * set user's nickname
      */
@@ -63,5 +67,5 @@ public class EaseUserUtils {
         	}
         }
     }
-    
+
 }

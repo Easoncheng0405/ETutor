@@ -24,6 +24,8 @@ import com.example.etutor.gson.UserInfo;
 import com.example.etutor.util.Server;
 import com.example.etutor.util.ToastUtil;
 import com.example.etutor.util.UpdateUITools;
+import com.hyphenate.chat.EMMessage;
+import com.hyphenate.easeui.EaseConstant;
 import com.vondear.rxtools.RxPhotoTool;
 import com.vondear.rxtools.view.RxTitle;
 import com.vondear.rxtools.view.dialog.RxDialogChooseImage;
@@ -42,6 +44,8 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
     private boolean flag;
 
     private UserInfo info;
+
+    private boolean option;
 
     private TeacherInfo teacherInfo;
 
@@ -62,6 +66,9 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
 
     private Handler handler;
 
+    private int cancel;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,8 +85,10 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
         dialog.getCancelView().setOnClickListener(this);
         dialog.getTitleView().setTextSize(18);
         dialog.setCancelable(false);
+        cancel = dialog.getCancelView().getId();
         info = (UserInfo) getIntent().getSerializableExtra("info");
         teacherInfo = (TeacherInfo) getIntent().getSerializableExtra("teaInfo");
+        option=getIntent().getBooleanExtra("option",true);
         initViews();
         if (info.getType() == 0)
             initTeaViews();
@@ -102,16 +111,19 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
         else
             ((TextView) findViewById(R.id.type)).setText("学生");
 
-        findViewById(R.id.header).setOnClickListener(this);
 
-        findViewById(R.id.email).setOnClickListener(this);
+        if (info.getPhone().equals(InitApplication.getUserInfo().getPhone())) {
+            findViewById(R.id.header).setOnClickListener(this);
 
-        findViewById(R.id.tag).setOnClickListener(this);
+            findViewById(R.id.email).setOnClickListener(this);
 
+            findViewById(R.id.tag).setOnClickListener(this);
+        }
 
     }
 
     private void initTeaViews() {
+
         findViewById(R.id.teaInfo).setVisibility(View.VISIBLE);
 
         trueName = findViewById(R.id.trueName);
@@ -153,14 +165,28 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
         } else
             findViewById(R.id.button).setOnClickListener(this);
 
-
+        if(!option)
+            findViewById(R.id.button).setVisibility(View.INVISIBLE);
     }
 
     @Override
     public void onClick(View v) {
-        if (v.getId() != R.id.header && v.getId() != R.id.iv_left)
+        if (v.getId() == cancel) {
+            dialog.getEditText().setText("");
+            dialog.getEditText().setHint("");
+            dialog.dismiss();
+            return;
+        }
+        if (v.getId() != R.id.header && v.getId() != R.id.iv_left && R.id.button != v.getId())
             flag = true;
         switch (v.getId()) {
+            case R.id.button:
+                Intent intent = new Intent(PersonalInfoActivity.this, ChatActivity.class);
+                intent.putExtra(EaseConstant.EXTRA_CHAT_TYPE, EMMessage.ChatType.Chat);
+                intent.putExtra(EaseConstant.EXTRA_USER_ID,info.getPhone());
+                startActivity(intent);
+                finish();
+                break;
             case R.id.header:
                 new RxDialogChooseImage(this).show();
                 break;
@@ -229,11 +255,6 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
                 break;
             case R.id.tv_sure:    //0x7f0f014d 输入对话框的确认ID
                 setMessage();
-                break;
-            case 0x7f0901fc:      //输入对话框的取消按钮ID
-                dialog.getEditText().setText("");
-                dialog.getEditText().setHint("");
-                dialog.dismiss();
                 break;
             case R.id.iv_left:
                 onBackPressed();
@@ -481,4 +502,5 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
                 .withOptions(options)
                 .start(this);
     }
+
 }

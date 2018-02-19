@@ -799,11 +799,12 @@ int drawable ee_6 0x7f060108
 int drawable ee_7 0x7f060109
 int drawable ee_8 0x7f06010a
 int drawable ee_9 0x7f06010b
-int drawable googleg_disabled_color_18 0x7f06010c
-int drawable googleg_standard_color_18 0x7f06010d
-int drawable ic_launcher 0x7f06010e
-int drawable notification_template_icon_bg 0x7f06010f
-int drawable recall_message_bg 0x7f060110
+int drawable fluidicon 0x7f06010c
+int drawable googleg_disabled_color_18 0x7f06010d
+int drawable googleg_standard_color_18 0x7f06010e
+int drawable ic_launcher 0x7f06010f
+int drawable notification_template_icon_bg 0x7f060110
+int drawable recall_message_bg 0x7f060111
 int id action0 0x7f070000
 int id action_bar 0x7f070001
 int id action_bar_activity_content 0x7f070002

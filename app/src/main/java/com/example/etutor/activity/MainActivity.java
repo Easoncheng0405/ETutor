@@ -6,11 +6,12 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.ViewPager;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -23,23 +24,26 @@ import com.example.etutor.InitApplication;
 import com.example.etutor.R;
 import com.example.etutor.adpter.GridViewAdapter;
 import com.example.etutor.adpter.Model;
+import com.example.etutor.adpter.TeaInfoAdapter;
 import com.example.etutor.adpter.ViewPagerAdapter;
 import com.example.etutor.fragment.CommunityFragment;
 import com.example.etutor.fragment.HomeFragment;
 import com.example.etutor.fragment.PersonalFragment;
+import com.example.etutor.gson.LoginResult;
 import com.example.etutor.gson.TeacherInfo;
-import com.example.etutor.adpter.TeaInfoAdapter;
+import com.example.etutor.gson.UserInfo;
 import com.example.etutor.util.GlideImageLoader;
 import com.example.etutor.util.Server;
 import com.example.etutor.util.ToastUtil;
 import com.example.etutor.util.UpdateUITools;
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.EMConnectionListener;
 import com.hyphenate.EMError;
 import com.hyphenate.chat.EMClient;
-import com.hyphenate.chat.EMMessage;
-import com.hyphenate.easeui.EaseConstant;
 import com.hyphenate.util.NetUtils;
+import com.vondear.rxtools.view.dialog.RxDialogLoading;
 import com.yalantis.phoenix.PullToRefreshView;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
@@ -111,11 +115,30 @@ public class MainActivity extends Activity implements OnBannerListener, View.OnC
 
     private void initHome() {
         View headerView = View.inflate(MainActivity.this, R.layout.listviewhader, null);
-        ListView listView = homeFragment.getView().findViewById(R.id.listView);
+        final PullToRefreshView pullToRefreshView = findViewById(R.id.refresh);
+        final ListView listView = homeFragment.getView().findViewById(R.id.listView);
         listView.setOnItemClickListener(this);
+        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                if (firstVisibleItem == 0) {
+                    View firstVisibleItemView = listView.getChildAt(0);
+                    if (firstVisibleItemView != null && firstVisibleItemView.getTop() == 0) {
+                        pullToRefreshView.setEnabled(true);
+                    } else
+                        pullToRefreshView.setEnabled(false);
+                }
+            }
+
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                //do nothing
+            }
+
+        });
         if (listView.getHeaderViewsCount() < 1)
             listView.addHeaderView(headerView);
-        data =new ArrayList<>();
+        data = new ArrayList<>();
         data.addAll(InitApplication.getTeaInfoList());
         TeaInfoAdapter adapter = new TeaInfoAdapter(MainActivity.this, R.layout.teainfo, data);
         listView.setAdapter(adapter);
@@ -162,17 +185,18 @@ public class MainActivity extends Activity implements OnBannerListener, View.OnC
         CircleIndicator indicator = homeFragment.getView().findViewById(R.id.indicator);
         indicator.setViewPager(mPager);
 
-        final PullToRefreshView pullToRefreshView = findViewById(R.id.refresh);
+
         refreshTeaInfo(pullToRefreshView);
         pullToRefreshView.setOnRefreshListener(new PullToRefreshView.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                ToastUtil.showMessage(getApplicationContext(), "正在加载");
                 refreshTeaInfo(pullToRefreshView);
             }
         });
     }
 
-    private void refreshTeaInfo(final PullToRefreshView pullToRefreshView){
+    private void refreshTeaInfo(final PullToRefreshView pullToRefreshView) {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -180,7 +204,7 @@ public class MainActivity extends Activity implements OnBannerListener, View.OnC
                 if (res != null) {
                     data.clear();
                     data.addAll(res);
-                }else
+                } else
                     handler.post(new UpdateUITools(" 加载失败，要不再试一次？"));
                 handler.post(new UpdateUITools(pullToRefreshView));
             }
@@ -201,7 +225,7 @@ public class MainActivity extends Activity implements OnBannerListener, View.OnC
         ImageView header = view.findViewById(R.id.head);
 
         Glide.with(activity).load(Server.getURL() + "image/" + InitApplication.getUserInfo().getPhone())
-                .signature(new StringSignature(String.valueOf(System.currentTimeMillis()))) .into(header);
+                .signature(new StringSignature(String.valueOf(System.currentTimeMillis()))).into(header);
         ((TextView) view.findViewById(R.id.userName)).setText(InitApplication.getUserInfo().getName());
         ((TextView) view.findViewById(R.id.userPhone)).setText(InitApplication.getUserInfo().getPhone());
 
@@ -326,7 +350,7 @@ public class MainActivity extends Activity implements OnBannerListener, View.OnC
         }
     }
 
-    private void startPersonalInfoAty(){
+    private void startPersonalInfoAty() {
         Intent intent = new Intent(activity, PersonalInfoActivity.class);
         intent.putExtra("info", InitApplication.getUserInfo());
         intent.putExtra("teaInfo", InitApplication.getTeacherInfo());
@@ -334,16 +358,34 @@ public class MainActivity extends Activity implements OnBannerListener, View.OnC
     }
 
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        TeacherInfo info=(TeacherInfo)parent.getAdapter().getItem(position);
-        if(info.getPhone().equals(InitApplication.getUserInfo().getPhone())){
-            ToastUtil.showMessage(activity,"不能和自己聊天哦...");
-            return;
-        }
-        Intent intent=new Intent(activity,ChatActivity.class);
-        intent.putExtra(EaseConstant.EXTRA_USER_ID,info.getPhone());
-        intent.putExtra(EaseConstant.EXTRA_CHAT_TYPE, EMMessage.ChatType.Chat);
-        startActivity(intent);
+    public void onItemClick(AdapterView<?> parent, View view, int position, final long id) {
+        final TeacherInfo info = (TeacherInfo) parent.getAdapter().getItem(position);
+        final String phone = info.getPhone();
+        final RxDialogLoading dialogLoading = new RxDialogLoading(activity);
+        dialogLoading.setLoadingText("拼命加载中...");
+        dialogLoading.show();
+        dialogLoading.setCancelable(false);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    String json = Server.getUserInfo(handler, phone);
+                    handler.post(new UpdateUITools(dialogLoading));
+                    if (json != null) {
+                        LoginResult result = new Gson().fromJson(json, LoginResult.class);
+                        UserInfo userInfo = result.getUserInfo();
+                        TeacherInfo teacherInfo = result.getTeaInfo();
+                        Intent intent = new Intent(activity, PersonalInfoActivity.class);
+                        intent.putExtra("info", userInfo);
+                        intent.putExtra("teaInfo", teacherInfo);
+                        startActivity(intent);
+                    }
+                } catch (JsonSyntaxException e) {
+                    e.printStackTrace();
+                    handler.post(new UpdateUITools("服务器竟然出错了！"));
+                }
+            }
+        }).start();
     }
 
     @Override

@@ -1,6 +1,5 @@
 package com.example.etutor.adpter;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.signature.StringSignature;
 import com.example.etutor.R;
 import com.example.etutor.gson.TeacherInfo;
@@ -54,25 +52,21 @@ public class TeaInfoAdapter extends ArrayAdapter {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+        if (convertView == null){
+            convertView = LayoutInflater.from(getContext()).inflate(resId, null);
+        }
         TeacherInfo info=(TeacherInfo)getItem(position);
-        @SuppressLint("ViewHolder") View view = LayoutInflater.from(getContext()).inflate(resId, null);
-        TextView college=view.findViewById(R.id.college);
-        TextView major=view.findViewById(R.id.major);
-        TextView tag=view.findViewById(R.id.tag);
-        ImageView imageView=view.findViewById(R.id.header);
+        TextView name=convertView.findViewById(R.id.name);
+        TextView college=convertView.findViewById(R.id.college);
+        TextView major=convertView.findViewById(R.id.major);
+        TextView tag=convertView.findViewById(R.id.tag);
+        ImageView imageView=convertView.findViewById(R.id.header);
         Glide.with(getContext()).load(Server.getURL()+"image/"+info.getPhone())
                 .signature(new StringSignature(String.valueOf(System.currentTimeMillis()))) .into(imageView);
+        name.setText(info.getName());
         college.setText(info.getCollege());
         major.setText(info.getMajor());
         tag.setText(info.getTag());
-        if(info.getScore()<5)
-            view.findViewById(R.id.five).setVisibility(View.INVISIBLE);
-        if(info.getScore()<4)
-            view.findViewById(R.id.four).setVisibility(View.INVISIBLE);
-        if(info.getScore()<3)
-            view.findViewById(R.id.three).setVisibility(View.INVISIBLE);
-        if(info.getScore()<2)
-            view.findViewById(R.id.two).setVisibility(View.INVISIBLE);
-        return view;
+        return convertView;
     }
 }

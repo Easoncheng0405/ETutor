@@ -19,6 +19,10 @@ public class TeacherInfo implements Serializable{
      */
     public static final int FEMALE=-1;
 
+    private UserInfo userInfo;
+
+
+
     /**
      * 电话号码
      */
@@ -71,6 +75,14 @@ public class TeacherInfo implements Serializable{
      * 个人简介
      */
     private String introduction;
+
+    public UserInfo getUserInfo() {
+        return userInfo;
+    }
+
+    public void setUserInfo(UserInfo userInfo) {
+        this.userInfo = userInfo;
+    }
 
     public TeacherInfo(){
 

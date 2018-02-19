@@ -2513,11 +2513,12 @@ public final class R {
     public static final int ee_7=0x7f060109;
     public static final int ee_8=0x7f06010a;
     public static final int ee_9=0x7f06010b;
-    public static final int googleg_disabled_color_18=0x7f06010c;
-    public static final int googleg_standard_color_18=0x7f06010d;
-    public static final int ic_launcher=0x7f06010e;
-    public static final int notification_template_icon_bg=0x7f06010f;
-    public static final int recall_message_bg=0x7f060110;
+    public static final int fluidicon=0x7f06010c;
+    public static final int googleg_disabled_color_18=0x7f06010d;
+    public static final int googleg_standard_color_18=0x7f06010e;
+    public static final int ic_launcher=0x7f06010f;
+    public static final int notification_template_icon_bg=0x7f060110;
+    public static final int recall_message_bg=0x7f060111;
   }
   public static final class id {
     public static final int action0=0x7f070000;

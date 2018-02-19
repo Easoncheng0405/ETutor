@@ -4,10 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-
 import android.os.Handler;
 import android.widget.ImageView;
-
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -22,13 +20,18 @@ import com.google.gson.JsonSyntaxException;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.exceptions.HyphenateException;
-import com.vondear.rxtools.view.dialog.RxDialogLoading;
 
+import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.ConnectException;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -41,13 +44,6 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-import java.io.DataOutputStream;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
-
 /**
  * Created by 医我一生 on 2018/1/31.
  * Email  597021782@qq.com
@@ -57,7 +53,7 @@ import java.net.URL;
 public class Server {
 
 
-    private static String IPV4 = "192.168.1.106";
+    private static String IPV4 = "192.168.0.4";
 
     private static String HOST = "8080";
 
@@ -85,9 +81,7 @@ public class Server {
         Request request = new Request.Builder().url(URL + "login").post(body).build();
         try {
             Response response = client.newCall(request).execute();
-            String str=response.body().string();
-            System.out.println(str);
-            LoginResult result = new Gson().fromJson(str, LoginResult.class);
+            LoginResult result = new Gson().fromJson(response.body().string(), LoginResult.class);
             if (result.getCode() == 0) {
                 userInfo = result.getUserInfo();
                 teacherInfo = result.getTeaInfo();
@@ -120,11 +114,32 @@ public class Server {
         } catch (JsonSyntaxException e) {
             handler.post(new UpdateUITools("服务器发生错误，请联系客服"));
         }
-        if (teacherInfo == null)
-            System.out.println("获取教师信息失败！");
         InitApplication.setUserInfo(userInfo);
         InitApplication.setTeacherInfo(teacherInfo);
         return userInfo;
+    }
+
+    public static String getUserInfo(final Handler handler, String phone) {
+        if (!isNetworkAvailable()) {
+            handler.post(new UpdateUITools("网络无连接，检查您的网络设置！"));
+            return null;
+        }
+        OkHttpClient client = new OkHttpClient.Builder().connectTimeout(3, TimeUnit.SECONDS).build();
+        RequestBody body = new FormBody.Builder().add("info", phone).build();
+        Request request = new Request.Builder().url(URL + "getUserInfo").post(body).build();
+        try {
+            Response response = client.newCall(request).execute();
+            return response.body().string();
+        } catch (IOException e) {
+            if (e instanceof SocketTimeoutException)
+                handler.post(new UpdateUITools("服务器开小差了，等会再试吧"));
+            else if (e instanceof ConnectException)
+                handler.post(new UpdateUITools("无法连接到服务器"));
+
+        } catch (JsonSyntaxException e) {
+            handler.post(new UpdateUITools("服务器发生错误，请联系客服"));
+        }
+        return null;
     }
 
     public static boolean register(final Handler handler, UserInfo info) {
@@ -317,7 +332,7 @@ public class Server {
                 .add("info.time", info.getTime())
                 .add("info.sex", "" + info.getSex())
                 .add("info.introduction", info.getIntroduction())
-                .add("info.name",info.getName()).build();
+                .add("info.name", info.getName()).build();
         Request request = new Request.Builder().url(URL + "updateTeaInfo").post(body).build();
         try {
             Response response = client.newCall(request).execute();

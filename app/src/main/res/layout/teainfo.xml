@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="100dp"
     android:orientation="horizontal">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -12,12 +13,11 @@
         android:paddingTop="10dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:background="@mipmap/fluidicon"
             android:id="@+id/header"
             android:layout_width="0dp"
             android:layout_height="76dp"
             android:layout_weight="2"
-            />
+            android:background="@mipmap/fluidicon" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -25,76 +25,33 @@
             android:layout_weight="7"
             android:orientation="vertical">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
+
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:layout_weight="3">
-
-                <TextView
-                    android:id="@+id/college"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="15dp"
-                    android:paddingTop="3dp"
-                    android:textColor="@color/black"
-                    android:textSize="18dp" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="2">
-                <TextView
-                    android:id="@+id/major"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="15dp"
-                    android:textSize="13dp" />
-            </RelativeLayout>
+                android:layout_weight="3"
+                android:paddingLeft="15dp"
+                android:paddingTop="3dp"
+                android:textColor="@color/black"
+                android:textSize="18dp" />
 
 
-            <RelativeLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/college"
+                android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="2"
-                android:orientation="horizontal">
+                android:paddingLeft="15dp"
+                android:textSize="13sp" />
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="15dp">
 
-                    <ImageView
-                        android:id="@+id/one"
-                        android:layout_width="20dp"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/star" />
-
-                    <ImageView
-                        android:id="@+id/two"
-                        android:layout_width="20dp"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/star" />
-
-                    <ImageView
-                        android:id="@+id/three"
-                        android:layout_width="20dp"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/star" />
-
-                    <ImageView
-                        android:id="@+id/four"
-                        android:layout_width="20dp"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/star" />
-
-                    <ImageView
-                        android:id="@+id/five"
-                        android:layout_width="20dp"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/star" />
-                </LinearLayout>
-            </RelativeLayout>
+            <TextView
+                android:paddingLeft="15dp"
+                android:id="@+id/major"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -106,7 +63,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_alignParentRight="true"
-                    android:textSize="13dp" />
+                    android:textSize="13sp"
+                    android:layout_alignParentEnd="true" />
             </RelativeLayout>
         </LinearLayout>
     </LinearLayout>
