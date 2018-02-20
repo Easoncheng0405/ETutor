@@ -1,10 +1,10 @@
 package com.example.etutor.util;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.view.View;
 
 import com.example.etutor.InitApplication;
+import com.hyphenate.easeui.widget.EaseTitleBar;
 import com.vondear.rxtools.view.dialog.RxDialogLoading;
 import com.vondear.rxtools.view.dialog.RxDialogSure;
 import com.yalantis.phoenix.PullToRefreshView;
@@ -27,6 +27,8 @@ public class UpdateUITools implements Runnable {
 
     private static final int PullToRefresh=3;
 
+    private static final int TitleBar=4;
+
     public static final int ForceClose = 0;
 
     public static final int DoNothing = 1;
@@ -40,6 +42,15 @@ public class UpdateUITools implements Runnable {
     private int action;
     private RxDialogLoading rxDialogLoading;
     private PullToRefreshView pullToRefreshView;
+    private EaseTitleBar titleBar;
+
+
+    public UpdateUITools(EaseTitleBar titleBar,String title){
+        this.option=TitleBar;
+        this.title=title;
+        this.titleBar=titleBar;
+    }
+
     public UpdateUITools(Activity activity, String title, String message, int action) {
         this.activity = activity;
         this.title = title;
@@ -77,6 +88,9 @@ public class UpdateUITools implements Runnable {
                 break;
             case PullToRefresh:
                 pullToRefreshView.setRefreshing(false);
+                break;
+            case TitleBar:
+                titleBar.setTitle(title);
                 break;
             default:
                 break;

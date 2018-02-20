@@ -21,11 +21,14 @@ import com.example.etutor.util.Server;
 import com.example.etutor.util.UpdateUITools;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
+import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMMessage;
+import com.hyphenate.easeui.EaseConstant;
 import com.hyphenate.easeui.EaseUI;
 import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.ui.EaseChatFragment;
 import com.hyphenate.easeui.widget.EaseChatMessageList;
+import com.hyphenate.easeui.widget.EaseTitleBar;
 import com.vondear.rxtools.view.dialog.RxDialogLoading;
 import com.vondear.rxtools.view.dialog.RxDialogSureCancel;
 
@@ -40,12 +43,18 @@ public class ChatActivity extends AppCompatActivity implements EaseChatMessageLi
 
     private EaseChatFragment fragment;
 
+    private UserInfo userInfo;
+
+    private TeacherInfo teacherInfo;
+
     private String[] needPermissions = {           //需要的权限
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.CAMERA,
             Manifest.permission.RECORD_AUDIO
     };
     private Context context;
+
+    private EaseTitleBar titleBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,11 +64,11 @@ public class ChatActivity extends AppCompatActivity implements EaseChatMessageLi
         context = this;
         fragment = new EaseChatFragment();
         fragment.setArguments(getIntent().getExtras());
-        toChatUsername = getIntent().getExtras().getString("userId");
-
+        toChatUsername = getIntent().getStringExtra(EaseConstant.EXTRA_USER_ID);
         getSupportFragmentManager().beginTransaction().add(R.id.frame, fragment).commit();
 
         requestPermissions();
+
 
         setEaseUser();
 
@@ -69,7 +78,9 @@ public class ChatActivity extends AppCompatActivity implements EaseChatMessageLi
     protected void onStart() {
         super.onStart();
         ((EaseChatMessageList) fragment.getView().findViewById(R.id.message_list)).setItemClickListener(this);
+        titleBar = fragment.getView().findViewById(R.id.title_bar);
 
+        getUserName(null, false);
     }
 
     private void requestPermissions() {
@@ -99,15 +110,44 @@ public class ChatActivity extends AppCompatActivity implements EaseChatMessageLi
     }
 
     private EaseUser getUserInfo(String username) {
+
         EaseUser easeUser = new EaseUser(username);
         if (username.equals(InitApplication.getUserInfo().getPhone())) {
             easeUser.setNickname(InitApplication.getUserInfo().getName());
-            easeUser.setAvatar(Server.getURL() + "image/" + InitApplication.getUserInfo().getPhone());
+            easeUser.setAvatar(Server.getURL() + "image/" + EMClient.getInstance().getCurrentUser());
         } else {
-            easeUser.setNickname(toChatUsername);
-            easeUser.setAvatar(Server.getURL() + "image/" + toChatUsername);
+            easeUser.setNickname(username);
+            easeUser.setAvatar(Server.getURL() + "image/" + username);
         }
         return easeUser;
+    }
+
+    private void getUserName(final RxDialogLoading dialogLoading, final boolean option) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    String json = Server.getUserInfo(handler, toChatUsername);
+                    if (json != null) {
+                        LoginResult result = new Gson().fromJson(json, LoginResult.class);
+                        userInfo = result.getUserInfo();
+                        teacherInfo = result.getTeaInfo();
+                        handler.post(new UpdateUITools(titleBar, userInfo.getName()));
+                        if (option) {
+                            dialogLoading.dismiss();
+                            Intent intent = new Intent(context, PersonalInfoActivity.class);
+                            intent.putExtra("info", userInfo);
+                            intent.putExtra("teaInfo", teacherInfo);
+                            intent.putExtra("option", false);
+                            startActivity(intent);
+                        }
+                    }
+                } catch (JsonSyntaxException e) {
+                    e.printStackTrace();
+                    handler.post(new UpdateUITools("服务器竟然出错了！"));
+                }
+            }
+        }).start();
     }
 
     @Override
@@ -177,32 +217,19 @@ public class ChatActivity extends AppCompatActivity implements EaseChatMessageLi
             intent.putExtra("option", false);
             startActivity(intent);
         } else {
-            final RxDialogLoading dialogLoading = new RxDialogLoading(context);
-            dialogLoading.setLoadingText("拼命加载中...");
-            dialogLoading.show();
-            dialogLoading.setCancelable(false);
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        String json = Server.getUserInfo(handler, toChatUsername);
-                        handler.post(new UpdateUITools(dialogLoading));
-                        if (json != null) {
-                            LoginResult result = new Gson().fromJson(json, LoginResult.class);
-                            UserInfo userInfo = result.getUserInfo();
-                            TeacherInfo teacherInfo = result.getTeaInfo();
-                            Intent intent = new Intent(context, PersonalInfoActivity.class);
-                            intent.putExtra("info", userInfo);
-                            intent.putExtra("teaInfo", teacherInfo);
-                            intent.putExtra("option", false);
-                            startActivity(intent);
-                        }
-                    } catch (JsonSyntaxException e) {
-                        e.printStackTrace();
-                        handler.post(new UpdateUITools("服务器竟然出错了！"));
-                    }
-                }
-            }).start();
+            if (teacherInfo != null && userInfo != null) {
+                Intent intent = new Intent(context, PersonalInfoActivity.class);
+                intent.putExtra("info", userInfo);
+                intent.putExtra("teaInfo", teacherInfo);
+                intent.putExtra("option", false);
+                startActivity(intent);
+            } else {
+                RxDialogLoading dialogLoading = new RxDialogLoading(context);
+                dialogLoading.setCancelable(false);
+                dialogLoading.setLoadingText("拼命加载中...");
+                dialogLoading.show();
+                getUserName(dialogLoading, true);
+            }
         }
     }
 

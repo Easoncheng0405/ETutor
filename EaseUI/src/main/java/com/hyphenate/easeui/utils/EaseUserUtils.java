@@ -16,7 +16,7 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 public class EaseUserUtils {
 
-    static EaseUserProfileProvider userProvider;
+    static private EaseUserProfileProvider userProvider;
 
     static {
         userProvider = EaseUI.getInstance().getUserProfileProvider();
@@ -24,11 +24,12 @@ public class EaseUserUtils {
 
     /**
      * get EaseUser according username
-     * @param username
-     * @return
+     *
+     * @param username 用户名
+     * @return EaseUser
      */
-    public static EaseUser getUserInfo(String username){
-        if(userProvider != null)
+    public static EaseUser getUserInfo(String username) {
+        if (userProvider != null)
             return userProvider.getUser(username);
 
         return null;
@@ -36,20 +37,22 @@ public class EaseUserUtils {
 
     /**
      * set user avatar
-     * @param username
+     *
+     * @param username 用户名
      */
-    public static void setUserAvatar(Context context, String username, ImageView imageView){
-    	EaseUser user = getUserInfo(username);
-        if(user != null && user.getAvatar() != null){
+    public static void setUserAvatar(Context context, String username, ImageView imageView) {
+        EaseUser user = getUserInfo(username);
+        if (user != null && user.getAvatar() != null) {
             try {
                 Glide.with(context).load(user.getAvatar()).diskCacheStrategy(DiskCacheStrategy.RESULT)
                         .signature(new StringSignature(String.valueOf(System.currentTimeMillis())))
                         .bitmapTransform(new CropCircleTransformation(context)).into(imageView);
             } catch (Exception e) {
-                //use default avatar
-                Glide.with(context).load(user.getAvatar()).diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(R.drawable.fluidicon).into(imageView);
+                Glide.with(context).load(user.getAvatar()).diskCacheStrategy(DiskCacheStrategy.RESULT)
+                        .signature(new StringSignature(String.valueOf(System.currentTimeMillis())))
+                        .bitmapTransform(new CropCircleTransformation(context)).into(imageView);
             }
-        }else{
+        } else {
             Glide.with(context).load(R.drawable.fluidicon).into(imageView);
         }
     }
@@ -57,14 +60,14 @@ public class EaseUserUtils {
     /**
      * set user's nickname
      */
-    public static void setUserNick(String username,TextView textView){
-        if(textView != null){
-        	EaseUser user = getUserInfo(username);
-        	if(user != null && user.getNick() != null){
-        		textView.setText(user.getNick());
-        	}else{
-        		textView.setText(username);
-        	}
+    public static void setUserNick(String username, TextView textView) {
+        if (textView != null) {
+            EaseUser user = getUserInfo(username);
+            if (user != null && user.getNick() != null) {
+                textView.setText(user.getNick());
+            } else {
+                textView.setText(username);
+            }
         }
     }
 
