@@ -21,7 +21,6 @@ import com.example.etutor.util.Server;
 import com.example.etutor.util.UpdateUITools;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.easeui.EaseConstant;
 import com.hyphenate.easeui.EaseUI;
@@ -38,6 +37,8 @@ import java.util.List;
 public class ChatActivity extends AppCompatActivity implements EaseChatMessageList.MessageListItemClickListener {
 
     String toChatUsername;
+
+    private String toNickName;
 
     private Handler handler;
 
@@ -65,6 +66,7 @@ public class ChatActivity extends AppCompatActivity implements EaseChatMessageLi
         fragment = new EaseChatFragment();
         fragment.setArguments(getIntent().getExtras());
         toChatUsername = getIntent().getStringExtra(EaseConstant.EXTRA_USER_ID);
+        toNickName=getIntent().getStringExtra("name");
         getSupportFragmentManager().beginTransaction().add(R.id.frame, fragment).commit();
 
         requestPermissions();
@@ -112,13 +114,11 @@ public class ChatActivity extends AppCompatActivity implements EaseChatMessageLi
     private EaseUser getUserInfo(String username) {
 
         EaseUser easeUser = new EaseUser(username);
-        if (username.equals(InitApplication.getUserInfo().getPhone())) {
+        if(username.equals(InitApplication.getUserInfo().getPhone()))
             easeUser.setNickname(InitApplication.getUserInfo().getName());
-            easeUser.setAvatar(Server.getURL() + "image/" + EMClient.getInstance().getCurrentUser());
-        } else {
-            easeUser.setNickname(username);
-            easeUser.setAvatar(Server.getURL() + "image/" + username);
-        }
+        else
+            easeUser.setNickname(toNickName);
+        easeUser.setAvatar(Server.getURL() + "image/" + username);
         return easeUser;
     }
 

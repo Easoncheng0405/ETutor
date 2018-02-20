@@ -53,6 +53,16 @@
             android:name="com.hyphenate.chat.EMJobService"
             android:exported="true"
             android:permission="android.permission.BIND_JOB_SERVICE" />
+        <!-- 百度地图API -->
+
+        <service
+            android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remote" />
+
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="t9QGd8dO8kVW8cXBe1QrVhtAbAjo6RdD" />
         <!-- 声明SDK所需的receiver -->
         <receiver android:name="com.hyphenate.chat.EMMonitorReceiver">
             <intent-filter>
@@ -106,6 +116,10 @@
             android:name="com.hyphenate.easeui.ui.EaseShowBigImageActivity"
             android:screenOrientation="portrait"
             android:theme="@style/horizontal_slide"/>
+
+        <activity android:name="com.hyphenate.easeui.ui.EaseBaiduMapActivity"
+            android:screenOrientation="portrait"/>
+
     </application>
 
 </manifest>

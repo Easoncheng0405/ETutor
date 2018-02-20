@@ -184,6 +184,7 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
                 Intent intent = new Intent(PersonalInfoActivity.this, ChatActivity.class);
                 intent.putExtra(EaseConstant.EXTRA_CHAT_TYPE, EMMessage.ChatType.Chat);
                 intent.putExtra(EaseConstant.EXTRA_USER_ID,info.getPhone());
+                intent.putExtra("name",info.getName());
                 startActivity(intent);
                 finish();
                 break;

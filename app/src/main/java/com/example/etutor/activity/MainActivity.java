@@ -2,13 +2,14 @@ package com.example.etutor.activity;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AbsListView;
@@ -26,7 +27,6 @@ import com.example.etutor.adpter.GridViewAdapter;
 import com.example.etutor.adpter.Model;
 import com.example.etutor.adpter.TeaInfoAdapter;
 import com.example.etutor.adpter.ViewPagerAdapter;
-import com.example.etutor.fragment.CommunityFragment;
 import com.example.etutor.fragment.HomeFragment;
 import com.example.etutor.fragment.PersonalFragment;
 import com.example.etutor.gson.LoginResult;
@@ -42,6 +42,13 @@ import com.hyphenate.EMCallBack;
 import com.hyphenate.EMConnectionListener;
 import com.hyphenate.EMError;
 import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMConversation;
+import com.hyphenate.chat.EMMessage;
+import com.hyphenate.easeui.EaseConstant;
+import com.hyphenate.easeui.EaseUI;
+import com.hyphenate.easeui.domain.EaseUser;
+import com.hyphenate.easeui.ui.EaseConversationListFragment;
+import com.hyphenate.easeui.widget.EaseConversationList;
 import com.hyphenate.util.NetUtils;
 import com.vondear.rxtools.view.dialog.RxDialogLoading;
 import com.yalantis.phoenix.PullToRefreshView;
@@ -57,11 +64,11 @@ import java.util.List;
 import me.relex.circleindicator.CircleIndicator;
 
 
-public class MainActivity extends Activity implements OnBannerListener, View.OnClickListener, AdapterView.OnItemClickListener {
+public class MainActivity extends AppCompatActivity implements OnBannerListener, View.OnClickListener, AdapterView.OnItemClickListener {
     private Activity activity;
     private Handler handler;
     private FragmentManager fragmentManager;
-    private CommunityFragment communityFragment;
+    private EaseConversationListFragment conversationListFragment;
     private HomeFragment homeFragment;
     private PersonalFragment personalFragment;
     private ImageView imageViewHome, imageViewCommunity, imageViewPersonal;
@@ -82,7 +89,7 @@ public class MainActivity extends Activity implements OnBannerListener, View.OnC
         setContentView(R.layout.activity_main);
         activity = this;
         handler = new Handler();
-        fragmentManager = getFragmentManager();
+        fragmentManager = getSupportFragmentManager();
         initViews();
         EMClient.getInstance().addConnectionListener(new MyConnectionListener());
 
@@ -109,7 +116,7 @@ public class MainActivity extends Activity implements OnBannerListener, View.OnC
     protected void onStart() {
         super.onStart();
         initHome();
-        initCommunity();
+        initList();
         initPersonal();
     }
 
@@ -211,8 +218,10 @@ public class MainActivity extends Activity implements OnBannerListener, View.OnC
         }).start();
     }
 
-    private void initCommunity() {
+    private void initList() {
 
+        View view=conversationListFragment.getView();
+        EaseConversationList conversationListView = (EaseConversationList)findViewById(R.id.list);
 
     }
 
@@ -250,7 +259,7 @@ public class MainActivity extends Activity implements OnBannerListener, View.OnC
         switch (index) {
             case 0:
                 imageViewHome.setImageResource(R.drawable.homes);
-                imageViewCommunity.setImageResource(R.drawable.earth);
+                imageViewCommunity.setImageResource(R.drawable.friends);
                 imageViewPersonal.setImageResource(R.drawable.my);
                 if (homeFragment == null) {
                     homeFragment = new HomeFragment();
@@ -261,18 +270,28 @@ public class MainActivity extends Activity implements OnBannerListener, View.OnC
                 break;
             case 1:
                 imageViewHome.setImageResource(R.drawable.home);
-                imageViewCommunity.setImageResource(R.drawable.earths);
+                imageViewCommunity.setImageResource(R.drawable.friends_blue);
                 imageViewPersonal.setImageResource(R.drawable.my);
 
-                if (communityFragment == null) {
-                    communityFragment = new CommunityFragment();
-                    transaction.add(R.id.content, communityFragment);
+                if (conversationListFragment == null) {
+                    conversationListFragment = new EaseConversationListFragment();
+                    setEaseUser();
+                    conversationListFragment.setConversationListItemClickListener(new EaseConversationListFragment.EaseConversationListItemClickListener() {
+                        @Override
+                        public void onListItemClicked(EMConversation conversation) {
+                            Intent intent = new Intent(activity, ChatActivity.class);
+                            intent.putExtra(EaseConstant.EXTRA_CHAT_TYPE, EMMessage.ChatType.Chat);
+                            intent.putExtra(EaseConstant.EXTRA_USER_ID,conversation.conversationId());
+                            startActivity(intent);
+                        }
+                    });
+                    transaction.add(R.id.content, conversationListFragment);
                 } else
-                    transaction.show(communityFragment);
+                    transaction.show(conversationListFragment);
                 break;
             case 2:
                 imageViewHome.setImageResource(R.drawable.home);
-                imageViewCommunity.setImageResource(R.drawable.earth);
+                imageViewCommunity.setImageResource(R.drawable.friends);
                 imageViewPersonal.setImageResource(R.drawable.mys);
 
                 if (personalFragment == null) {
@@ -290,8 +309,8 @@ public class MainActivity extends Activity implements OnBannerListener, View.OnC
         if (homeFragment != null) {
             transaction.hide(homeFragment);
         }
-        if (communityFragment != null) {
-            transaction.hide(communityFragment);
+        if (conversationListFragment != null) {
+            transaction.hide(conversationListFragment);
         }
         if (personalFragment != null) {
             transaction.hide(personalFragment);
@@ -416,5 +435,25 @@ public class MainActivity extends Activity implements OnBannerListener, View.OnC
             }
         }
     }
+
+
+    private void setEaseUser() {
+        EaseUI easeUI = EaseUI.getInstance();
+        easeUI.setUserProfileProvider(new EaseUI.EaseUserProfileProvider() {
+            @Override
+            public EaseUser getUser(String username) {
+                return getUserInfo(username);
+            }
+        });
+    }
+
+    private EaseUser getUserInfo(String username) {
+
+        EaseUser easeUser = new EaseUser(username);
+        easeUser.setNickname(username);
+        easeUser.setAvatar(Server.getURL() + "image/" + username);
+        return easeUser;
+    }
+
 
 }

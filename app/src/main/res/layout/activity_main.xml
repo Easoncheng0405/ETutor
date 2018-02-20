@@ -59,13 +59,13 @@
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_gravity="center_horizontal"
-                    android:src="@drawable/earth" />
+                    android:src="@drawable/friends" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="社区"
+                    android:text="会话列表"
                     android:textColor="#82858b" />
             </LinearLayout>
         </RelativeLayout>

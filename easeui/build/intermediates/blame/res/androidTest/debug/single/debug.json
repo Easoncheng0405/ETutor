@@ -20,10 +20,6 @@
         "source": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\ee_28.png"
     },
     {
-        "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable_tooltip_frame_light.xml.flat",
-        "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-27.0.2.aar\\0421827852bae0c99ad95b386513b5d7\\res\\drawable\\tooltip_frame_light.xml"
-    },
-    {
         "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout_ease_row_received_picture.xml.flat",
         "source": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\bundles\\debug\\res\\layout\\ease_row_received_picture.xml"
     },
@@ -36,24 +32,20 @@
         "source": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\bundles\\debug\\res\\anim\\head_out.xml"
     },
     {
-        "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4_ease_video_download_btn_nor.png.flat",
-        "source": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\ease_video_download_btn_nor.png"
-    },
-    {
         "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout_ease_expression_gridview.xml.flat",
         "source": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\bundles\\debug\\res\\layout\\ease_expression_gridview.xml"
     },
     {
-        "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable_notification_icon_background.xml.flat",
-        "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\support-compat-27.0.2.aar\\bce21a6dafedcd20a9e738212062e63d\\res\\drawable\\notification_icon_background.xml"
-    },
-    {
-        "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4_ease_record_animate_14.png.flat",
-        "source": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\ease_record_animate_14.png"
+        "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4_ease_video_download_btn_nor.png.flat",
+        "source": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\ease_video_download_btn_nor.png"
     },
     {
         "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4_abc_ic_star_black_16dp.png.flat",
         "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-24.2.1.aar\\12331cb3efef6fcce6c82886232853c8\\res\\drawable-xhdpi-v4\\abc_ic_star_black_16dp.png"
+    },
+    {
+        "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4_ease_record_animate_14.png.flat",
+        "source": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\ease_record_animate_14.png"
     },
     {
         "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable_ease_chatto_bg.xml.flat",
@@ -108,14 +100,6 @@
         "source": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\bundles\\debug\\res\\layout\\ease_fragment_chat.xml"
     },
     {
-        "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout_notification_action.xml.flat",
-        "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\support-compat-27.0.2.aar\\bce21a6dafedcd20a9e738212062e63d\\res\\layout\\notification_action.xml"
-    },
-    {
-        "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4_notification_bg_normal.9.png.flat",
-        "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\support-compat-27.0.2.aar\\bce21a6dafedcd20a9e738212062e63d\\res\\drawable-xhdpi-v4\\notification_bg_normal.9.png"
-    },
-    {
         "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4_ease_chatting_biaoqing_btn_normal.png.flat",
         "source": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\ease_chatting_biaoqing_btn_normal.png"
     },
@@ -136,20 +120,20 @@
         "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-24.2.1.aar\\12331cb3efef6fcce6c82886232853c8\\res\\drawable-xxhdpi-v4\\abc_ic_star_black_48dp.png"
     },
     {
-        "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable_ease_chatting_setmode_keyboard_btn.xml.flat",
-        "source": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\bundles\\debug\\res\\drawable\\ease_chatting_setmode_keyboard_btn.xml"
-    },
-    {
         "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xxhdpi-v4_abc_ic_star_black_36dp.png.flat",
         "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-24.2.1.aar\\12331cb3efef6fcce6c82886232853c8\\res\\drawable-xxhdpi-v4\\abc_ic_star_black_36dp.png"
     },
     {
-        "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-v21_abc_edit_text_material.xml.flat",
-        "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-24.2.1.aar\\12331cb3efef6fcce6c82886232853c8\\res\\drawable-v21\\abc_edit_text_material.xml"
+        "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable_ease_chatting_setmode_keyboard_btn.xml.flat",
+        "source": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\bundles\\debug\\res\\drawable\\ease_chatting_setmode_keyboard_btn.xml"
     },
     {
         "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\color-v23_abc_btn_colored_borderless_text_material.xml.flat",
         "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-24.2.1.aar\\12331cb3efef6fcce6c82886232853c8\\res\\color-v23\\abc_btn_colored_borderless_text_material.xml"
+    },
+    {
+        "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-v21_abc_edit_text_material.xml.flat",
+        "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-24.2.1.aar\\12331cb3efef6fcce6c82886232853c8\\res\\drawable-v21\\abc_edit_text_material.xml"
     },
     {
         "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable_abc_ic_ab_back_material.xml.flat",
@@ -160,12 +144,12 @@
         "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-24.2.1.aar\\12331cb3efef6fcce6c82886232853c8\\res\\drawable-xxhdpi-v4\\abc_list_selector_disabled_holo_light.9.png"
     },
     {
-        "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-mdpi-v4_abc_ic_star_black_16dp.png.flat",
-        "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-24.2.1.aar\\12331cb3efef6fcce6c82886232853c8\\res\\drawable-mdpi-v4\\abc_ic_star_black_16dp.png"
-    },
-    {
         "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-mdpi-v4_abc_ic_commit_search_api_mtrl_alpha.png.flat",
         "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-24.2.1.aar\\12331cb3efef6fcce6c82886232853c8\\res\\drawable-mdpi-v4\\abc_ic_commit_search_api_mtrl_alpha.png"
+    },
+    {
+        "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-mdpi-v4_abc_ic_star_black_16dp.png.flat",
+        "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-24.2.1.aar\\12331cb3efef6fcce6c82886232853c8\\res\\drawable-mdpi-v4\\abc_ic_star_black_16dp.png"
     },
     {
         "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4_ease_dx_checkbox_gray_on.png.flat",
@@ -204,10 +188,6 @@
         "source": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\bundles\\debug\\res\\layout\\ease_activity_show_file.xml"
     },
     {
-        "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-mdpi-v4_notification_bg_low_pressed.9.png.flat",
-        "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\support-compat-27.0.2.aar\\bce21a6dafedcd20a9e738212062e63d\\res\\drawable-mdpi-v4\\notification_bg_low_pressed.9.png"
-    },
-    {
         "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout_notification_media_action.xml.flat",
         "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-24.2.1.aar\\12331cb3efef6fcce6c82886232853c8\\res\\layout\\notification_media_action.xml"
     },
@@ -216,16 +196,12 @@
         "source": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\bundles\\debug\\res\\layout\\ease_acitivity_ding_msg_send.xml"
     },
     {
-        "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout_ease_scroll_tab_item.xml.flat",
-        "source": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\bundles\\debug\\res\\layout\\ease_scroll_tab_item.xml"
-    },
-    {
         "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4_ease_conversation_selected.png.flat",
         "source": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\ease_conversation_selected.png"
     },
     {
-        "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout-v21_notification_template_custom_big.xml.flat",
-        "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\support-compat-27.0.2.aar\\bce21a6dafedcd20a9e738212062e63d\\res\\layout-v21\\notification_template_custom_big.xml"
+        "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout_ease_scroll_tab_item.xml.flat",
+        "source": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\bundles\\debug\\res\\layout\\ease_scroll_tab_item.xml"
     },
     {
         "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4_ease_chatting_biaoqing_btn_enable.png.flat",
@@ -312,10 +288,6 @@
         "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-11.4.0.aar\\ba3c314eac74cd3e1dfa24f7402b18de\\res\\drawable-xhdpi-v4\\common_google_signin_btn_icon_dark_normal_background.9.png"
     },
     {
-        "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4_notification_bg_normal.9.png.flat",
-        "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\support-compat-27.0.2.aar\\bce21a6dafedcd20a9e738212062e63d\\res\\drawable-hdpi-v4\\notification_bg_normal.9.png"
-    },
-    {
         "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4_abc_btn_switch_to_on_mtrl_00012.9.png.flat",
         "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-24.2.1.aar\\12331cb3efef6fcce6c82886232853c8\\res\\drawable-hdpi-v4\\abc_btn_switch_to_on_mtrl_00012.9.png"
     },
@@ -384,10 +356,6 @@
         "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-24.2.1.aar\\12331cb3efef6fcce6c82886232853c8\\res\\drawable-mdpi-v4\\abc_popup_background_mtrl_mult.9.png"
     },
     {
-        "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable_notification_tile_bg.xml.flat",
-        "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\support-compat-27.0.2.aar\\bce21a6dafedcd20a9e738212062e63d\\res\\drawable\\notification_tile_bg.xml"
-    },
-    {
         "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout_abc_screen_simple_overlay_action_mode.xml.flat",
         "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-24.2.1.aar\\12331cb3efef6fcce6c82886232853c8\\res\\layout\\abc_screen_simple_overlay_action_mode.xml"
     },
@@ -440,10 +408,6 @@
         "source": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\ee_17.png"
     },
     {
-        "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout-v21_notification_action.xml.flat",
-        "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\support-compat-27.0.2.aar\\bce21a6dafedcd20a9e738212062e63d\\res\\layout-v21\\notification_action.xml"
-    },
-    {
         "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4_abc_textfield_search_activated_mtrl_alpha.9.png.flat",
         "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-24.2.1.aar\\12331cb3efef6fcce6c82886232853c8\\res\\drawable-xhdpi-v4\\abc_textfield_search_activated_mtrl_alpha.9.png"
     },
@@ -482,10 +446,6 @@
     {
         "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4_ease_settings_selected.png.flat",
         "source": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\ease_settings_selected.png"
-    },
-    {
-        "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout-v16_notification_template_custom_big.xml.flat",
-        "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\support-compat-27.0.2.aar\\bce21a6dafedcd20a9e738212062e63d\\res\\layout-v16\\notification_template_custom_big.xml"
     },
     {
         "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4_googleg_disabled_color_18.png.flat",
@@ -542,10 +502,6 @@
     {
         "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xxhdpi-v4_abc_switch_track_mtrl_alpha.9.png.flat",
         "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-24.2.1.aar\\12331cb3efef6fcce6c82886232853c8\\res\\drawable-xxhdpi-v4\\abc_switch_track_mtrl_alpha.9.png"
-    },
-    {
-        "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4_notify_panel_notification_icon_bg.png.flat",
-        "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\support-compat-27.0.2.aar\\bce21a6dafedcd20a9e738212062e63d\\res\\drawable-xhdpi-v4\\notify_panel_notification_icon_bg.png"
     },
     {
         "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\color-v23_abc_tint_seek_thumb.xml.flat",
@@ -648,10 +604,6 @@
         "source": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\ee_31.png"
     },
     {
-        "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout-v21_notification_action_tombstone.xml.flat",
-        "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\support-compat-27.0.2.aar\\bce21a6dafedcd20a9e738212062e63d\\res\\layout-v21\\notification_action_tombstone.xml"
-    },
-    {
         "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout_ease_widget_contact_list.xml.flat",
         "source": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\bundles\\debug\\res\\layout\\ease_widget_contact_list.xml"
     },
@@ -666,10 +618,6 @@
     {
         "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-mdpi-v4_abc_text_select_handle_right_mtrl_light.png.flat",
         "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-24.2.1.aar\\12331cb3efef6fcce6c82886232853c8\\res\\drawable-mdpi-v4\\abc_text_select_handle_right_mtrl_light.png"
-    },
-    {
-        "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4_notification_bg_low_pressed.9.png.flat",
-        "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\support-compat-27.0.2.aar\\bce21a6dafedcd20a9e738212062e63d\\res\\drawable-hdpi-v4\\notification_bg_low_pressed.9.png"
     },
     {
         "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4_googleg_standard_color_18.png.flat",
@@ -716,10 +664,6 @@
         "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-24.2.1.aar\\12331cb3efef6fcce6c82886232853c8\\res\\drawable-xxhdpi-v4\\abc_btn_switch_to_on_mtrl_00012.9.png"
     },
     {
-        "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim_tooltip_enter.xml.flat",
-        "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-27.0.2.aar\\0421827852bae0c99ad95b386513b5d7\\res\\anim\\tooltip_enter.xml"
-    },
-    {
         "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4_ee_24.png.flat",
         "source": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\ee_24.png"
     },
@@ -758,10 +702,6 @@
     {
         "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4_abc_textfield_default_mtrl_alpha.9.png.flat",
         "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-24.2.1.aar\\12331cb3efef6fcce6c82886232853c8\\res\\drawable-xhdpi-v4\\abc_textfield_default_mtrl_alpha.9.png"
-    },
-    {
-        "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout_notification_template_custom_big.xml.flat",
-        "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\support-compat-27.0.2.aar\\bce21a6dafedcd20a9e738212062e63d\\res\\layout\\notification_template_custom_big.xml"
     },
     {
         "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout_abc_action_bar_title_item.xml.flat",
@@ -856,10 +796,6 @@
         "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-24.2.1.aar\\12331cb3efef6fcce6c82886232853c8\\res\\drawable-xxhdpi-v4\\abc_ic_menu_selectall_mtrl_alpha.png"
     },
     {
-        "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-mdpi-v4_notification_bg_normal.9.png.flat",
-        "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\support-compat-27.0.2.aar\\bce21a6dafedcd20a9e738212062e63d\\res\\drawable-mdpi-v4\\notification_bg_normal.9.png"
-    },
-    {
         "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout_abc_activity_chooser_view_list_item.xml.flat",
         "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-24.2.1.aar\\12331cb3efef6fcce6c82886232853c8\\res\\layout\\abc_activity_chooser_view_list_item.xml"
     },
@@ -886,14 +822,6 @@
     {
         "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout_notification_template_big_media_narrow.xml.flat",
         "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-24.2.1.aar\\12331cb3efef6fcce6c82886232853c8\\res\\layout\\notification_template_big_media_narrow.xml"
-    },
-    {
-        "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4_notification_bg_normal_pressed.9.png.flat",
-        "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\support-compat-27.0.2.aar\\bce21a6dafedcd20a9e738212062e63d\\res\\drawable-hdpi-v4\\notification_bg_normal_pressed.9.png"
-    },
-    {
-        "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\color-v21_abc_btn_colored_borderless_text_material.xml.flat",
-        "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-27.0.2.aar\\0421827852bae0c99ad95b386513b5d7\\res\\color-v21\\abc_btn_colored_borderless_text_material.xml"
     },
     {
         "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout_ease_row_received_location.xml.flat",
@@ -924,16 +852,8 @@
         "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-24.2.1.aar\\12331cb3efef6fcce6c82886232853c8\\res\\layout\\abc_alert_dialog_button_bar_material.xml"
     },
     {
-        "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-v21_notification_action_background.xml.flat",
-        "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\support-compat-27.0.2.aar\\bce21a6dafedcd20a9e738212062e63d\\res\\drawable-v21\\notification_action_background.xml"
-    },
-    {
         "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-mdpi-v4_abc_ic_star_black_48dp.png.flat",
         "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-24.2.1.aar\\12331cb3efef6fcce6c82886232853c8\\res\\drawable-mdpi-v4\\abc_ic_star_black_48dp.png"
-    },
-    {
-        "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4_notification_bg_low_pressed.9.png.flat",
-        "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\support-compat-27.0.2.aar\\bce21a6dafedcd20a9e738212062e63d\\res\\drawable-xhdpi-v4\\notification_bg_low_pressed.9.png"
     },
     {
         "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xxhdpi-v4_common_google_signin_btn_icon_light_normal_background.9.png.flat",
@@ -996,10 +916,6 @@
         "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-24.2.1.aar\\12331cb3efef6fcce6c82886232853c8\\res\\layout\\abc_list_menu_item_radio.xml"
     },
     {
-        "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim_tooltip_exit.xml.flat",
-        "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-27.0.2.aar\\0421827852bae0c99ad95b386513b5d7\\res\\anim\\tooltip_exit.xml"
-    },
-    {
         "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout_abc_screen_simple.xml.flat",
         "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-24.2.1.aar\\12331cb3efef6fcce6c82886232853c8\\res\\layout\\abc_screen_simple.xml"
     },
@@ -1028,12 +944,12 @@
         "source": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\ee_23.png"
     },
     {
-        "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xxhdpi-v4_abc_btn_check_to_on_mtrl_000.png.flat",
-        "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-24.2.1.aar\\12331cb3efef6fcce6c82886232853c8\\res\\drawable-xxhdpi-v4\\abc_btn_check_to_on_mtrl_000.png"
-    },
-    {
         "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4_fluidicon.png.flat",
         "source": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\fluidicon.png"
+    },
+    {
+        "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xxhdpi-v4_abc_btn_check_to_on_mtrl_000.png.flat",
+        "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-24.2.1.aar\\12331cb3efef6fcce6c82886232853c8\\res\\drawable-xxhdpi-v4\\abc_btn_check_to_on_mtrl_000.png"
     },
     {
         "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4_ease_app_panel_video_icon.9.png.flat",
@@ -1058,14 +974,6 @@
     {
         "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4_abc_text_select_handle_left_mtrl_dark.png.flat",
         "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-24.2.1.aar\\12331cb3efef6fcce6c82886232853c8\\res\\drawable-xhdpi-v4\\abc_text_select_handle_left_mtrl_dark.png"
-    },
-    {
-        "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\color_abc_hint_foreground_material_dark.xml.flat",
-        "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-27.0.2.aar\\0421827852bae0c99ad95b386513b5d7\\res\\color\\abc_hint_foreground_material_dark.xml"
-    },
-    {
-        "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4_notification_bg_low_normal.9.png.flat",
-        "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\support-compat-27.0.2.aar\\bce21a6dafedcd20a9e738212062e63d\\res\\drawable-hdpi-v4\\notification_bg_low_normal.9.png"
     },
     {
         "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4_googleg_standard_color_18.png.flat",
@@ -1208,10 +1116,6 @@
         "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-24.2.1.aar\\12331cb3efef6fcce6c82886232853c8\\res\\drawable-hdpi-v4\\abc_switch_track_mtrl_alpha.9.png"
     },
     {
-        "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout_notification_template_icon_group.xml.flat",
-        "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\support-compat-27.0.2.aar\\bce21a6dafedcd20a9e738212062e63d\\res\\layout\\notification_template_icon_group.xml"
-    },
-    {
         "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\color_abc_tint_switch_track.xml.flat",
         "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-24.2.1.aar\\12331cb3efef6fcce6c82886232853c8\\res\\color\\abc_tint_switch_track.xml"
     },
@@ -1256,10 +1160,6 @@
         "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-24.2.1.aar\\12331cb3efef6fcce6c82886232853c8\\res\\drawable-xhdpi-v4\\abc_menu_hardkey_panel_mtrl_mult.9.png"
     },
     {
-        "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout_tooltip.xml.flat",
-        "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-27.0.2.aar\\0421827852bae0c99ad95b386513b5d7\\res\\layout\\tooltip.xml"
-    },
-    {
         "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout_select_dialog_singlechoice_material.xml.flat",
         "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-24.2.1.aar\\12331cb3efef6fcce6c82886232853c8\\res\\layout\\select_dialog_singlechoice_material.xml"
     },
@@ -1280,12 +1180,12 @@
         "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-24.2.1.aar\\12331cb3efef6fcce6c82886232853c8\\res\\drawable-xxhdpi-v4\\abc_btn_radio_to_on_mtrl_015.png"
     },
     {
-        "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout_ease_widget_emojicon_tab_bar.xml.flat",
-        "source": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\bundles\\debug\\res\\layout\\ease_widget_emojicon_tab_bar.xml"
-    },
-    {
         "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable_fluidicon.png.flat",
         "source": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\bundles\\debug\\res\\drawable\\fluidicon.png"
+    },
+    {
+        "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout_ease_widget_emojicon_tab_bar.xml.flat",
+        "source": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\bundles\\debug\\res\\layout\\ease_widget_emojicon_tab_bar.xml"
     },
     {
         "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable_abc_list_selector_holo_dark.xml.flat",
@@ -1460,20 +1360,12 @@
         "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-24.2.1.aar\\12331cb3efef6fcce6c82886232853c8\\res\\layout\\abc_list_menu_item_checkbox.xml"
     },
     {
-        "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\color_abc_btn_colored_text_material.xml.flat",
-        "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-27.0.2.aar\\0421827852bae0c99ad95b386513b5d7\\res\\color\\abc_btn_colored_text_material.xml"
-    },
-    {
         "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout_ease_row_received_file.xml.flat",
         "source": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\bundles\\debug\\res\\layout\\ease_row_received_file.xml"
     },
     {
         "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-mdpi-v4_abc_ic_menu_share_mtrl_alpha.png.flat",
         "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-24.2.1.aar\\12331cb3efef6fcce6c82886232853c8\\res\\drawable-mdpi-v4\\abc_ic_menu_share_mtrl_alpha.png"
-    },
-    {
-        "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable_tooltip_frame_dark.xml.flat",
-        "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-27.0.2.aar\\0421827852bae0c99ad95b386513b5d7\\res\\drawable\\tooltip_frame_dark.xml"
     },
     {
         "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-mdpi-v4_abc_list_pressed_holo_light.9.png.flat",
@@ -1518,10 +1410,6 @@
     {
         "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4_ee_29.png.flat",
         "source": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\ee_29.png"
-    },
-    {
-        "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-mdpi-v4_notification_bg_low_normal.9.png.flat",
-        "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\support-compat-27.0.2.aar\\bce21a6dafedcd20a9e738212062e63d\\res\\drawable-mdpi-v4\\notification_bg_low_normal.9.png"
     },
     {
         "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4_ease_record_animate_06.png.flat",
@@ -1588,10 +1476,6 @@
         "source": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\ease_chat_send_btn_normal.9.png"
     },
     {
-        "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4_notify_panel_notification_icon_bg.png.flat",
-        "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\support-compat-27.0.2.aar\\bce21a6dafedcd20a9e738212062e63d\\res\\drawable-hdpi-v4\\notify_panel_notification_icon_bg.png"
-    },
-    {
         "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xxxhdpi-v4_abc_btn_switch_to_on_mtrl_00012.9.png.flat",
         "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-24.2.1.aar\\12331cb3efef6fcce6c82886232853c8\\res\\drawable-xxxhdpi-v4\\abc_btn_switch_to_on_mtrl_00012.9.png"
     },
@@ -1640,16 +1524,8 @@
         "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-24.2.1.aar\\12331cb3efef6fcce6c82886232853c8\\res\\drawable-xhdpi-v4\\abc_ic_menu_cut_mtrl_alpha.png"
     },
     {
-        "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout_abc_alert_dialog_title_material.xml.flat",
-        "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-27.0.2.aar\\0421827852bae0c99ad95b386513b5d7\\res\\layout\\abc_alert_dialog_title_material.xml"
-    },
-    {
         "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable_ease_edit_text_bg.xml.flat",
         "source": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\bundles\\debug\\res\\drawable\\ease_edit_text_bg.xml"
-    },
-    {
-        "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout-v21_notification_template_icon_group.xml.flat",
-        "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\support-compat-27.0.2.aar\\bce21a6dafedcd20a9e738212062e63d\\res\\layout-v21\\notification_template_icon_group.xml"
     },
     {
         "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-ldrtl-xxhdpi-v17_abc_ic_menu_copy_mtrl_am_alpha.png.flat",
@@ -1864,10 +1740,6 @@
         "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-11.4.0.aar\\ba3c314eac74cd3e1dfa24f7402b18de\\res\\drawable-xhdpi-v4\\common_google_signin_btn_text_dark_normal_background.9.png"
     },
     {
-        "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4_notification_bg_low_normal.9.png.flat",
-        "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\support-compat-27.0.2.aar\\bce21a6dafedcd20a9e738212062e63d\\res\\drawable-xhdpi-v4\\notification_bg_low_normal.9.png"
-    },
-    {
         "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4_abc_btn_check_to_on_mtrl_015.png.flat",
         "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-24.2.1.aar\\12331cb3efef6fcce6c82886232853c8\\res\\drawable-hdpi-v4\\abc_btn_check_to_on_mtrl_015.png"
     },
@@ -1996,16 +1868,8 @@
         "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-24.2.1.aar\\12331cb3efef6fcce6c82886232853c8\\res\\color\\abc_tint_switch_thumb.xml"
     },
     {
-        "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\color-v23_abc_btn_colored_text_material.xml.flat",
-        "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-27.0.2.aar\\0421827852bae0c99ad95b386513b5d7\\res\\color-v23\\abc_btn_colored_text_material.xml"
-    },
-    {
         "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xxhdpi-v4_abc_list_selector_disabled_holo_dark.9.png.flat",
         "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-24.2.1.aar\\12331cb3efef6fcce6c82886232853c8\\res\\drawable-xxhdpi-v4\\abc_list_selector_disabled_holo_dark.9.png"
-    },
-    {
-        "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-mdpi-v4_notify_panel_notification_icon_bg.png.flat",
-        "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\support-compat-27.0.2.aar\\bce21a6dafedcd20a9e738212062e63d\\res\\drawable-mdpi-v4\\notify_panel_notification_icon_bg.png"
     },
     {
         "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-v21_abc_btn_colored_material.xml.flat",
@@ -2018,10 +1882,6 @@
     {
         "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable_ease_chat_location_selector.xml.flat",
         "source": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\bundles\\debug\\res\\drawable\\ease_chat_location_selector.xml"
-    },
-    {
-        "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4_notification_bg_normal_pressed.9.png.flat",
-        "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\support-compat-27.0.2.aar\\bce21a6dafedcd20a9e738212062e63d\\res\\drawable-xhdpi-v4\\notification_bg_normal_pressed.9.png"
     },
     {
         "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-mdpi-v4_abc_ic_menu_copy_mtrl_am_alpha.png.flat",
@@ -2048,20 +1908,12 @@
         "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-24.2.1.aar\\12331cb3efef6fcce6c82886232853c8\\res\\drawable-xxhdpi-v4\\abc_ic_menu_paste_mtrl_am_alpha.png"
     },
     {
-        "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\color_abc_hint_foreground_material_light.xml.flat",
-        "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-27.0.2.aar\\0421827852bae0c99ad95b386513b5d7\\res\\color\\abc_hint_foreground_material_light.xml"
-    },
-    {
         "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4_ease_record_animate_11.png.flat",
         "source": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\ease_record_animate_11.png"
     },
     {
         "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4_ee_11.png.flat",
         "source": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\ee_11.png"
-    },
-    {
-        "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout-v26_abc_screen_toolbar.xml.flat",
-        "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-27.0.2.aar\\0421827852bae0c99ad95b386513b5d7\\res\\layout-v26\\abc_screen_toolbar.xml"
     },
     {
         "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable_abc_ratingbar_material.xml.flat",
@@ -2144,10 +1996,6 @@
         "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-24.2.1.aar\\12331cb3efef6fcce6c82886232853c8\\res\\drawable-mdpi-v4\\abc_list_selector_disabled_holo_dark.9.png"
     },
     {
-        "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout_notification_action_tombstone.xml.flat",
-        "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\support-compat-27.0.2.aar\\bce21a6dafedcd20a9e738212062e63d\\res\\layout\\notification_action_tombstone.xml"
-    },
-    {
         "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4_ease_chatting_setmode_voice_btn_pressed.png.flat",
         "source": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\ease_chatting_setmode_voice_btn_pressed.png"
     },
@@ -2218,10 +2066,6 @@
     {
         "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4_abc_ab_share_pack_mtrl_alpha.9.png.flat",
         "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-24.2.1.aar\\12331cb3efef6fcce6c82886232853c8\\res\\drawable-xhdpi-v4\\abc_ab_share_pack_mtrl_alpha.9.png"
-    },
-    {
-        "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-mdpi-v4_notification_bg_normal_pressed.9.png.flat",
-        "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\support-compat-27.0.2.aar\\bce21a6dafedcd20a9e738212062e63d\\res\\drawable-mdpi-v4\\notification_bg_normal_pressed.9.png"
     },
     {
         "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4_ease_msg_state_fail_resend_pressed.png.flat",
@@ -2308,16 +2152,8 @@
         "source": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\ease_login_error_icon.png"
     },
     {
-        "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable_notification_bg.xml.flat",
-        "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\support-compat-27.0.2.aar\\bce21a6dafedcd20a9e738212062e63d\\res\\drawable\\notification_bg.xml"
-    },
-    {
         "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4_abc_btn_radio_to_on_mtrl_015.png.flat",
         "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-24.2.1.aar\\12331cb3efef6fcce6c82886232853c8\\res\\drawable-hdpi-v4\\abc_btn_radio_to_on_mtrl_015.png"
-    },
-    {
-        "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable_notification_bg_low.xml.flat",
-        "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\support-compat-27.0.2.aar\\bce21a6dafedcd20a9e738212062e63d\\res\\drawable\\notification_bg_low.xml"
     },
     {
         "merged": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4_ease_contact_list_normal.png.flat",
