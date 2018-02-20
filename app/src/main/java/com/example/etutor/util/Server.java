@@ -363,7 +363,9 @@ public class Server {
         try {
             Response response = client.newCall(request).execute();
             TeaInfoListResult result = new Gson().fromJson(response.body().string(), TeaInfoListResult.class);
-            return result.getResult();
+            ArrayList<TeacherInfo> res=result.getResult();
+            InitApplication.setTeaInfoList(res);
+            return res;
 
         } catch (IOException e) {
             if (e instanceof SocketTimeoutException)

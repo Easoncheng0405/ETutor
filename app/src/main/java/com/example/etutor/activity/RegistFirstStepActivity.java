@@ -21,7 +21,7 @@ import com.vondear.rxtools.view.dialog.RxDialogLoading;
 
 public class RegistFirstStepActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private  Handler handler;
+    private Handler handler;
 
     private int keyHeight = 0; //软件盘弹起后所占高度
     private LinearLayout mContent;
@@ -29,11 +29,12 @@ public class RegistFirstStepActivity extends AppCompatActivity implements View.O
     private EditText phone;
 
     private Activity activity;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_regist_first_step);
-        activity=this;
+        activity = this;
         ScrollView scrollView = findViewById(R.id.scrollView);
         service = findViewById(R.id.service);
         phone = findViewById(R.id.phone);
@@ -41,8 +42,7 @@ public class RegistFirstStepActivity extends AppCompatActivity implements View.O
         int screenHeight = this.getResources().getDisplayMetrics().heightPixels;
         keyHeight = screenHeight / 3;
         mContent = findViewById(R.id.content);
-
-        handler=new Handler();
+        handler = new Handler();
         scrollView.addOnLayoutChangeListener(new ViewGroup.OnLayoutChangeListener() {
             @Override
             public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
@@ -81,7 +81,7 @@ public class RegistFirstStepActivity extends AppCompatActivity implements View.O
                 finish();
                 break;
             case R.id.registButton:
-                final RxDialogLoading dialogLoading=new RxDialogLoading(activity);
+                final RxDialogLoading dialogLoading = new RxDialogLoading(activity);
                 dialogLoading.setLoadingText("加载中，请稍后");
                 dialogLoading.setCancelable(false);
                 dialogLoading.show();
@@ -89,9 +89,9 @@ public class RegistFirstStepActivity extends AppCompatActivity implements View.O
                     @Override
                     public void run() {
 
-                        if(Server.checkInfoExist(handler,phone.getText().toString().trim())) {
-                            Intent intent=new Intent(RegistFirstStepActivity.this, RegistLastStepActivity.class);
-                            intent.putExtra("phone",phone.getText().toString().trim());
+                        if (Server.checkInfoExist(handler, phone.getText().toString().trim())) {
+                            Intent intent = new Intent(RegistFirstStepActivity.this, RegistLastStepActivity.class);
+                            intent.putExtra("phone", phone.getText().toString().trim());
                             handler.post(new UpdateUITools(dialogLoading));
                             startActivity(intent);
                         }
@@ -99,13 +99,13 @@ public class RegistFirstStepActivity extends AppCompatActivity implements View.O
                 }).start();
                 break;
             case R.id.role1:
-                tools=new UpdateUITools(RegistFirstStepActivity.this,"隐私条款"
-                        ,getResources().getString(R.string.安卓简介),UpdateUITools.DoNothing);
+                tools = new UpdateUITools(RegistFirstStepActivity.this, "隐私条款"
+                        , getResources().getString(R.string.安卓简介), UpdateUITools.DoNothing);
                 tools.initSureDialog();
                 break;
             case R.id.role2:
-                tools=new UpdateUITools(RegistFirstStepActivity.this,"用户使用协议"
-                        ,getResources().getString(R.string.安卓简介),UpdateUITools.DoNothing);
+                tools = new UpdateUITools(RegistFirstStepActivity.this, "用户使用协议"
+                        , getResources().getString(R.string.安卓简介), UpdateUITools.DoNothing);
                 tools.initSureDialog();
                 break;
             default:

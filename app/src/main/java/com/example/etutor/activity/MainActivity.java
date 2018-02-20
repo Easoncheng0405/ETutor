@@ -12,6 +12,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.GridView;
@@ -23,6 +24,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.signature.StringSignature;
 import com.example.etutor.InitApplication;
 import com.example.etutor.R;
+import com.example.etutor.Service.MessageReceiver;
 import com.example.etutor.adpter.GridViewAdapter;
 import com.example.etutor.adpter.Model;
 import com.example.etutor.adpter.TeaInfoAdapter;
@@ -41,6 +43,7 @@ import com.google.gson.JsonSyntaxException;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.EMConnectionListener;
 import com.hyphenate.EMError;
+import com.hyphenate.EMMessageListener;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
 import com.hyphenate.chat.EMMessage;
@@ -48,7 +51,6 @@ import com.hyphenate.easeui.EaseConstant;
 import com.hyphenate.easeui.EaseUI;
 import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.ui.EaseConversationListFragment;
-import com.hyphenate.easeui.widget.EaseConversationList;
 import com.hyphenate.util.NetUtils;
 import com.vondear.rxtools.view.dialog.RxDialogLoading;
 import com.yalantis.phoenix.PullToRefreshView;
@@ -64,7 +66,8 @@ import java.util.List;
 import me.relex.circleindicator.CircleIndicator;
 
 
-public class MainActivity extends AppCompatActivity implements OnBannerListener, View.OnClickListener, AdapterView.OnItemClickListener {
+public class MainActivity extends AppCompatActivity implements OnBannerListener, View.OnClickListener
+        , AdapterView.OnItemClickListener {
     private Activity activity;
     private Handler handler;
     private FragmentManager fragmentManager;
@@ -87,12 +90,25 @@ public class MainActivity extends AppCompatActivity implements OnBannerListener,
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        startService(new Intent(this, MessageReceiver.class));
         activity = this;
         handler = new Handler();
         fragmentManager = getSupportFragmentManager();
         initViews();
         EMClient.getInstance().addConnectionListener(new MyConnectionListener());
 
+        findViewById(R.id.selection).addOnLayoutChangeListener(new ViewGroup.OnLayoutChangeListener() {
+
+            @Override
+            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                int keyHeight = activity.getResources().getDisplayMetrics().heightPixels / 3;
+                if (oldBottom != 0 && bottom != 0 && (oldBottom - bottom > keyHeight)) {
+                    findViewById(R.id.selection).setVisibility(View.INVISIBLE);
+                } else if (oldBottom != 0 && bottom != 0 && (bottom - oldBottom > keyHeight)) {
+                    findViewById(R.id.selection).setVisibility(View.VISIBLE);
+                }
+            }
+        });
     }
 
     private void initViews() {
@@ -219,10 +235,37 @@ public class MainActivity extends AppCompatActivity implements OnBannerListener,
     }
 
     private void initList() {
+        EMClient.getInstance().chatManager().addMessageListener(new EMMessageListener() {
+            @Override
+            public void onMessageReceived(List<EMMessage> list) {
+                conversationListFragment.refresh();
+            }
 
-        View view=conversationListFragment.getView();
-        EaseConversationList conversationListView = (EaseConversationList)findViewById(R.id.list);
+            @Override
+            public void onCmdMessageReceived(List<EMMessage> list) {
 
+            }
+
+            @Override
+            public void onMessageRead(List<EMMessage> list) {
+
+            }
+
+            @Override
+            public void onMessageDelivered(List<EMMessage> list) {
+
+            }
+
+            @Override
+            public void onMessageRecalled(List<EMMessage> list) {
+
+            }
+
+            @Override
+            public void onMessageChanged(EMMessage emMessage, Object o) {
+
+            }
+        });
     }
 
     private void initPersonal() {
@@ -258,6 +301,7 @@ public class MainActivity extends AppCompatActivity implements OnBannerListener,
         hideFragments(transaction);
         switch (index) {
             case 0:
+                startService(new Intent(this, MessageReceiver.class));
                 imageViewHome.setImageResource(R.drawable.homes);
                 imageViewCommunity.setImageResource(R.drawable.friends);
                 imageViewPersonal.setImageResource(R.drawable.my);
@@ -269,6 +313,7 @@ public class MainActivity extends AppCompatActivity implements OnBannerListener,
 
                 break;
             case 1:
+                stopService(new Intent(this, MessageReceiver.class));
                 imageViewHome.setImageResource(R.drawable.home);
                 imageViewCommunity.setImageResource(R.drawable.friends_blue);
                 imageViewPersonal.setImageResource(R.drawable.my);
@@ -281,7 +326,7 @@ public class MainActivity extends AppCompatActivity implements OnBannerListener,
                         public void onListItemClicked(EMConversation conversation) {
                             Intent intent = new Intent(activity, ChatActivity.class);
                             intent.putExtra(EaseConstant.EXTRA_CHAT_TYPE, EMMessage.ChatType.Chat);
-                            intent.putExtra(EaseConstant.EXTRA_USER_ID,conversation.conversationId());
+                            intent.putExtra(EaseConstant.EXTRA_USER_ID, conversation.conversationId());
                             startActivity(intent);
                         }
                     });
@@ -290,6 +335,8 @@ public class MainActivity extends AppCompatActivity implements OnBannerListener,
                     transaction.show(conversationListFragment);
                 break;
             case 2:
+                startService(new Intent(this, MessageReceiver.class));
+
                 imageViewHome.setImageResource(R.drawable.home);
                 imageViewCommunity.setImageResource(R.drawable.friends);
                 imageViewPersonal.setImageResource(R.drawable.mys);
@@ -412,6 +459,7 @@ public class MainActivity extends AppCompatActivity implements OnBannerListener,
 
     }
 
+
     private class MyConnectionListener implements EMConnectionListener {
         @Override
         public void onConnected() {
@@ -450,7 +498,8 @@ public class MainActivity extends AppCompatActivity implements OnBannerListener,
     private EaseUser getUserInfo(String username) {
 
         EaseUser easeUser = new EaseUser(username);
-        easeUser.setNickname(username);
+
+        easeUser.setNickname(InitApplication.getName(username));
         easeUser.setAvatar(Server.getURL() + "image/" + username);
         return easeUser;
     }

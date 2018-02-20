@@ -10,7 +10,7 @@ import com.hyphenate.easeui.EaseUI;
 import com.vondear.rxtools.RxTool;
 
 import java.util.ArrayList;
-
+import java.util.HashMap;
 
 
 /**
@@ -31,6 +31,8 @@ public class InitApplication extends Application {
 
     private static ArrayList<TeacherInfo> teaInfoList;
 
+    private static HashMap<String,String> map;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -38,6 +40,7 @@ public class InitApplication extends Application {
         context = this;
         userInfo=null;
         teaInfoList=new ArrayList<>();
+        map=new HashMap<>();
         EaseUI.getInstance().init(this, null);
     }
 
@@ -67,10 +70,22 @@ public class InitApplication extends Application {
     public static void setTeaInfoList(ArrayList<TeacherInfo> list) {
         teaInfoList.clear();
         teaInfoList.addAll(list);
+        setMap();
     }
 
     public static Context getContext() {
         return context;
+    }
+
+
+    private static void setMap(){
+        for(TeacherInfo info:teaInfoList){
+            map.put(info.getPhone(),info.getName());
+        }
+    }
+
+    public static String getName(String key){
+        return map.get(key);
     }
 }
 
