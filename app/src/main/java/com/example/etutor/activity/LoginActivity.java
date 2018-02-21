@@ -4,7 +4,6 @@ import android.Manifest;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -27,8 +26,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
-import com.bumptech.glide.Glide;
-import com.example.etutor.InitApplication;
 import com.example.etutor.R;
 import com.example.etutor.gson.UserInfo;
 import com.example.etutor.util.Server;
@@ -122,6 +119,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
         findViewById(R.id.iv_show_pwd).setOnClickListener(this);
 
+        findViewById(R.id.help).setOnClickListener(this);
 
         passWord.addTextChangedListener(new TextWatcher() {
             @Override
@@ -180,6 +178,8 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.help:
+                break;
             case R.id.btn_login:
                 final RxDialogLoading rxDialogLoading = new RxDialogLoading(activity);
                 rxDialogLoading.setCancelable(false);

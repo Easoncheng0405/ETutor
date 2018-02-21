@@ -2,6 +2,8 @@ package com.example.etutor.util;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Handler;
@@ -10,6 +12,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.etutor.InitApplication;
+import com.example.etutor.activity.LoginActivity;
 import com.example.etutor.gson.BaseResult;
 import com.example.etutor.gson.LoginResult;
 import com.example.etutor.gson.TeaInfoListResult;
@@ -20,6 +23,7 @@ import com.google.gson.JsonSyntaxException;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.exceptions.HyphenateException;
+import com.vondear.rxtools.RxConstTool;
 
 import java.io.DataOutputStream;
 import java.io.File;
@@ -43,6 +47,8 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * Created by 医我一生 on 2018/1/31.
@@ -363,7 +369,7 @@ public class Server {
         try {
             Response response = client.newCall(request).execute();
             TeaInfoListResult result = new Gson().fromJson(response.body().string(), TeaInfoListResult.class);
-            ArrayList<TeacherInfo> res=result.getResult();
+            ArrayList<TeacherInfo> res = result.getResult();
             InitApplication.setTeaInfoList(res);
             return res;
 
@@ -393,14 +399,15 @@ public class Server {
         return false;
     }
 
-    private static boolean isPhoneNum(String phone) {
-        Pattern p = Pattern.compile("^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$");
+    public static boolean isPhoneNum(String phone) {
+
+        Pattern p = Pattern.compile(RxConstTool.REGEX_MOBILE_EXACT);
         Matcher m = p.matcher(phone);
         return m.matches();
     }
 
     public static boolean isEmail(String email) {
-        Pattern p = Pattern.compile("^([a-z0-9A-Z]+[-|.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$");
+        Pattern p = Pattern.compile(RxConstTool.REGEX_EMAIL);
         Matcher m = p.matcher(email);
         return m.matches();
     }
@@ -412,5 +419,31 @@ public class Server {
 
     public static String getURL() {
         return URL;
+    }
+
+    public static void logout(final Activity activity, final Handler handler) {
+        SharedPreferences preferences = activity.getSharedPreferences("UserInfo", MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.clear();
+        editor.apply();
+        EMClient.getInstance().logout(true, new EMCallBack() {
+            @Override
+            public void onSuccess() {
+                activity.startActivity(new Intent(activity, LoginActivity.class));
+                activity.finish();
+            }
+
+            @Override
+            public void onError(int i, String s) {
+                handler.post(new UpdateUITools("无法连接到服务器，请重新登陆！"));
+                activity.finish();
+
+            }
+
+            @Override
+            public void onProgress(int i, String s) {
+
+            }
+        });
     }
 }

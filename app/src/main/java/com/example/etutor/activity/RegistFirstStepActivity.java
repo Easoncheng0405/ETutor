@@ -3,9 +3,10 @@ package com.example.etutor.activity;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
@@ -13,11 +14,18 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
+import android.widget.SeekBar;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.example.etutor.R;
+import com.example.etutor.dialog.CaptchaDialog;
 import com.example.etutor.util.Server;
+import com.example.etutor.util.ToastUtil;
 import com.example.etutor.util.UpdateUITools;
 import com.vondear.rxtools.view.dialog.RxDialogLoading;
+import com.vondear.rxtools.view.swipecaptcha.RxSwipeCaptcha;
 
 public class RegistFirstStepActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -75,41 +83,94 @@ public class RegistFirstStepActivity extends AppCompatActivity implements View.O
 
     @Override
     public void onClick(View v) {
-        UpdateUITools tools;
         switch (v.getId()) {
             case R.id.login_cancel:
                 finish();
                 break;
             case R.id.registButton:
-                final RxDialogLoading dialogLoading = new RxDialogLoading(activity);
-                dialogLoading.setLoadingText("加载中，请稍后");
-                dialogLoading.setCancelable(false);
-                dialogLoading.show();
-                new Thread(new Runnable() {
+                if(!Server.isPhoneNum(phone.getText().toString().trim())) {
+                    ToastUtil.showMessage(getApplicationContext(), "输入正确的电话号码");
+                    break;
+                }
+                final CaptchaDialog dialog = new CaptchaDialog(this);
+                dialog.show();
+                final RxSwipeCaptcha mRxSwipeCaptcha = dialog.getSwipeCaptcha();
+                final SeekBar mSeekBar = dialog.getSeekBar();
+                mRxSwipeCaptcha.setOnCaptchaMatchCallback(new RxSwipeCaptcha.OnCaptchaMatchCallback() {
                     @Override
-                    public void run() {
-
-                        if (Server.checkInfoExist(handler, phone.getText().toString().trim())) {
-                            Intent intent = new Intent(RegistFirstStepActivity.this, RegistLastStepActivity.class);
-                            intent.putExtra("phone", phone.getText().toString().trim());
-                            handler.post(new UpdateUITools(dialogLoading));
-                            startActivity(intent);
-                        }
+                    public void matchSuccess(RxSwipeCaptcha rxSwipeCaptcha) {
+                        dialog.dismiss();
+                        mSeekBar.setEnabled(false);
+                        register();
                     }
-                }).start();
+
+                    @Override
+                    public void matchFailed(RxSwipeCaptcha rxSwipeCaptcha) {
+                        ToastUtil.showMessage(getApplicationContext(), "验证失败:拖动滑块将悬浮头像正确拼合");
+                        rxSwipeCaptcha.resetCaptcha();
+                        mSeekBar.setProgress(0);
+                    }
+                });
+                mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+                    @Override
+                    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                        mRxSwipeCaptcha.setCurrentSwipeValue(progress);
+                    }
+
+                    @Override
+                    public void onStartTrackingTouch(SeekBar seekBar) {
+                        mSeekBar.setMax(mRxSwipeCaptcha.getMaxSwipeValue());
+                    }
+
+                    @Override
+                    public void onStopTrackingTouch(SeekBar seekBar) {
+                        mRxSwipeCaptcha.matchCaptcha();
+                    }
+                });
+
+                //测试从网络加载图片是否ok
+                Glide.with(getApplicationContext())
+                        .load(R.drawable.douyu)
+                        .asBitmap()
+                        .into(new SimpleTarget<Bitmap>() {
+                            @Override
+                            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                                mRxSwipeCaptcha.setImageBitmap(resource);
+                                mRxSwipeCaptcha.createCaptcha();
+                            }
+                        });
                 break;
             case R.id.role1:
-                tools = new UpdateUITools(RegistFirstStepActivity.this, "隐私条款"
-                        , getResources().getString(R.string.安卓简介), UpdateUITools.DoNothing);
-                tools.initSureDialog();
+                Intent privacy = new Intent(activity, WebActivity.class);
+                privacy.putExtra("URL", Server.getURL() + "privacy.html");
+                startActivity(privacy);
                 break;
             case R.id.role2:
-                tools = new UpdateUITools(RegistFirstStepActivity.this, "用户使用协议"
-                        , getResources().getString(R.string.安卓简介), UpdateUITools.DoNothing);
-                tools.initSureDialog();
+                Intent role = new Intent(activity, WebActivity.class);
+                role.putExtra("URL", Server.getURL() + "role.html");
+                startActivity(role);
                 break;
             default:
                 break;
         }
+    }
+
+    private void register() {
+        final RxDialogLoading dialogLoading = new RxDialogLoading(activity);
+        dialogLoading.setLoadingText("加载中，请稍后");
+        dialogLoading.setCancelable(false);
+        dialogLoading.show();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if (Server.checkInfoExist(handler, phone.getText().toString().trim())) {
+                    Intent intent = new Intent(RegistFirstStepActivity.this, RegistLastStepActivity.class);
+                    intent.putExtra("phone", phone.getText().toString().trim());
+                    startActivity(intent);
+                }
+                handler.post(new UpdateUITools(dialogLoading));
+            }
+        }).start();
     }
 }

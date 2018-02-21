@@ -3,7 +3,6 @@ package com.example.etutor.activity;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentManager;
@@ -40,7 +39,6 @@ import com.example.etutor.util.ToastUtil;
 import com.example.etutor.util.UpdateUITools;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-import com.hyphenate.EMCallBack;
 import com.hyphenate.EMConnectionListener;
 import com.hyphenate.EMError;
 import com.hyphenate.EMMessageListener;
@@ -377,34 +375,8 @@ public class MainActivity extends AppCompatActivity implements OnBannerListener,
                 setTabSelection(2);
                 break;
             case R.id.logout:
-                SharedPreferences preferences = getSharedPreferences("UserInfo", MODE_PRIVATE);
-                SharedPreferences.Editor editor = preferences.edit();
-                editor.clear();
-                editor.apply();
-                EMClient.getInstance().logout(true, new EMCallBack() {
-                    @Override
-                    public void onSuccess() {
-                        startActivity(new Intent(MainActivity.this, LoginActivity.class));
-                        finish();
-                    }
-
-                    @Override
-                    public void onError(int i, String s) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                ToastUtil.showMessage(MainActivity.this, "无法连接到服务器，请重新登陆！");
-                                startActivity(new Intent(MainActivity.this, LoginActivity.class));
-                                finish();
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void onProgress(int i, String s) {
-
-                    }
-                });
+                Server.logout(activity,handler);
+                break;
             case R.id.personal_info:
                 startPersonalInfoAty();
                 break;
