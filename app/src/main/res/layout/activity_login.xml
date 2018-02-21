@@ -168,7 +168,7 @@
                     android:gravity="right"
                     android:layout_marginBottom="10dp"
                     android:layout_marginLeft="21dp"
-                    android:text="常见问题？"
+                    android:text="常见问题"
                     android:textColor="#b0b8b2"
                     android:textSize="14dp"/>
             </LinearLayout>
@@ -188,6 +188,7 @@
         android:padding="10dp">
 
         <TextView
+            android:id="@+id/contact_us"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
@@ -203,6 +204,7 @@
             android:background="#EEEEEE"/>
 
         <TextView
+            android:id="@+id/about_us"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"

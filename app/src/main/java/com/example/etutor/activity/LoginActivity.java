@@ -7,8 +7,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -29,8 +32,10 @@ import android.widget.ScrollView;
 import com.example.etutor.R;
 import com.example.etutor.gson.UserInfo;
 import com.example.etutor.util.Server;
+import com.example.etutor.util.ToastUtil;
 import com.example.etutor.util.UpdateUITools;
 import com.vondear.rxtools.view.dialog.RxDialogLoading;
+import com.vondear.rxtools.view.dialog.RxDialogSure;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -121,6 +126,10 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
         findViewById(R.id.help).setOnClickListener(this);
 
+        findViewById(R.id.contact_us).setOnClickListener(this);
+
+        findViewById(R.id.about_us).setOnClickListener(this);
+
         passWord.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -178,7 +187,34 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.contact_us:
+                if(!isQQClientAvailable(activity)){
+                    ToastUtil.showMessage(activity,"尚未安装手机QQ客户端");
+                    break;
+                }
+                // 跳转到客服的QQ
+                String url = "mqqwpa://im/chat?chat_type=wpa&uin=597021782&version=1";
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                // 跳转前先判断Uri是否存在，如果打开一个不存在的Uri，App可能会崩溃
+                if (isValidIntent(activity,intent)) {
+                    startActivity(intent);
+                }
+                break;
+            case R.id.about_us:
+                final RxDialogSure dialogSure=new RxDialogSure(activity);
+                dialogSure.setTitle("大创小分队");
+                dialogSure.setContent("吉林大学计算机科学与技术学院：\n 程杰，洪泽海，林朋，刘瀚霆，袁子易");
+                dialogSure.setCancelable(false);
+                dialogSure.show();
+                dialogSure.getSureView().setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialogSure.dismiss();
+                    }
+                });
+                break;
             case R.id.help:
+                startActivity(new Intent(activity,HelpActivity.class));
                 break;
             case R.id.btn_login:
                 final RxDialogLoading rxDialogLoading = new RxDialogLoading(activity);
@@ -264,5 +300,28 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.addCategory(Intent.CATEGORY_HOME);
         startActivity(intent);
+    }
+
+    private boolean isQQClientAvailable(Context context) {
+        final PackageManager packageManager = context.getPackageManager();
+        List<PackageInfo> pinfo = packageManager.getInstalledPackages(0);
+        if (pinfo != null) {
+            for (int i = 0; i < pinfo.size(); i++) {
+                String pn = pinfo.get(i).packageName;
+                if (pn.equalsIgnoreCase("com.tencent.qqlite") || pn.equalsIgnoreCase("com.tencent.mobileqq")) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 判断 Uri是否有效
+     */
+    private  boolean isValidIntent(Context context, Intent intent) {
+        PackageManager packageManager = context.getPackageManager();
+        List<ResolveInfo> activities = packageManager.queryIntentActivities(intent, 0);
+        return !activities.isEmpty();
     }
 }

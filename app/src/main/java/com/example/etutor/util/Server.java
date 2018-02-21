@@ -400,7 +400,6 @@ public class Server {
     }
 
     public static boolean isPhoneNum(String phone) {
-
         Pattern p = Pattern.compile(RxConstTool.REGEX_MOBILE_EXACT);
         Matcher m = p.matcher(phone);
         return m.matches();

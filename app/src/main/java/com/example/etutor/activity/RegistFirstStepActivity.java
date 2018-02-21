@@ -131,7 +131,7 @@ public class RegistFirstStepActivity extends AppCompatActivity implements View.O
 
                 //测试从网络加载图片是否ok
                 Glide.with(getApplicationContext())
-                        .load(R.drawable.douyu)
+                        .load(R.mipmap.wall)
                         .asBitmap()
                         .into(new SimpleTarget<Bitmap>() {
                             @Override

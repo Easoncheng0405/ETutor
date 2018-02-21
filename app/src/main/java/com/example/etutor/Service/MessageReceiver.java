@@ -45,8 +45,8 @@ public class MessageReceiver extends Service{
                 intent.putExtra("name",user.getNickname());
                 PendingIntent contentIntent = PendingIntent.getActivity(getApplicationContext(), 0,  intent, PendingIntent.FLAG_CANCEL_CURRENT);
                 NotificationManager manager=(NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                Notification notification=new NotificationCompat.Builder(getApplicationContext()).setContentTitle("大创小分队")
-                        .setContentText("你收到了一条来自"+user.getNickname()+"的新消息").setWhen(System.currentTimeMillis())
+                Notification notification=new NotificationCompat.Builder(getApplicationContext()).setContentTitle("ETutor新消息提醒")
+                        .setContentText("你收到了一条来自  "+user.getNickname()+"  的新消息").setWhen(System.currentTimeMillis())
                         .setSmallIcon(R.mipmap.fluidicon)
                         .setPriority(Notification.PRIORITY_HIGH) //设置该通知优先级
                         .setContentIntent(contentIntent)
