@@ -384,6 +384,29 @@ public class Server {
         return null;
     }
 
+    public static void testConnection(final Handler handler) {
+        if (!isNetworkAvailable()) {
+            handler.post(new UpdateUITools("网络无连接，检查您的网络设置！"));
+        }
+        OkHttpClient client = new OkHttpClient.Builder().connectTimeout(3, TimeUnit.SECONDS).build();
+        RequestBody body = new FormBody.Builder().build();
+        Request request = new Request.Builder().url(URL + "welcome").post(body).build();
+        try {
+            Response response = client.newCall(request).execute();
+            BaseResult result = new Gson().fromJson(response.body().string(), BaseResult.class);
+            if(result.getCode()==0)
+                handler.post(new UpdateUITools("端口测试成功！"));
+        } catch (IOException e) {
+            if (e instanceof SocketTimeoutException)
+                handler.post(new UpdateUITools("连接服务器超时"));
+            else if (e instanceof ConnectException)
+                handler.post(new UpdateUITools("无法连接到服务器"));
+        } catch (JsonSyntaxException e) {
+            handler.post(new UpdateUITools("服务器发生错误，请联系客服"));
+        }
+
+    }
+
     private static boolean isNetworkAvailable() {
         ConnectivityManager cm = (ConnectivityManager) InitApplication.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         if (cm != null) {
@@ -412,8 +435,8 @@ public class Server {
     }
 
 
-    public static void setURL(String IPV4, String HOST) {
-        URL = "http://" + IPV4 + ":" + HOST + "/Server";
+    public static void setURL(String IPV4) {
+        URL = "http://" + IPV4 + ":" + HOST + "/Server/";
     }
 
     public static String getURL() {
@@ -444,5 +467,9 @@ public class Server {
 
             }
         });
+    }
+
+    public static String getIPV4() {
+        return IPV4;
     }
 }

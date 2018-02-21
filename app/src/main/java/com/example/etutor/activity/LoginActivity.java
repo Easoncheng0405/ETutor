@@ -34,6 +34,7 @@ import com.example.etutor.gson.UserInfo;
 import com.example.etutor.util.Server;
 import com.example.etutor.util.ToastUtil;
 import com.example.etutor.util.UpdateUITools;
+import com.vondear.rxtools.view.dialog.RxDialogEditSureCancel;
 import com.vondear.rxtools.view.dialog.RxDialogLoading;
 import com.vondear.rxtools.view.dialog.RxDialogSure;
 
@@ -83,7 +84,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         info = findViewById(R.id.et_mobile);
         ScrollView mScrollView = findViewById(R.id.scrollView);
         mContent = findViewById(R.id.content);
-        mLogo = findViewById(R.id.logo);
+        mLogo = findViewById(R.id.logo_head);
         showPassWord = findViewById(R.id.iv_show_pwd);
         mService = findViewById(R.id.service);
         int screenHeight = this.getResources().getDisplayMetrics().heightPixels;
@@ -129,6 +130,42 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         findViewById(R.id.contact_us).setOnClickListener(this);
 
         findViewById(R.id.about_us).setOnClickListener(this);
+
+        findViewById(R.id.btn_login).setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                ToastUtil.showMessage(context,"长按头像了");
+                final RxDialogEditSureCancel dialog=new RxDialogEditSureCancel(context);
+                dialog.setTitle("输入服务器端IPV4地址");
+                dialog.getEditText().setHint(Server.getIPV4());
+                dialog.show();
+                dialog.getSureView().setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        final RxDialogLoading dialogLoading=new RxDialogLoading(context);
+                        dialogLoading.setLoadingText("连接服务器中...");
+                        dialogLoading.setCancelable(false);
+                        dialogLoading.show();
+                        Server.setURL(dialog.getEditText().getText().toString().trim());
+                        dialog.dismiss();
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Server.testConnection(handler);
+                                handler.post(new UpdateUITools(dialogLoading));
+                            }
+                        }).start();
+                    }
+                });
+                dialog.getCancelView().setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
+                });
+                return true;
+            }
+        });
 
         passWord.addTextChangedListener(new TextWatcher() {
             @Override
