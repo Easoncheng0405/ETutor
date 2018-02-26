@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.signature.StringSignature;
-import com.example.etutor.R;
+import com.jlu.etutor.R;
 import com.jlu.etutor.gson.TeacherInfo;
 import com.jlu.etutor.util.Server;
 

@@ -9,7 +9,7 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 
-import com.example.etutor.R;
+import com.jlu.etutor.R;
 import com.jlu.etutor.activity.ChatActivity;
 import com.hyphenate.EMMessageListener;
 import com.hyphenate.chat.EMClient;

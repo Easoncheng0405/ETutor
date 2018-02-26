@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.example.etutor.R;
+import com.jlu.etutor.R;
 import com.jlu.etutor.adpter.QuestionAdapter;
 import com.vondear.rxtools.view.RxTitle;
 import com.vondear.rxtools.view.dialog.RxDialogSure;

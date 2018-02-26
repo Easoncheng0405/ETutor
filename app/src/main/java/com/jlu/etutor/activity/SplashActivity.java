@@ -9,7 +9,7 @@ import android.support.annotation.Nullable;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.example.etutor.R;
+import com.jlu.etutor.R;
 import com.jlu.etutor.gson.TeacherInfo;
 import com.jlu.etutor.gson.UserInfo;
 import com.jlu.etutor.util.Server;

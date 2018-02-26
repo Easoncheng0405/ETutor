@@ -19,7 +19,7 @@ import android.widget.SeekBar;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
-import com.example.etutor.R;
+import com.jlu.etutor.R;
 import com.jlu.etutor.dialog.CaptchaDialog;
 import com.jlu.etutor.util.Server;
 import com.jlu.etutor.util.ToastUtil;

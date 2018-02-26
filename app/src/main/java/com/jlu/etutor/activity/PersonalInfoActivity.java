@@ -18,7 +18,7 @@ import com.allen.library.SuperTextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.jlu.etutor.InitApplication;
-import com.example.etutor.R;
+import com.jlu.etutor.R;
 import com.jlu.etutor.gson.TeacherInfo;
 import com.jlu.etutor.gson.UserInfo;
 import com.jlu.etutor.util.Server;

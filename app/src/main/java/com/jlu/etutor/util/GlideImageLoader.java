@@ -15,7 +15,6 @@ import com.youth.banner.loader.ImageLoader;
 public class GlideImageLoader extends ImageLoader {
 
     public GlideImageLoader(){
-        throw new RuntimeException("util class can not be instance!");
     }
 
     /**

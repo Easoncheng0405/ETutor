@@ -9,7 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.etutor.R;
+import com.jlu.etutor.R;
 
 import java.util.List;
 

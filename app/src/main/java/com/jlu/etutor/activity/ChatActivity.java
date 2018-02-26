@@ -13,7 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.jlu.etutor.InitApplication;
-import com.example.etutor.R;
+import com.jlu.etutor.R;
 import com.jlu.etutor.gson.LoginResult;
 import com.jlu.etutor.gson.TeacherInfo;
 import com.jlu.etutor.gson.UserInfo;

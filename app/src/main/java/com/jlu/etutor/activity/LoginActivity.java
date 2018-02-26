@@ -29,7 +29,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
-import com.example.etutor.R;
+import com.jlu.etutor.R;
 import com.jlu.etutor.gson.UserInfo;
 import com.jlu.etutor.util.Server;
 import com.jlu.etutor.util.ToastUtil;

@@ -7,7 +7,7 @@
     android:background="@color/white"
     android:orientation="vertical"
     android:fitsSystemWindows="true"
-    tools:context="com.example.etutor.com.jlu.etutor.activity.RegistFirstStepActivity">
+    tools:context="com..etutor.com.jlu.etutor.activity.RegistFirstStepActivity">
     <ScrollView
         android:fillViewport="true"
         android:id="@+id/scrollView"

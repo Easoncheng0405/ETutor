@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    tools:context="com.example.etutor.com.jlu.etutor.activity.HelpActivity">
+    tools:context="com..etutor.com.jlu.etutor.activity.HelpActivity">
     <com.vondear.rxtools.view.RxTitle
         android:id="@+id/title"
         android:layout_width="match_parent"

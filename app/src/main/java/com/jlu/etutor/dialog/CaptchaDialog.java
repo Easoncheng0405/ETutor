@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.SeekBar;
 
-import com.example.etutor.R;
+import com.jlu.etutor.R;
 import com.vondear.rxtools.view.dialog.RxDialog;
 import com.vondear.rxtools.view.swipecaptcha.RxSwipeCaptcha;
 

@@ -22,7 +22,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.signature.StringSignature;
 import com.jlu.etutor.InitApplication;
-import com.example.etutor.R;
+import com.jlu.etutor.R;
 import com.jlu.etutor.Service.MessageReceiver;
 import com.jlu.etutor.adpter.GridViewAdapter;
 import com.jlu.etutor.adpter.Model;

@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.etutor.R;
+import com.jlu.etutor.R;
 
 /**
  * Created by 程杰 on 2018/2/7.
