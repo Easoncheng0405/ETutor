@@ -2,7 +2,12 @@ package com.jlu.etutor.activity;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentManager;
@@ -271,7 +276,7 @@ public class MainActivity extends AppCompatActivity implements OnBannerListener,
         view.findViewById(R.id.logout).setOnClickListener(this);
         view.findViewById(R.id.personal_info).setOnClickListener(this);
         view.findViewById(R.id.head).setOnClickListener(this);
-
+        view.findViewById(R.id.contact_us).setOnClickListener(this);
         ImageView header = view.findViewById(R.id.head);
 
         Glide.with(activity).load(Server.getURL() + "image/" + InitApplication.getUserInfo().getPhone())
@@ -365,6 +370,19 @@ public class MainActivity extends AppCompatActivity implements OnBannerListener,
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.contact_us:
+                if(!isQQClientAvailable(activity)){
+                    ToastUtil.showMessage(activity,"尚未安装手机QQ客户端");
+                    break;
+                }
+                // 跳转到客服的QQ
+                String url = "mqqwpa://im/chat?chat_type=wpa&uin=597021782&version=1";
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                // 跳转前先判断Uri是否存在，如果打开一个不存在的Uri，App可能会崩溃
+                if (isValidIntent(activity,intent)) {
+                    startActivity(intent);
+                }
+                break;
             case R.id.home:
                 setTabSelection(0);
                 break;
@@ -476,5 +494,26 @@ public class MainActivity extends AppCompatActivity implements OnBannerListener,
         return easeUser;
     }
 
+    private boolean isQQClientAvailable(Context context) {
+        final PackageManager packageManager = context.getPackageManager();
+        List<PackageInfo> pinfo = packageManager.getInstalledPackages(0);
+        if (pinfo != null) {
+            for (int i = 0; i < pinfo.size(); i++) {
+                String pn = pinfo.get(i).packageName;
+                if (pn.equalsIgnoreCase("com.tencent.qqlite") || pn.equalsIgnoreCase("com.tencent.mobileqq")) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
+    /**
+     * 判断 Uri是否有效
+     */
+    private  boolean isValidIntent(Context context, Intent intent) {
+        PackageManager packageManager = context.getPackageManager();
+        List<ResolveInfo> activities = packageManager.queryIntentActivities(intent, 0);
+        return !activities.isEmpty();
+    }
 }
