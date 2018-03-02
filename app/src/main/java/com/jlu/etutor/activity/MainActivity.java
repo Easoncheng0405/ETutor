@@ -223,6 +223,7 @@ public class MainActivity extends AppCompatActivity implements OnBannerListener,
     }
 
     private void refreshTeaInfo(final PullToRefreshView pullToRefreshView) {
+        Server.setMills(System.currentTimeMillis());
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -280,7 +281,7 @@ public class MainActivity extends AppCompatActivity implements OnBannerListener,
         ImageView header = view.findViewById(R.id.head);
 
         Glide.with(activity).load(Server.getURL() + "image/" + InitApplication.getUserInfo().getPhone())
-                .signature(new StringSignature(String.valueOf(System.currentTimeMillis()))).into(header);
+                .signature(new StringSignature(String.valueOf(Server.mills))).into(header);
         ((TextView) view.findViewById(R.id.userName)).setText(InitApplication.getUserInfo().getName());
         ((TextView) view.findViewById(R.id.userPhone)).setText(InitApplication.getUserInfo().getPhone());
 

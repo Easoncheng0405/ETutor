@@ -5,7 +5,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.signature.StringSignature;
 import com.hyphenate.easeui.EaseUI;
 import com.hyphenate.easeui.EaseUI.EaseUserProfileProvider;
@@ -44,12 +43,10 @@ public class EaseUserUtils {
         EaseUser user = getUserInfo(username);
         if (user != null && user.getAvatar() != null) {
             try {
-                Glide.with(context).load(user.getAvatar()).diskCacheStrategy(DiskCacheStrategy.RESULT)
-                        .signature(new StringSignature(String.valueOf(System.currentTimeMillis())))
+                Glide.with(context).load(user.getAvatar()).signature(new StringSignature(String.valueOf(System.currentTimeMillis())))
                         .bitmapTransform(new CropCircleTransformation(context)).into(imageView);
             } catch (Exception e) {
-                Glide.with(context).load(user.getAvatar()).diskCacheStrategy(DiskCacheStrategy.RESULT)
-                        .signature(new StringSignature(String.valueOf(System.currentTimeMillis())))
+                Glide.with(context).load(user.getAvatar()).signature(new StringSignature(String.valueOf(System.currentTimeMillis())))
                         .bitmapTransform(new CropCircleTransformation(context)).into(imageView);
             }
         } else {

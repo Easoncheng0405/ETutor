@@ -58,6 +58,7 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class Server {
 
+    public static long mills=0;
 
     private static String IPV4 = "123.207.236.80";
 
@@ -471,5 +472,9 @@ public class Server {
 
     public static String getIPV4() {
         return IPV4;
+    }
+
+    public static void setMills(Long v){
+        mills=v;
     }
 }

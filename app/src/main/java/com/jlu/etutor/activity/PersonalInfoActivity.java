@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 import com.allen.library.SuperTextView;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.signature.StringSignature;
 import com.jlu.etutor.InitApplication;
 import com.jlu.etutor.R;
 import com.jlu.etutor.gson.TeacherInfo;
@@ -103,8 +103,7 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
 
         imageView = findViewById(R.id.header);
 
-        Glide.with(this).load(Server.getURL() + "image/" + info.getPhone())
-                .skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.NONE).into(imageView);
+        Glide.with(this).load(Server.getURL() + "image/" + info.getPhone()).signature(new StringSignature(String.valueOf(Server.mills))).into(imageView);
 
         if (info.getType() == 0)
             ((TextView) findViewById(R.id.type)).setText("教师");
@@ -189,6 +188,7 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
                 finish();
                 break;
             case R.id.header:
+                Server.setMills(System.currentTimeMillis());
                 new RxDialogChooseImage(this).show();
                 break;
             case R.id.email:

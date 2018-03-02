@@ -26,9 +26,7 @@ import java.util.List;
 
 public class TeaInfoAdapter extends ArrayAdapter {
 
-    /**
-     * 布局问价Id
-     */
+
     private final int resId;
 
     /**
@@ -62,7 +60,7 @@ public class TeaInfoAdapter extends ArrayAdapter {
         TextView tag=convertView.findViewById(R.id.tag);
         ImageView imageView=convertView.findViewById(R.id.header);
         Glide.with(getContext()).load(Server.getURL()+"image/"+info.getPhone())
-                .signature(new StringSignature(String.valueOf(System.currentTimeMillis()))) .into(imageView);
+                .signature(new StringSignature(String.valueOf(Server.mills))) .into(imageView);
         name.setText(info.getName());
         college.setText(info.getCollege());
         major.setText(info.getMajor());
