@@ -478,7 +478,8 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
         options.setToolbarColor(ActivityCompat.getColor(this, R.color.colorPrimary));
         //设置状态栏颜色
         options.setStatusBarColor(ActivityCompat.getColor(this, R.color.colorPrimaryDark));
-
+        //设置裁剪质量
+        options.setCompressionQuality(30);
         //开始设置
         //设置最大缩放比例
         options.setMaxScaleMultiplier(5);

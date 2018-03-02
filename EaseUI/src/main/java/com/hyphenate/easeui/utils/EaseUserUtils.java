@@ -43,11 +43,9 @@ public class EaseUserUtils {
         EaseUser user = getUserInfo(username);
         if (user != null && user.getAvatar() != null) {
             try {
-                Glide.with(context).load(user.getAvatar()).signature(new StringSignature(String.valueOf(System.currentTimeMillis())))
-                        .bitmapTransform(new CropCircleTransformation(context)).into(imageView);
+                Glide.with(context).load(user.getAvatar()).bitmapTransform(new CropCircleTransformation(context)).into(imageView);
             } catch (Exception e) {
-                Glide.with(context).load(user.getAvatar()).signature(new StringSignature(String.valueOf(System.currentTimeMillis())))
-                        .bitmapTransform(new CropCircleTransformation(context)).into(imageView);
+                Glide.with(context).load(user.getAvatar()).bitmapTransform(new CropCircleTransformation(context)).into(imageView);
             }
         } else {
             Glide.with(context).load(R.drawable.fluidicon).into(imageView);
