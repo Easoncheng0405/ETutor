@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -21,6 +22,8 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.jlu.etutor.R;
 import com.jlu.etutor.dialog.CaptchaDialog;
+import com.jlu.etutor.dialog.CodeInputDialog;
+import com.jlu.etutor.util.JUHECode;
 import com.jlu.etutor.util.Server;
 import com.jlu.etutor.util.ToastUtil;
 import com.jlu.etutor.util.UpdateUITools;
@@ -30,19 +33,24 @@ import com.vondear.rxtools.view.swipecaptcha.RxSwipeCaptcha;
 public class RegistFirstStepActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Handler handler;
-
+    private String code;
+    private String v;
     private int keyHeight = 0; //软件盘弹起后所占高度
     private LinearLayout mContent;
     private RelativeLayout service;
     private EditText phone;
-
     private Activity activity;
+    private CodeInputDialog codeInputDialog;
+    private RxDialogLoading dialogLoading;
+    private CountDownTimer timer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_regist_first_step);
         activity = this;
+        codeInputDialog = new CodeInputDialog(activity);
+        dialogLoading = new RxDialogLoading(activity);
         ScrollView scrollView = findViewById(R.id.scrollView);
         service = findViewById(R.id.service);
         phone = findViewById(R.id.phone);
@@ -88,7 +96,7 @@ public class RegistFirstStepActivity extends AppCompatActivity implements View.O
                 finish();
                 break;
             case R.id.registButton:
-                if(!Server.isPhoneNum(phone.getText().toString().trim())) {
+                if (!Server.isPhoneNum(phone.getText().toString().trim())) {
                     ToastUtil.showMessage(getApplicationContext(), "输入正确的电话号码");
                     break;
                 }
@@ -157,20 +165,82 @@ public class RegistFirstStepActivity extends AppCompatActivity implements View.O
     }
 
     private void register() {
-        final RxDialogLoading dialogLoading = new RxDialogLoading(activity);
+        if (timer == null)
+            timer = new CountDownTimer(60300, 1000) {
+                @Override
+                public void onTick(long l) {
+                    codeInputDialog.setTime("重新发送(" + ((l / 1000) - 1) + "s) ");
+                }
+
+                @Override
+                public void onFinish() {
+                    codeInputDialog.setTime("重新发送 ");
+                    codeInputDialog.setEnable(true);
+                }
+            };
+        dialogLoading = new RxDialogLoading(activity);
         dialogLoading.setLoadingText("加载中，请稍后");
         dialogLoading.setCancelable(false);
         dialogLoading.show();
         new Thread(new Runnable() {
             @Override
             public void run() {
-                if (Server.checkInfoExist(handler, phone.getText().toString().trim())) {
-                    Intent intent = new Intent(RegistFirstStepActivity.this, RegistLastStepActivity.class);
-                    intent.putExtra("phone", phone.getText().toString().trim());
-                    startActivity(intent);
+                boolean flag = Server.checkInfoExist(handler, phone.getText().toString().trim());
+                dialogLoading.dismiss();
+                handler.post(new UpdateUITools(codeInputDialog, UpdateUITools.Show));
+                if (flag && codeInputDialog.isEnable()) {
+                    v = String.valueOf((int) ((Math.random() * 9 + 1) * 100000));
+                    code = "#code#=" + v;
+                    dialogLoading.show();
+                    flag = JUHECode.sendCode(handler, phone.getText().toString().trim(), code);
+                    codeInputDialog.setEnable(false);
+                    dialogLoading.dismiss();
+                    if (flag) {
+                        timer.start();
+                        handler.post(new UpdateUITools("验证码已发送，请注意查收"));
+                        codeInputDialog.getOk().setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                if (v.equals(codeInputDialog.getCode())) {
+                                    Intent intent = new Intent(RegistFirstStepActivity.this, RegistLastStepActivity.class);
+                                    intent.putExtra("phone", phone.getText().toString().trim());
+                                    startActivity(intent);
+                                    codeInputDialog.dismiss();
+                                } else
+                                    ToastUtil.showMessage(activity, "验证码错误！");
+                            }
+                        });
+
+                        codeInputDialog.getCancel().setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                codeInputDialog.dismiss();
+                            }
+                        });
+
+                        codeInputDialog.getTime().setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                codeInputDialog.setEnable(false);
+                                v = String.valueOf((int) ((Math.random() * 9 + 1) * 100000));
+                                code = "#code#=" + v;
+                                new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        JUHECode.sendCode(handler, phone.getText().toString().trim(), code);
+                                        timer.start();
+                                    }
+                                }).start();
+                            }
+                        });
+                    } else
+                        codeInputDialog.dismiss();
+                    dialogLoading.dismiss();
+
                 }
-                handler.post(new UpdateUITools(dialogLoading));
             }
         }).start();
     }
+
+
 }

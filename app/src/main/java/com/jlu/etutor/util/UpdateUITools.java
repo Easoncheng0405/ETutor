@@ -5,6 +5,7 @@ import android.view.View;
 
 import com.jlu.etutor.InitApplication;
 import com.hyphenate.easeui.widget.EaseTitleBar;
+import com.vondear.rxtools.view.dialog.RxDialog;
 import com.vondear.rxtools.view.dialog.RxDialogLoading;
 import com.vondear.rxtools.view.dialog.RxDialogSure;
 import com.yalantis.phoenix.PullToRefreshView;
@@ -19,15 +20,19 @@ import com.yalantis.phoenix.PullToRefreshView;
 
 public class UpdateUITools implements Runnable {
 
-    private static final int DialogMessage = 0;
+    public static final int DialogMessage = 0;
 
-    private static final int ToastMessage = 1;
+    public static final int ToastMessage = 1;
 
-    private static final int LoadingMessage = 2;
+    public static final int DissMiss = 2;
 
-    private static final int PullToRefresh=3;
+    public static final int PullToRefresh=3;
 
-    private static final int TitleBar=4;
+    public static final int TitleBar=4;
+
+    public static final int Enable=5;
+
+    public static final int Show=6;
 
     public static final int ForceClose = 0;
 
@@ -40,10 +45,11 @@ public class UpdateUITools implements Runnable {
     private String title, message;
     private Activity activity;
     private int action;
-    private RxDialogLoading rxDialogLoading;
+    private RxDialog rxDialog;
     private PullToRefreshView pullToRefreshView;
     private EaseTitleBar titleBar;
-
+    private View view;
+    private boolean flag;
 
     public UpdateUITools(EaseTitleBar titleBar,String title){
         this.option=TitleBar;
@@ -59,9 +65,14 @@ public class UpdateUITools implements Runnable {
         this.option = DialogMessage;
     }
 
-    public UpdateUITools(RxDialogLoading rxDialogLoading) {
-        this.rxDialogLoading = rxDialogLoading;
-        this.option=LoadingMessage;
+    public UpdateUITools(RxDialog dialog) {
+        this.rxDialog = dialog;
+        this.option=DissMiss;
+    }
+
+    public UpdateUITools(RxDialog dialog,int option) {
+        this.rxDialog = dialog;
+        this.option=option;
     }
 
     public UpdateUITools(String message) {
@@ -74,6 +85,12 @@ public class UpdateUITools implements Runnable {
         this.option=PullToRefresh;
     }
 
+    public UpdateUITools(View v,boolean flag){
+        this.view=v;
+        this.flag=false;
+        this.option=Enable;
+    }
+
     @Override
     public void run() {
         switch (option) {
@@ -83,8 +100,11 @@ public class UpdateUITools implements Runnable {
             case ToastMessage:
                 ToastUtil.showMessage(InitApplication.getContext(), message);
                 break;
-            case LoadingMessage:
-                rxDialogLoading.dismiss();
+            case DissMiss:
+                rxDialog.dismiss();
+                break;
+            case Show:
+                rxDialog.show();
                 break;
             case PullToRefresh:
                 pullToRefreshView.setRefreshing(false);
@@ -92,6 +112,8 @@ public class UpdateUITools implements Runnable {
             case TitleBar:
                 titleBar.setTitle(title);
                 break;
+            case Enable:
+                view.setEnabled(flag);
             default:
                 break;
         }
