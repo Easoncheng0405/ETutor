@@ -26,6 +26,8 @@ public class EaseUser extends EMContact {
 	 * avatar of the user
 	 */
 	protected String avatar;
+
+	private long mills;
 	
 	public EaseUser(String username){
 	    this.username = username;
@@ -47,8 +49,13 @@ public class EaseUser extends EMContact {
         return avatar;
     }
 
-    public void setAvatar(String avatar) {
+    public long getMills(){
+	    return this.mills;
+    }
+
+    public void setAvatar(String avatar,long mills) {
         this.avatar = avatar;
+        this.mills=mills;
     }
 
     @Override

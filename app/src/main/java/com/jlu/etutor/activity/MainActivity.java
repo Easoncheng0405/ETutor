@@ -324,7 +324,7 @@ public class MainActivity extends AppCompatActivity implements OnBannerListener,
 
                 if (conversationListFragment == null) {
                     conversationListFragment = new EaseConversationListFragment();
-                    setEaseUser();
+                    setEaseUser(System.currentTimeMillis());
                     conversationListFragment.setConversationListItemClickListener(new EaseConversationListFragment.EaseConversationListItemClickListener() {
                         @Override
                         public void onListItemClicked(EMConversation conversation) {
@@ -476,22 +476,22 @@ public class MainActivity extends AppCompatActivity implements OnBannerListener,
     }
 
 
-    private void setEaseUser() {
+    private void setEaseUser(final long mills) {
         EaseUI easeUI = EaseUI.getInstance();
         easeUI.setUserProfileProvider(new EaseUI.EaseUserProfileProvider() {
             @Override
             public EaseUser getUser(String username) {
-                return getUserInfo(username);
+                return getUserInfo(username,mills);
             }
         });
     }
 
-    private EaseUser getUserInfo(String username) {
+    private EaseUser getUserInfo(String username,long mills) {
 
         EaseUser easeUser = new EaseUser(username);
 
         easeUser.setNickname(InitApplication.getName(username));
-        easeUser.setAvatar(Server.getURL() + "image/" + username);
+        easeUser.setAvatar(Server.getURL() + "image/" + username,mills);
         return easeUser;
     }
 

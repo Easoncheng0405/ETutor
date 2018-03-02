@@ -118,7 +118,7 @@ public class ChatActivity extends AppCompatActivity implements EaseChatMessageLi
             easeUser.setNickname(InitApplication.getUserInfo().getName());
         else
             easeUser.setNickname(toNickName);
-        easeUser.setAvatar(Server.getURL() + "image/" + username);
+        easeUser.setAvatar(Server.getURL() + "image/" + username,System.currentTimeMillis());
         return easeUser;
     }
 
