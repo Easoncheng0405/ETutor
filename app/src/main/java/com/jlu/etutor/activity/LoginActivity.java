@@ -14,6 +14,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -29,14 +30,16 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
+import com.jlu.etutor.InitApplication;
 import com.jlu.etutor.R;
+import com.jlu.etutor.dialog.CodeInputDialog;
 import com.jlu.etutor.gson.UserInfo;
+import com.jlu.etutor.util.JUHECode;
 import com.jlu.etutor.util.Server;
 import com.jlu.etutor.util.ToastUtil;
 import com.jlu.etutor.util.UpdateUITools;
 import com.vondear.rxtools.view.dialog.RxDialogEditSureCancel;
 import com.vondear.rxtools.view.dialog.RxDialogLoading;
-import com.vondear.rxtools.view.dialog.RxDialogSure;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +48,9 @@ import java.util.List;
 public class LoginActivity extends Activity implements View.OnClickListener {
 
     private Handler handler;
-
+    private String value, code;
+    private CountDownTimer timer;
+    private CodeInputDialog codeInputDialog;
     private EditText passWord, info;                //登陆信息与密码框
     private Context context;                        //上下文
     private int keyHeight = 0;                      //软件盘弹起后所占高度
@@ -72,6 +77,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         preferences = getSharedPreferences("UserInfo", MODE_PRIVATE);
         init();
         activity = this;
+        codeInputDialog = new CodeInputDialog(activity);
         context = this;
         handler = new Handler();
         requestPermissions();
@@ -129,20 +135,19 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
         findViewById(R.id.contact_us).setOnClickListener(this);
 
-        findViewById(R.id.about_us).setOnClickListener(this);
+        findViewById(R.id.forgot_pwd).setOnClickListener(this);
 
         findViewById(R.id.btn_login).setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                ToastUtil.showMessage(context,"长按头像了");
-                final RxDialogEditSureCancel dialog=new RxDialogEditSureCancel(context);
+                final RxDialogEditSureCancel dialog = new RxDialogEditSureCancel(context);
                 dialog.setTitle("输入服务器端IPV4地址");
                 dialog.getEditText().setHint(Server.getIPV4());
                 dialog.show();
                 dialog.getSureView().setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        final RxDialogLoading dialogLoading=new RxDialogLoading(context);
+                        final RxDialogLoading dialogLoading = new RxDialogLoading(context);
                         dialogLoading.setLoadingText("连接服务器中...");
                         dialogLoading.setCancelable(false);
                         dialogLoading.show();
@@ -224,34 +229,114 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.forgot_pwd:
+                if (timer == null)
+                    timer = new CountDownTimer(60300, 1000) {
+                        @Override
+                        public void onTick(long l) {
+                            codeInputDialog.setTime("重新发送(" + ((l / 1000) - 1) + "s) ");
+                        }
+
+                        @Override
+                        public void onFinish() {
+                            codeInputDialog.setTime("重新发送 ");
+                            codeInputDialog.setEnable(true);
+                        }
+                    };
+                final RxDialogEditSureCancel dialogEditSureCancel = new RxDialogEditSureCancel(activity);
+                final RxDialogLoading dialogLoading = new RxDialogLoading(activity);
+                dialogEditSureCancel.setTitle("输入您的手机号码");
+                dialogEditSureCancel.getEditText().setInputType(InputType.TYPE_CLASS_NUMBER);
+                dialogEditSureCancel.getCancelView().setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                    }
+                });
+                dialogEditSureCancel.getSureView().setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        final String phone = dialogEditSureCancel.getEditText().getText().toString().trim();
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (!Server.checkInfoExist(handler, phone,false)&&Server.isPhoneNum(phone)) {
+                                    dialogLoading.setLoadingText("加载中，请稍后...");
+                                    handler.post(new UpdateUITools(codeInputDialog, UpdateUITools.Show));
+                                    if (codeInputDialog.isEnable()) {
+                                        value = String.valueOf((int) ((Math.random() * 9 + 1) * 100000));
+                                        System.out.println(value);
+                                        code = "#code#=" + value;
+                                        boolean flag = JUHECode.sendCode(handler, phone, code);
+                                        codeInputDialog.setEnable(false);
+                                        if (flag) {
+                                            timer.start();
+                                            handler.post(new UpdateUITools("验证码已发送，请注意查收"));
+                                            codeInputDialog.getOk().setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View view) {
+                                                    if (value.equals(codeInputDialog.getCode())) {
+                                                        Intent intent = new Intent(activity, EditPWDActivity.class);
+                                                        intent.putExtra("phone", phone);
+                                                        startActivity(intent);
+                                                        codeInputDialog.dismiss();
+                                                    } else
+                                                        ToastUtil.showMessage(activity, "验证码错误！");
+                                                }
+                                            });
+
+                                            codeInputDialog.getCancel().setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View view) {
+                                                    codeInputDialog.dismiss();
+                                                }
+                                            });
+
+                                            codeInputDialog.getTime().setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View view) {
+                                                    codeInputDialog.setEnable(false);
+                                                    value = String.valueOf((int) ((Math.random() * 9 + 1) * 100000));
+                                                    code = "#code#=" + value;
+                                                    new Thread(new Runnable() {
+                                                        @Override
+                                                        public void run() {
+                                                            JUHECode.sendCode(handler, InitApplication.getUserInfo().getPhone(), code);
+                                                            timer.start();
+                                                        }
+                                                    }).start();
+                                                }
+                                            });
+                                        } else
+                                            codeInputDialog.dismiss();
+                                        dialogLoading.dismiss();
+
+                                    }
+
+                                } else
+                                    handler.post(new UpdateUITools("手机号码验证失败"));
+                                handler.post(new UpdateUITools(dialogEditSureCancel));
+                            }
+                        }).start();
+                    }
+                });
+                dialogEditSureCancel.show();
+                break;
             case R.id.contact_us:
-                if(!isQQClientAvailable(activity)){
-                    ToastUtil.showMessage(activity,"尚未安装手机QQ客户端");
+                if (!isQQClientAvailable(activity)) {
+                    ToastUtil.showMessage(activity, "尚未安装手机QQ客户端");
                     break;
                 }
                 // 跳转到客服的QQ
                 String url = "mqqwpa://im/chat?chat_type=wpa&uin=597021782&version=1";
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                 // 跳转前先判断Uri是否存在，如果打开一个不存在的Uri，App可能会崩溃
-                if (isValidIntent(activity,intent)) {
+                if (isValidIntent(activity, intent)) {
                     startActivity(intent);
                 }
                 break;
-            case R.id.about_us:
-                final RxDialogSure dialogSure=new RxDialogSure(activity);
-                dialogSure.setTitle("大创小分队");
-                dialogSure.setContent("吉林大学计算机科学与技术学院：\n 程杰，洪泽海，林朋，刘瀚霆，袁子易");
-                dialogSure.setCancelable(false);
-                dialogSure.show();
-                dialogSure.getSureView().setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        dialogSure.dismiss();
-                    }
-                });
-                break;
             case R.id.help:
-                startActivity(new Intent(activity,HelpActivity.class));
+                startActivity(new Intent(activity, HelpActivity.class));
                 break;
             case R.id.btn_login:
                 final RxDialogLoading rxDialogLoading = new RxDialogLoading(activity);
@@ -356,9 +441,11 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     /**
      * 判断 Uri是否有效
      */
-    private  boolean isValidIntent(Context context, Intent intent) {
+    private boolean isValidIntent(Context context, Intent intent) {
         PackageManager packageManager = context.getPackageManager();
         List<ResolveInfo> activities = packageManager.queryIntentActivities(intent, 0);
         return !activities.isEmpty();
     }
+
+
 }

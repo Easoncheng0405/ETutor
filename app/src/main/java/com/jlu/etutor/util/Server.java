@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Handler;
+
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -14,6 +15,8 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.jlu.etutor.InitApplication;
 import com.jlu.etutor.activity.LoginActivity;
 import com.jlu.etutor.gson.BaseResult;
+import com.jlu.etutor.gson.EaseGsonRes;
+import com.jlu.etutor.gson.HuanXinTokenBean;
 import com.jlu.etutor.gson.LoginResult;
 import com.jlu.etutor.gson.TeaInfoListResult;
 import com.jlu.etutor.gson.TeacherInfo;
@@ -43,6 +46,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import okhttp3.FormBody;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -57,10 +61,9 @@ import static android.content.Context.MODE_PRIVATE;
  */
 
 public class Server {
+    public static long mills = 0;
 
-    public static long mills=0;
-
-    private static String IPV4 = "123.207.236.80";
+    private static String IPV4 = "192.168.137.1";
 
     private static String HOST = "8080";
 
@@ -179,8 +182,7 @@ public class Server {
         return false;
     }
 
-    public static boolean checkInfoExist(final Handler handler, String info) {
-
+    public static boolean checkInfoExist(final Handler handler, String info, boolean option) {
         if (!isNetworkAvailable()) {
             handler.post(new UpdateUITools("网络无连接，检查您的网络设置！"));
             return false;
@@ -191,14 +193,15 @@ public class Server {
         try {
             Response response = client.newCall(request).execute();
             BaseResult baseResult = new Gson().fromJson(response.body().string(), BaseResult.class);
-
+            System.out.println(baseResult.getStatus());
             if (baseResult.getCode() == 0)
                 return true;
             else {
-                if (isPhoneNum(info))
-                    handler.post(new UpdateUITools("电话号码已注册！"));
-                else
-                    handler.post(new UpdateUITools("此昵称已被使用！"));
+                if (option)
+                    if (isPhoneNum(info))
+                        handler.post(new UpdateUITools("电话号码已注册！"));
+                    else
+                        handler.post(new UpdateUITools("此昵称已被使用！"));
 
             }
         } catch (IOException e) {
@@ -395,7 +398,7 @@ public class Server {
         try {
             Response response = client.newCall(request).execute();
             BaseResult result = new Gson().fromJson(response.body().string(), BaseResult.class);
-            if(result.getCode()==0)
+            if (result.getCode() == 0)
                 handler.post(new UpdateUITools("端口测试成功！"));
         } catch (IOException e) {
             if (e instanceof SocketTimeoutException)
@@ -406,6 +409,71 @@ public class Server {
             handler.post(new UpdateUITools("服务器发生错误，请联系客服"));
         }
 
+    }
+
+    public static boolean editPWD(Handler handler, String phone, String pwd) {
+        if (!isNetworkAvailable()) {
+            handler.post(new UpdateUITools("网络无连接，检查您的网络设置！"));
+        }
+        OkHttpClient client = new OkHttpClient.Builder().connectTimeout(3, TimeUnit.SECONDS).build();
+        RequestBody body = new FormBody.Builder().add("phone", phone).add("pwd", pwd).build();
+        Request request = new Request.Builder().url(URL + "editPWD").post(body).build();
+        try {
+            Response response = client.newCall(request).execute();
+            BaseResult result = new Gson().fromJson(response.body().string(), BaseResult.class);
+            if (result.getCode() == 0) {
+                handler.post(new UpdateUITools("密码修改成功！"));
+                editEasePWD(handler, phone, pwd);
+                return true;
+            }
+        } catch (IOException e) {
+            if (e instanceof SocketTimeoutException)
+                handler.post(new UpdateUITools("连接服务器超时"));
+            else if (e instanceof ConnectException)
+                handler.post(new UpdateUITools("无法连接到服务器"));
+        } catch (JsonSyntaxException e) {
+            handler.post(new UpdateUITools("服务器发生错误，请联系客服"));
+        }
+        return false;
+    }
+
+    private static void editEasePWD(Handler handler, String user, String pwd) throws IOException {
+        HuanXinTokenBean bean = getToken();
+        if (bean != null) {
+            OkHttpClient client = new OkHttpClient();
+            String baseUrl = "https://a1.easemob.com/1141170714178466/myapplicoation/users/" +
+                    user + "/password";
+            String gson = "{\"newpassword\" : \"" + pwd + "\"}";
+            RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), gson);
+            Request request = new Request.Builder()
+                    .addHeader("Authorization", "Bearer " + bean.getAccess_token())
+                    .url(baseUrl)
+                    .put(requestBody)
+                    .build();
+            try {
+                Response response = client.newCall(request).execute();
+                System.out.print(response.body().string());
+            } catch (Exception e) {
+                e.printStackTrace();
+                handler.post(new UpdateUITools("修改环信聊天账号密码失败，请尽快联系客服进行手动修改，否则无法使用APP内聊天功能"));
+            }
+        } else {
+            handler.post(new UpdateUITools("修改环信聊天账号密码失败，请尽快联系客服进行手动修改，否则无法使用APP内聊天功能"));
+        }
+    }
+
+    private static HuanXinTokenBean getToken() throws IOException {
+        OkHttpClient client = new OkHttpClient();
+        String gson = "{\"grant_type\":\"client_credentials\",\"client_id\":\"YXA64KWMIG0mEeeZxw8WqwkByA\",\"client_secret\":\"YXA60qqDhqbmjA1j-JW8yrObYtvKAwY\"}";
+        String baseUrl = "https://a1.easemob.com/1141170714178466/myapplicoation/token";
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), gson);
+        Request request = new Request.Builder()
+                .header("content-type", "application/json")
+                .post(requestBody)
+                .url(baseUrl)
+                .build();
+        Response response = client.newCall(request).execute();
+        return new Gson().fromJson(response.body().string(), HuanXinTokenBean.class);
     }
 
     private static boolean isNetworkAvailable() {
@@ -474,7 +542,7 @@ public class Server {
         return IPV4;
     }
 
-    public static void setMills(Long v){
-        mills=v;
+    public static void setMills(Long v) {
+        mills = v;
     }
 }

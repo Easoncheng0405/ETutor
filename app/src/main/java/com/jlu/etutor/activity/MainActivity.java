@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -33,12 +34,14 @@ import com.jlu.etutor.adpter.GridViewAdapter;
 import com.jlu.etutor.adpter.Model;
 import com.jlu.etutor.adpter.TeaInfoAdapter;
 import com.jlu.etutor.adpter.ViewPagerAdapter;
+import com.jlu.etutor.dialog.CodeInputDialog;
 import com.jlu.etutor.fragment.HomeFragment;
 import com.jlu.etutor.fragment.PersonalFragment;
 import com.jlu.etutor.gson.LoginResult;
 import com.jlu.etutor.gson.TeacherInfo;
 import com.jlu.etutor.gson.UserInfo;
 import com.jlu.etutor.util.GlideImageLoader;
+import com.jlu.etutor.util.JUHECode;
 import com.jlu.etutor.util.Server;
 import com.jlu.etutor.util.ToastUtil;
 import com.jlu.etutor.util.UpdateUITools;
@@ -56,6 +59,7 @@ import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.ui.EaseConversationListFragment;
 import com.hyphenate.util.NetUtils;
 import com.vondear.rxtools.view.dialog.RxDialogLoading;
+import com.vondear.rxtools.view.dialog.RxDialogSure;
 import com.yalantis.phoenix.PullToRefreshView;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
@@ -71,6 +75,9 @@ import me.relex.circleindicator.CircleIndicator;
 
 public class MainActivity extends AppCompatActivity implements OnBannerListener, View.OnClickListener
         , AdapterView.OnItemClickListener {
+    private String v,code;
+    private CountDownTimer timer;
+    private CodeInputDialog codeInputDialog;
     private Activity activity;
     private Handler handler;
     private FragmentManager fragmentManager;
@@ -95,6 +102,7 @@ public class MainActivity extends AppCompatActivity implements OnBannerListener,
         setContentView(R.layout.activity_main);
         startService(new Intent(this, MessageReceiver.class));
         activity = this;
+        codeInputDialog=new CodeInputDialog(activity);
         handler = new Handler();
         fragmentManager = getSupportFragmentManager();
         initViews();
@@ -278,6 +286,8 @@ public class MainActivity extends AppCompatActivity implements OnBannerListener,
         view.findViewById(R.id.personal_info).setOnClickListener(this);
         view.findViewById(R.id.head).setOnClickListener(this);
         view.findViewById(R.id.contact_us).setOnClickListener(this);
+        view.findViewById(R.id.edit_pwd).setOnClickListener(this);
+        view.findViewById(R.id.about_us).setOnClickListener(this);
         ImageView header = view.findViewById(R.id.head);
 
         Glide.with(activity).load(Server.getURL() + "image/" + InitApplication.getUserInfo().getPhone())
@@ -371,6 +381,22 @@ public class MainActivity extends AppCompatActivity implements OnBannerListener,
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.edit_pwd:
+                editPWD();
+                break;
+            case R.id.about_us:
+                final RxDialogSure dialogSure=new RxDialogSure(activity);
+                dialogSure.setCancelable(false);
+                dialogSure.setTitle("大创小分队");
+                dialogSure.setContent("吉林大学计算机科学与技术学院：\n 程杰，洪泽海，林朋，刘瀚霆，袁子易");
+                dialogSure.show();
+                dialogSure.getSureView().setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialogSure.dismiss();
+                    }
+                });
+                break;
             case R.id.contact_us:
                 if(!isQQClientAvailable(activity)){
                     ToastUtil.showMessage(activity,"尚未安装手机QQ客户端");
@@ -406,7 +432,6 @@ public class MainActivity extends AppCompatActivity implements OnBannerListener,
                 break;
         }
     }
-
     private void startPersonalInfoAty() {
         Intent intent = new Intent(activity, PersonalInfoActivity.class);
         intent.putExtra("info", InitApplication.getUserInfo());
@@ -489,7 +514,6 @@ public class MainActivity extends AppCompatActivity implements OnBannerListener,
     private EaseUser getUserInfo(String username,long mills) {
 
         EaseUser easeUser = new EaseUser(username);
-
         easeUser.setNickname(InitApplication.getName(username));
         easeUser.setAvatar(Server.getURL() + "image/" + username,mills);
         return easeUser;
@@ -516,5 +540,80 @@ public class MainActivity extends AppCompatActivity implements OnBannerListener,
         PackageManager packageManager = context.getPackageManager();
         List<ResolveInfo> activities = packageManager.queryIntentActivities(intent, 0);
         return !activities.isEmpty();
+    }
+
+    private void editPWD(){
+        if(timer==null)
+            timer = new CountDownTimer(60300, 1000) {
+            @Override
+            public void onTick(long l) {
+                codeInputDialog.setTime("重新发送(" + ((l / 1000) - 1) + "s) ");
+            }
+            @Override
+            public void onFinish() {
+                codeInputDialog.setTime("重新发送 ");
+                codeInputDialog.setEnable(true);
+            }
+        };
+
+        final RxDialogLoading dialogLoading=new RxDialogLoading(activity);
+
+        dialogLoading.setLoadingText("加载中，请稍后...");
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                handler.post(new UpdateUITools(codeInputDialog, UpdateUITools.Show));
+                if (codeInputDialog.isEnable()) {
+                    v = String.valueOf((int) ((Math.random() * 9 + 1) * 100000));
+                    System.out.println(v);
+                    code = "#code#=" + v;
+                    handler.post(new UpdateUITools(dialogLoading, UpdateUITools.Show));
+                    boolean flag = JUHECode.sendCode(handler, InitApplication.getUserInfo().getPhone(), code);
+                    codeInputDialog.setEnable(false);
+                    dialogLoading.dismiss();
+                    if (flag) {
+                        timer.start();
+                        handler.post(new UpdateUITools("验证码已发送，请注意查收"));
+                        codeInputDialog.getOk().setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                if (v.equals(codeInputDialog.getCode())) {
+                                    Intent intent=new Intent(activity,EditPWDActivity.class);
+                                    intent.putExtra("phone",InitApplication.getUserInfo().getPhone());
+                                    startActivity(intent);
+                                    codeInputDialog.dismiss();
+                                } else
+                                    ToastUtil.showMessage(activity, "验证码错误！");
+                            }
+                        });
+
+                        codeInputDialog.getCancel().setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                codeInputDialog.dismiss();
+                            }
+                        });
+
+                        codeInputDialog.getTime().setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                codeInputDialog.setEnable(false);
+                                v = String.valueOf((int) ((Math.random() * 9 + 1) * 100000));
+                                code = "#code#=" + v;
+                                new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        JUHECode.sendCode(handler, InitApplication.getUserInfo().getPhone(), code);
+                                        timer.start();
+                                    }
+                                }).start();
+                            }
+                        });
+                    } else
+                        codeInputDialog.dismiss();
+                    dialogLoading.dismiss();
+                }
+            }
+        }).start();
     }
 }

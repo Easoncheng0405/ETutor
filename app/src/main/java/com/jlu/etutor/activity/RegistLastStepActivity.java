@@ -115,7 +115,7 @@ public class RegistLastStepActivity extends AppCompatActivity implements View.On
                             DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
                             String time = format.format(date);
                             UserInfo userInfo = new UserInfo(name.getText().toString().trim(), phone, password.getText().toString(), time, type);
-                            if (Server.checkInfoExist(handler, userInfo.getName()) && Server.register(handler, userInfo)) {
+                            if (Server.checkInfoExist(handler, userInfo.getName(),true) && Server.register(handler, userInfo)) {
                                 userInfo = Server.login(handler, userInfo.getPhone(), userInfo.getPwd());
                                 if (userInfo != null) {
                                     SharedPreferences preferences = getSharedPreferences("UserInfo", MODE_PRIVATE);

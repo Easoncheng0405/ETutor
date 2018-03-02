@@ -32,7 +32,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
-        android:name="com.jlu.etutor.InitApplication"
+        android:name=".InitApplication"
         android:allowBackup="true"
         android:fullBackupContent="@xml/backup_descriptor"
         android:icon="@mipmap/fluidicon"
@@ -60,7 +60,7 @@
             android:enabled="true"
             android:process=":remote" />
         <service
-            android:name="com.jlu.etutor.Service.MessageReceiver"
+            android:name=".Service.MessageReceiver"
             android:enabled="true"
             android:exported="true" />
 
@@ -82,7 +82,7 @@
         </receiver>
 
         <activity
-            android:name="com.jlu.etutor.activity.SplashActivity"
+            android:name=".activity.SplashActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -91,29 +91,29 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.jlu.etutor.activity.LoginActivity"
+            android:name=".activity.LoginActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.jlu.etutor.activity.MainActivity"
+            android:name=".activity.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name="com.jlu.etutor.activity.RegistFirstStepActivity"
+            android:name=".activity.RegistFirstStepActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name="com.jlu.etutor.activity.RegistLastStepActivity"
+            android:name=".activity.RegistLastStepActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name="com.jlu.etutor.activity.PersonalInfoActivity"
+            android:name=".activity.PersonalInfoActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name="com.jlu.etutor.activity.ChatActivity"
+            android:name=".activity.ChatActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
@@ -124,12 +124,16 @@
             android:name="com.hyphenate.easeui.ui.EaseBaiduMapActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.jlu.etutor.activity.WebActivity"
+            android:name=".activity.WebActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name="com.jlu.etutor.activity.HelpActivity"
+        <activity
+            android:name=".activity.HelpActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity android:name=".activity.EditPWDActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     </application>
 
 </manifest>

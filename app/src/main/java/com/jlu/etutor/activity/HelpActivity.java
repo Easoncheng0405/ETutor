@@ -66,6 +66,9 @@ public class HelpActivity extends Activity {
 
         questions.add("我如何反馈意见或提出建议？");
 
+        questions.add("关于ETutor");
+
+
         QuestionAdapter adapter = new QuestionAdapter(this, R.layout.question_item, questions);
 
         list.setAdapter(adapter);
@@ -139,6 +142,10 @@ public class HelpActivity extends Activity {
                         dialogSure.setContent(getString(R.string.question12));
                         dialogSure.show();
                         break;
+                    case 13:
+                        dialogSure.setTitle("大创小分队");
+                        dialogSure.setContent("吉林大学计算机科学与技术学院：\n 程杰，洪泽海，林朋，刘瀚霆，袁子易");
+                        dialogSure.show();
                     default:
                         break;
 

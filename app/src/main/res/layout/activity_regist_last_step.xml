@@ -9,7 +9,7 @@
     android:paddingLeft="25dp"
     android:paddingRight="25dp"
     android:paddingTop="25dp"
-    tools:context="com..etutor.com.jlu.etutor.activity.RegistLastStepActivity">
+    tools:context="com.jlu.etutor.activity.RegistLastStepActivity">
 
     <ScrollView
         android:id="@+id/scrollView"

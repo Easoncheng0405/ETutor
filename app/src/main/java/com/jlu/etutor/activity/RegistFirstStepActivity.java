@@ -185,7 +185,7 @@ public class RegistFirstStepActivity extends AppCompatActivity implements View.O
         new Thread(new Runnable() {
             @Override
             public void run() {
-                boolean flag = Server.checkInfoExist(handler, phone.getText().toString().trim());
+                boolean flag = Server.checkInfoExist(handler, phone.getText().toString().trim(),true);
                 dialogLoading.dismiss();
                 handler.post(new UpdateUITools(codeInputDialog, UpdateUITools.Show));
                 if (flag && codeInputDialog.isEnable()) {
