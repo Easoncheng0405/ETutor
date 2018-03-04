@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\Users\\cj597\\Documents\\ETutor\\EaseUI\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values-v23\\values-v23.xml",
+            "outputFile": "D:\\ETutor\\EaseUI\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values-v23\\values-v23.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-24.2.1.aar\\12331cb3efef6fcce6c82886232853c8\\res\\values-v23\\values-v23.xml",
+                    "source": "C:\\Users\\程杰\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-24.2.1.aar\\3b6c7407369bb0dd12ec257d7d51a03f\\res\\values-v23\\values-v23.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,19,32,33,34,35,36",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4",
@@ -17,10 +17,10 @@
             ]
         },
         {
-            "outputFile": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values-v23\\values-v23.xml",
+            "outputFile": "D:\\ETutor\\EaseUI\\build\\intermediates\\res\\merged\\androidTest\\debug\\values-v23\\values-v23.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-24.2.1.aar\\12331cb3efef6fcce6c82886232853c8\\res\\values-v23\\values-v23.xml",
+                    "source": "C:\\Users\\程杰\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-24.2.1.aar\\3b6c7407369bb0dd12ec257d7d51a03f\\res\\values-v23\\values-v23.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,19,32,33,34,35,36",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4",

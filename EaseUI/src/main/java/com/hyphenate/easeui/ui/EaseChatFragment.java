@@ -3,6 +3,7 @@ package com.hyphenate.easeui.ui;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ClipboardManager;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -866,8 +867,18 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
                 + System.currentTimeMillis() + ".jpg");
         //noinspection ResultOfMethodCallIgnored
         cameraFile.getParentFile().mkdirs();
+        Uri uri;
+        if (Build.VERSION.SDK_INT < 24) {
+            // 从文件中创建uri
+            uri = Uri.fromFile(cameraFile);
+        } else {
+            //兼容android7.0 使用共享文件的形式
+            ContentValues contentValues = new ContentValues(1);
+            contentValues.put(MediaStore.Images.Media.DATA, cameraFile.getAbsolutePath());
+            uri = getContext().getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
+        }
         startActivityForResult(
-                new Intent(MediaStore.ACTION_IMAGE_CAPTURE).putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(cameraFile)),
+                new Intent(MediaStore.ACTION_IMAGE_CAPTURE).putExtra(MediaStore.EXTRA_OUTPUT, uri),
                 REQUEST_CODE_CAMERA);
     }
 

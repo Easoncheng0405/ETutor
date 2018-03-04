@@ -1,49 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values-hy\\values-hy.xml",
+            "outputFile": "D:\\ETutor\\EaseUI\\build\\intermediates\\res\\merged\\androidTest\\debug\\values-hy\\values-hy.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-11.4.0.aar\\ba3c314eac74cd3e1dfa24f7402b18de\\res\\values-hy\\values.xml",
-                    "from": {
-                        "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19",
-                        "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
-                        "startOffsets": "283,387,584,716,822,1035,1169,1307,1533,1639,1838,1972,2193,2385,2476,2569",
-                        "endColumns": "103,196,131,105,212,133,137,225,105,198,133,220,191,90,92,106",
-                        "endOffsets": "386,583,715,821,1034,1168,1306,1532,1638,1837,1971,2192,2384,2475,2568,2675"
-                    },
-                    "to": {
-                        "startLines": "2,3,4,5,6,7,8,10,11,12,13,14,15,16,17,18",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "105,213,410,546,656,869,1007,1359,1585,1695,1894,2032,2253,2449,2544,2641",
-                        "endColumns": "107,196,135,109,212,137,141,225,109,198,137,220,195,94,96,110",
-                        "endOffsets": "208,405,541,651,864,1002,1144,1580,1690,1889,2027,2248,2444,2539,2636,2747"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-basement-11.4.0.aar\\51cc1a6c64769ec556d0d437eb5e2cfb\\res\\values-hy\\values.xml",
-                    "from": {
-                        "startLines": "4",
-                        "startColumns": "0",
-                        "startOffsets": "285",
-                        "endColumns": "209",
-                        "endOffsets": "494"
-                    },
-                    "to": {
-                        "startLines": "9",
-                        "startColumns": "4",
-                        "startOffsets": "1149",
-                        "endColumns": "209",
-                        "endOffsets": "1354"
-                    }
-                }
-            ]
-        },
-        {
-            "outputFile": "C:\\Users\\cj597\\Documents\\ETutor\\EaseUI\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values-hy\\values-hy.xml",
-            "map": [
-                {
-                    "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-11.8.0.aar\\8a7f53d3314fa9c761d811f5eb42ba2c\\res\\values-hy\\values.xml",
+                    "source": "C:\\Users\\程杰\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-11.8.0.aar\\5a9344600361879bc6b73197dd42a692\\res\\values-hy\\values.xml",
                     "from": {
                         "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
                         "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
@@ -60,7 +21,46 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-basement-11.8.0.aar\\8126a4a3e8be9c6ee29c0239ecc912e1\\res\\values-hy\\values.xml",
+                    "source": "C:\\Users\\程杰\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-basement-11.8.0.aar\\d72fe2ba2553bb12368156c5fa46a95f\\res\\values-hy\\values.xml",
+                    "from": {
+                        "startLines": "4",
+                        "startColumns": "0",
+                        "startOffsets": "283",
+                        "endColumns": "209",
+                        "endOffsets": "492"
+                    },
+                    "to": {
+                        "startLines": "10",
+                        "startColumns": "4",
+                        "startOffsets": "1306",
+                        "endColumns": "209",
+                        "endOffsets": "1511"
+                    }
+                }
+            ]
+        },
+        {
+            "outputFile": "D:\\ETutor\\EaseUI\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values-hy\\values-hy.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\程杰\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-11.8.0.aar\\5a9344600361879bc6b73197dd42a692\\res\\values-hy\\values.xml",
+                    "from": {
+                        "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
+                        "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
+                        "startOffsets": "281,385,582,714,820,1033,1167,1320,1458,1684,1790,1989,2123,2344,2536,2627,2720",
+                        "endColumns": "103,196,131,105,212,133,152,137,225,105,198,133,220,191,90,92,106",
+                        "endOffsets": "384,581,713,819,1032,1166,1319,1457,1683,1789,1988,2122,2343,2535,2626,2719,2826"
+                    },
+                    "to": {
+                        "startLines": "2,3,4,5,6,7,8,9,11,12,13,14,15,16,17,18,19",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "105,213,410,546,656,869,1007,1164,1516,1742,1852,2051,2189,2410,2606,2701,2798",
+                        "endColumns": "107,196,135,109,212,137,156,141,225,109,198,137,220,195,94,96,110",
+                        "endOffsets": "208,405,541,651,864,1002,1159,1301,1737,1847,2046,2184,2405,2601,2696,2793,2904"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\程杰\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-basement-11.8.0.aar\\d72fe2ba2553bb12368156c5fa46a95f\\res\\values-hy\\values.xml",
                     "from": {
                         "startLines": "4",
                         "startColumns": "0",

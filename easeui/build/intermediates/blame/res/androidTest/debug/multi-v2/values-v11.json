@@ -1,29 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values-v11\\values-v11.xml",
+            "outputFile": "D:\\ETutor\\EaseUI\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values-v11\\values-v11.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\cj597\\Documents\\ETutor\\easeui\\build\\intermediates\\bundles\\debug\\res\\values-v11\\values-v11.xml",
-                    "from": {
-                        "startLines": "2,5,8",
-                        "startColumns": "4,4,4",
-                        "startOffsets": "55,224,399",
-                        "endLines": "4,7,8",
-                        "endColumns": "12,12,84",
-                        "endOffsets": "219,394,479"
-                    },
-                    "to": {
-                        "startLines": "2,173,176",
-                        "startColumns": "4,4,4",
-                        "startOffsets": "55,12803,12978",
-                        "endLines": "4,175,176",
-                        "endColumns": "12,12,84",
-                        "endOffsets": "219,12973,13058"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-24.2.1.aar\\12331cb3efef6fcce6c82886232853c8\\res\\values-v11\\values-v11.xml",
+                    "source": "C:\\Users\\程杰\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-24.2.1.aar\\3b6c7407369bb0dd12ec257d7d51a03f\\res\\values-v11\\values-v11.xml",
                     "from": {
                         "startLines": "2,8,14,20,26,32,38,39,40,41,46,51,56,58,60,61,62,115,169",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -39,34 +20,34 @@
                         "endLines": "10,16,22,28,34,40,41,42,43,48,53,58,60,62,63,64,117,171,172",
                         "endColumns": "12,12,12,12,12,12,88,100,102,12,12,12,12,12,70,82,12,12,90",
                         "endOffsets": "638,1063,1491,1917,2344,2769,2858,2959,3062,3470,3890,4312,4419,4548,4619,4702,8633,12707,12798"
+                    }
+                },
+                {
+                    "source": "D:\\ETutor\\EaseUI\\build\\intermediates\\bundles\\debug\\res\\values-v11\\values-v11.xml",
+                    "from": {
+                        "startLines": "2,5,8",
+                        "startColumns": "4,4,4",
+                        "startOffsets": "55,224,399",
+                        "endLines": "4,7,8",
+                        "endColumns": "12,12,84",
+                        "endOffsets": "219,394,479"
+                    },
+                    "to": {
+                        "startLines": "2,173,176",
+                        "startColumns": "4,4,4",
+                        "startOffsets": "55,12803,12978",
+                        "endLines": "4,175,176",
+                        "endColumns": "12,12,84",
+                        "endOffsets": "219,12973,13058"
                     }
                 }
             ]
         },
         {
-            "outputFile": "C:\\Users\\cj597\\Documents\\ETutor\\EaseUI\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values-v11\\values-v11.xml",
+            "outputFile": "D:\\ETutor\\EaseUI\\build\\intermediates\\res\\merged\\androidTest\\debug\\values-v11\\values-v11.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\cj597\\Documents\\ETutor\\EaseUI\\build\\intermediates\\bundles\\debug\\res\\values-v11\\values-v11.xml",
-                    "from": {
-                        "startLines": "2,5,8",
-                        "startColumns": "4,4,4",
-                        "startOffsets": "55,224,399",
-                        "endLines": "4,7,8",
-                        "endColumns": "12,12,84",
-                        "endOffsets": "219,394,479"
-                    },
-                    "to": {
-                        "startLines": "2,173,176",
-                        "startColumns": "4,4,4",
-                        "startOffsets": "55,12803,12978",
-                        "endLines": "4,175,176",
-                        "endColumns": "12,12,84",
-                        "endOffsets": "219,12973,13058"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\cj597\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-24.2.1.aar\\12331cb3efef6fcce6c82886232853c8\\res\\values-v11\\values-v11.xml",
+                    "source": "C:\\Users\\程杰\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-24.2.1.aar\\3b6c7407369bb0dd12ec257d7d51a03f\\res\\values-v11\\values-v11.xml",
                     "from": {
                         "startLines": "2,8,14,20,26,32,38,39,40,41,46,51,56,58,60,61,62,115,169",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -82,6 +63,25 @@
                         "endLines": "10,16,22,28,34,40,41,42,43,48,53,58,60,62,63,64,117,171,172",
                         "endColumns": "12,12,12,12,12,12,88,100,102,12,12,12,12,12,70,82,12,12,90",
                         "endOffsets": "638,1063,1491,1917,2344,2769,2858,2959,3062,3470,3890,4312,4419,4548,4619,4702,8633,12707,12798"
+                    }
+                },
+                {
+                    "source": "D:\\ETutor\\EaseUI\\build\\intermediates\\bundles\\debug\\res\\values-v11\\values-v11.xml",
+                    "from": {
+                        "startLines": "2,5,8",
+                        "startColumns": "4,4,4",
+                        "startOffsets": "55,224,399",
+                        "endLines": "4,7,8",
+                        "endColumns": "12,12,84",
+                        "endOffsets": "219,394,479"
+                    },
+                    "to": {
+                        "startLines": "2,173,176",
+                        "startColumns": "4,4,4",
+                        "startOffsets": "55,12803,12978",
+                        "endLines": "4,175,176",
+                        "endColumns": "12,12,84",
+                        "endOffsets": "219,12973,13058"
                     }
                 }
             ]

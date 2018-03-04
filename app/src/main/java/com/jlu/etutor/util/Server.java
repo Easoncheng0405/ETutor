@@ -63,7 +63,7 @@ import static android.content.Context.MODE_PRIVATE;
 public class Server {
     public static long mills = 0;
 
-    private static String IPV4 = "192.168.137.1";
+    private static String IPV4 = "123.207.236.80";
 
     private static String HOST = "8080";
 
