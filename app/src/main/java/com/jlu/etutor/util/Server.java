@@ -15,7 +15,6 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.jlu.etutor.InitApplication;
 import com.jlu.etutor.activity.LoginActivity;
 import com.jlu.etutor.gson.BaseResult;
-import com.jlu.etutor.gson.EaseGsonRes;
 import com.jlu.etutor.gson.HuanXinTokenBean;
 import com.jlu.etutor.gson.LoginResult;
 import com.jlu.etutor.gson.TeaInfoListResult;
@@ -512,7 +511,7 @@ public class Server {
         return URL;
     }
 
-    public static void logout(final Activity activity, final Handler handler) {
+    public static void logout(final Activity activity) {
         SharedPreferences preferences = activity.getSharedPreferences("UserInfo", MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.clear();
@@ -526,7 +525,6 @@ public class Server {
 
             @Override
             public void onError(int i, String s) {
-                handler.post(new UpdateUITools("无法连接到服务器，请重新登陆！"));
                 activity.finish();
 
             }

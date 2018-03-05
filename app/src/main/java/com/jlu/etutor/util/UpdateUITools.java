@@ -130,8 +130,7 @@ public class UpdateUITools implements Runnable {
             public void onClick(View v) {
                 switch (action) {
                     case ForceClose:
-                        activity.finish();
-                        System.exit(0);
+                        Server.logout(activity);
                         break;
                     case DoNothing:
                         sureDialog.dismiss();

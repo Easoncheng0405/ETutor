@@ -53,7 +53,7 @@ public class EditPWDActivity extends AppCompatActivity implements View.OnClickLi
                 public void run() {
                     if(Server.editPWD(handler,phone,p)){
                         handler.post(new UpdateUITools("修改成功！"));
-                        Server.logout(activity,handler);
+                        Server.logout(activity);
                         startActivity(new Intent(EditPWDActivity.this,LoginActivity.class));
                     }else{
                         handler.post(new UpdateUITools("密码修改失败！"));

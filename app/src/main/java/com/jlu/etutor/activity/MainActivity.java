@@ -420,7 +420,7 @@ public class MainActivity extends AppCompatActivity implements OnBannerListener,
                 setTabSelection(2);
                 break;
             case R.id.logout:
-                Server.logout(activity,handler);
+                Server.logout(activity);
                 break;
             case R.id.personal_info:
                 startPersonalInfoAty();
