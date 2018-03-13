@@ -137,6 +137,7 @@ public class MainActivity extends AppCompatActivity implements OnBannerListener,
         setTabSelection(2);
         setTabSelection(1);
         setTabSelection(0);
+        
     }
 
     @Override

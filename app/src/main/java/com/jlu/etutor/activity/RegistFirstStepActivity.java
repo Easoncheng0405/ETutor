@@ -198,41 +198,47 @@ public class RegistFirstStepActivity extends AppCompatActivity implements View.O
                     if (flag) {
                         timer.start();
                         handler.post(new UpdateUITools("验证码已发送，请注意查收"));
-                        codeInputDialog.getOk().setOnClickListener(new View.OnClickListener() {
+                        runOnUiThread(new Runnable() {
                             @Override
-                            public void onClick(View view) {
-                                if (v.equals(codeInputDialog.getCode())) {
-                                    Intent intent = new Intent(RegistFirstStepActivity.this, RegistLastStepActivity.class);
-                                    intent.putExtra("phone", phone.getText().toString().trim());
-                                    startActivity(intent);
-                                    codeInputDialog.dismiss();
-                                } else
-                                    ToastUtil.showMessage(activity, "验证码错误！");
-                            }
-                        });
-
-                        codeInputDialog.getCancel().setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                codeInputDialog.dismiss();
-                            }
-                        });
-
-                        codeInputDialog.getTime().setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                codeInputDialog.setEnable(false);
-                                v = String.valueOf((int) ((Math.random() * 9 + 1) * 100000));
-                                code = "#code#=" + v;
-                                new Thread(new Runnable() {
+                            public void run() {
+                                codeInputDialog.getOk().setOnClickListener(new View.OnClickListener() {
                                     @Override
-                                    public void run() {
-                                        JUHECode.sendCode(handler, phone.getText().toString().trim(), code);
-                                        timer.start();
+                                    public void onClick(View view) {
+                                        if (v.equals(codeInputDialog.getCode())) {
+                                            Intent intent = new Intent(RegistFirstStepActivity.this, RegistLastStepActivity.class);
+                                            intent.putExtra("phone", phone.getText().toString().trim());
+                                            startActivity(intent);
+                                            codeInputDialog.dismiss();
+                                        } else
+                                            ToastUtil.showMessage(activity, "验证码错误！");
                                     }
-                                }).start();
+                                });
+
+                                codeInputDialog.getCancel().setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        codeInputDialog.dismiss();
+                                    }
+                                });
+
+                                codeInputDialog.getTime().setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        codeInputDialog.setEnable(false);
+                                        v = String.valueOf((int) ((Math.random() * 9 + 1) * 100000));
+                                        code = "#code#=" + v;
+                                        new Thread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                JUHECode.sendCode(handler, phone.getText().toString().trim(), code);
+                                                timer.start();
+                                            }
+                                        }).start();
+                                    }
+                                });
                             }
                         });
+
                     } else
                         codeInputDialog.dismiss();
                     dialogLoading.dismiss();
